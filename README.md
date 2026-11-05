@@ -58,6 +58,24 @@ npm run dev        # http://localhost:3300
 npm run generate   # static output in .output/public
 ```
 
+### Keep generated API pages out of your commits
+
+The generated API trees (`3.api/` pages, `server/assets/neomacros.d.ts`)
+stay tracked — CI commits their updates and Vercel builds them — but
+locally you can hide your sync output from git with skip-worktree:
+
+```bash
+bash scripts/skip-generated.sh   # re-run after pulling new generated pages
+```
+
+Caveats:
+
+- Pulling overwrites your local regenerated pages with CI's versions —
+  re-run `api:sync` if you were working against local mod changes.
+- To commit an intentional generated change, undo the flag for that file:
+  `git update-index --no-skip-worktree <path>`.
+- Inspect flagged files: `git ls-files -v content | grep '^S '`
+
 ## CI
 
 `.github/workflows/docs.yml` regenerates the API trees and commits when the
