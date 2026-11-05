@@ -57,7 +57,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 Returns a point-in-time snapshot copy, or null when the entity is gone.
 
-**Returns** `EntitySnapshot`
+**Returns** [EntitySnapshot](entitysnapshot)
 
 Since: 0.1.0 · MC: * · Loader: *
 

@@ -57,7 +57,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 返回时点快照；实体消失时返回 null。
 
-**Returns** `EntitySnapshot`
+**Returns** [EntitySnapshot](entitysnapshot)
 
 Since: 0.1.0 · MC: * · Loader: *
 

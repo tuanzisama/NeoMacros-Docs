@@ -69,7 +69,7 @@ Builds the script stack from one neutral port snapshot.
 
 **Parameters**
 
-- `data` `ItemStackData`: 
+- `data` [ItemStackData](itemstackdata): 
 
 **Returns** [ItemStack](itemstack)
 

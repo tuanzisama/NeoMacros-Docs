@@ -40,6 +40,7 @@ final class ModelExtractor {
         List<ApiModel.ModuleModel> modules = new ArrayList<>();
         List<ApiModel.EventModel> events = new ArrayList<>();
         List<ApiModel.ClassModel> standaloneClasses = new ArrayList<>();
+        Map<String, ApiModel.TypeModel> eventReferenced = new TreeMap<>();
         List<String> warnings = new ArrayList<>();
 
         Set<TypeElement> types = typesIn(env);
@@ -51,7 +52,7 @@ final class ModelExtractor {
             }
             ApiEvent event = DocletSupport.eventOf(type);
             if (event != null && type.getKind() == ElementKind.RECORD) {
-                events.add(eventModel(type, event, trees, warnings));
+                events.add(eventModel(type, event, trees, eventReferenced, warnings));
                 continue;
             }
             // Standalone @ApiClass: not nested in any facade module.
@@ -70,9 +71,12 @@ final class ModelExtractor {
         modules.sort(Comparator.comparing(ApiModel.ModuleModel::name));
         events.sort(Comparator.comparing(ApiModel.EventModel::name));
         standaloneClasses.sort(java.util.Comparator.comparing(ApiModel.ClassModel::name));
+        List<ApiModel.TypeModel> eventReferencedList = new ArrayList<>(eventReferenced.values());
+        eventReferencedList.sort(java.util.Comparator.comparing(ApiModel.TypeModel::name));
         warnings.sort(String::compareTo);
         return new ApiModel(List.copyOf(modules), List.copyOf(events),
-                List.copyOf(standaloneClasses), List.copyOf(warnings));
+                List.copyOf(standaloneClasses), List.copyOf(eventReferencedList),
+                List.copyOf(warnings));
     }
 
     /** Extracts a standalone (non-facade-nested) @ApiClass into a full ClassModel. */
@@ -280,6 +284,7 @@ final class ModelExtractor {
                         DocletSupport.loaderOf(method),
                         DocletSupport.permissionOf(method),
                         DocletSupport.experimentalOf(method)));
+                collectReferenced(method.getReturnType(), referenced);
             } else {
                 if (DocletSupport.zhBody(memberComment).isEmpty()) {
                     warnings.add(moduleName + "." + apiClass.name() + "." + method.getSimpleName()
@@ -301,6 +306,8 @@ final class ModelExtractor {
                         DocletSupport.loaderOf(method),
                         DocletSupport.permissionOf(method),
                         DocletSupport.experimentalOf(method)));
+                collectReferenced(method.getReturnType(), referenced);
+                method.getParameters().forEach(p -> collectReferenced(p.asType(), referenced));
             }
         }
         properties.sort(java.util.Comparator.comparing(ApiModel.PropertyModel::name));
@@ -328,11 +335,17 @@ final class ModelExtractor {
     }
 
     private static ApiModel.EventModel eventModel(TypeElement type, ApiEvent event,
-                                                  DocTrees trees, List<String> warnings) {
+                                                  DocTrees trees,
+                                                  Map<String, ApiModel.TypeModel> eventReferenced,
+                                                  List<String> warnings) {
         var comment = trees.getDocCommentTree(type);
         var zhBody = DocletSupport.zhBody(comment);
         if (zhBody.isEmpty()) {
             warnings.add(event.name() + ": event has no @zh docs");
+        }
+        String since = DocletSupport.sinceOf(type);
+        if (since == null) {
+            warnings.add(event.name() + ": event is missing @ApiSince");
         }
         List<ApiModel.ParameterModel> fields = new ArrayList<>();
         for (Element component : type.getEnclosedElements()) {
@@ -340,11 +353,16 @@ final class ModelExtractor {
                 VariableElement variable = (VariableElement) component;
                 fields.add(new ApiModel.ParameterModel(variable.getSimpleName().toString(),
                         DocletSupport.tsType(variable.asType())));
+                collectReferenced(variable.asType(), eventReferenced);
             }
         }
         fields.sort(java.util.Comparator.comparing(ApiModel.ParameterModel::name));
         return new ApiModel.EventModel(event.name(), event.cancellable(),
-                List.copyOf(fields), DocletSupport.docBody(comment), zhBody.orElse(""));
+                DocletSupport.eventClassName(event.name()),
+                List.copyOf(fields),
+                DocletSupport.paramDocs(comment), DocletSupport.zhParamDocs(comment),
+                since, DocletSupport.mcOf(type), DocletSupport.loaderOf(type),
+                DocletSupport.docBody(comment), zhBody.orElse(""));
     }
 
     private static String memberSince(ExecutableElement method, String moduleSince,
@@ -360,7 +378,9 @@ final class ModelExtractor {
         return since;
     }
 
-    /** Registers a record type referenced by a signature for interface emission. */
+    /** Registers a record type referenced by a signature for interface
+     * emission, recursing into the record's own component types so nested
+     * records (e.g. ItemStackData.enchantments) are declared as well. */
     private static void collectReferenced(TypeMirror type, Map<String, ApiModel.TypeModel> referenced) {
         if (type.getKind() != javax.lang.model.type.TypeKind.DECLARED) {
             return;
@@ -369,16 +389,24 @@ final class ModelExtractor {
         if (element.getKind() != ElementKind.RECORD || DocletSupport.eventOf(element) != null) {
             return;
         }
+        String name = element.getSimpleName().toString();
+        if (referenced.containsKey(name)) {
+            return;
+        }
         List<ApiModel.ParameterModel> fields = new ArrayList<>();
+        List<TypeMirror> components = new ArrayList<>();
         for (Element component : element.getEnclosedElements()) {
             if (component.getKind() == ElementKind.RECORD_COMPONENT) {
                 VariableElement variable = (VariableElement) component;
                 fields.add(new ApiModel.ParameterModel(variable.getSimpleName().toString(),
                         DocletSupport.tsType(variable.asType())));
+                components.add(variable.asType());
             }
         }
         fields.sort(java.util.Comparator.comparing(ApiModel.ParameterModel::name));
-        referenced.putIfAbsent(element.getSimpleName().toString(),
-                new ApiModel.TypeModel(element.getSimpleName().toString(), List.copyOf(fields)));
+        referenced.put(name, new ApiModel.TypeModel(name, List.copyOf(fields)));
+        for (TypeMirror component : components) {
+            collectReferenced(component, referenced);
+        }
     }
 }

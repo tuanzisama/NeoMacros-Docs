@@ -44,15 +44,20 @@ class TsTypeCompileTest {
         Assumptions.assumeTrue(!tscPath.isBlank(),
                 "tscPath not set; pass -PtscPath=<path to typescript bin/tsc> to enable");
 
+        // A project file (not CLI flags) so ambient @types packages from any
+        // parent node_modules stay out of the check: only the generated
+        // definitions themselves are compiled, against the bare ES library.
+        Path project = outDir.resolve("tsconfig.check.json");
+        String file = generated.toAbsolutePath().toString().replace('\\', '/');
+        Files.writeString(project, "{\"compilerOptions\":{\"noEmit\":true,"
+                + "\"target\":\"es2020\",\"module\":\"esnext\",\"lib\":[\"esnext\"],"
+                + "\"types\":[]},\"files\":[\"" + file + "\"]}");
+
         List<String> command = new ArrayList<>();
         command.add("node");
         command.add(tscPath);
-        command.add("--noEmit");
-        command.add("--target");
-        command.add("es2020");
-        command.add("--lib");
-        command.add("esnext");
-        command.add(generated.toAbsolutePath().toString());
+        command.add("-p");
+        command.add(project.toAbsolutePath().toString());
 
         Process process = new ProcessBuilder(command).redirectErrorStream(true).start();
         String output = new String(process.getInputStream().readAllBytes(),

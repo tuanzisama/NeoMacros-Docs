@@ -53,12 +53,14 @@ write_navigation() {
   if [[ "$loc" == zh-cn ]]; then
     section_title='API 参考' classes_title='类' events_title='事件'
   else
-    section_title='API Reference' classes_title='Classes' events_title='Events'
+    section_title='API Reference' classes_title='Classes' events_title='Events' types_title='Types'
   fi
-  mkdir -p "$site/content/$loc/api/20.classes" "$site/content/$loc/api/30.events"
+  mkdir -p "$site/content/$loc/api/20.classes" "$site/content/$loc/api/30.events" \
+    "$site/content/$loc/api/40.types"
   printf 'title: %s\n' "$section_title" > "$site/content/$loc/api/.navigation.yml"
   printf 'title: %s\n' "$classes_title" > "$site/content/$loc/api/20.classes/.navigation.yml"
   printf 'title: %s\n' "$events_title"  > "$site/content/$loc/api/30.events/.navigation.yml"
+  printf 'title: %s\n' "$types_title"   > "$site/content/$loc/api/40.types/.navigation.yml"
 }
 
 # Appends the locale's example snippet for one module, when one exists.
@@ -81,7 +83,7 @@ strip_html_links() {
 # Facade module order for the sidebar, mirroring the old VitePress config:
 # modules first, then Classes, then Events. Numeric prefixes order the
 # auto-generated sidebar and are stripped from the routes.
-api_modules_order="events thread storage chat hud command render world player entity fs net java input client reflect"
+api_modules_order="events thread storage performance chat hud command render world player entity fs net java input client reflect"
 
 module_prefix() {
   local name="$1" i=1 m
@@ -98,7 +100,8 @@ module_prefix() {
 
 # Target path relative to the locale's api/ dir. Class pages are lowercased
 # to match the served routes; event slugs gain a per-domain subfolder from
-# their first dash segment (e.g. chat-send -> events/chat/); the generated
+# their first dash segment (e.g. chat-send -> events/chat/); types pages
+# (event payload classes) are lowercased like classes; the generated
 # version matrix sits above the module pages.
 target_for() {
   local rel="$1" dir name
@@ -109,6 +112,8 @@ target_for() {
     printf '30.events/%s/%s.md' "${slug%%-*}" "$slug"
   elif [[ "$dir" == classes || "$dir" == classes/* ]]; then
     printf '20.classes/%s.md' "$(basename "$rel" .md | tr '[:upper:]' '[:lower:]')"
+  elif [[ "$dir" == types || "$dir" == types/* ]]; then
+    printf '40.types/%s.md' "$(basename "$rel" .md | tr '[:upper:]' '[:lower:]')"
   else
     name="$(basename "$rel" .md)"
     if [[ "$name" == "version-matrix" ]]; then
@@ -147,13 +152,14 @@ while IFS= read -r f; do
   append_examples "$dest" "$examples/zh/$name"
 done < <(find "$gen_md/api" -name '*.zh.md' -type f | sort)
 
-# Append the types/java module supplement (non-facade modules that
-# TSDoclet cannot scan: types cells, java module re-exports).
+# Copy the TypeScript definitions into the site and append the types/java
+# module supplement (non-facade modules that TSDoclet cannot scan: types
+# cells, java module re-exports) to the SITE copy only — appending to the
+# generated tree would accumulate the supplement across repeated syncs.
 supplement="$examples/types-supplement.d.ts"
-if [[ -f "$supplement" ]]; then
-  cat "$supplement" >> "$gen_ts/types/neomacros.d.ts"
-fi
-
 cp "$gen_ts/types/neomacros.d.ts" "$site/server/assets/neomacros.d.ts"
+if [[ -f "$supplement" ]]; then
+  cat "$supplement" >> "$site/server/assets/neomacros.d.ts"
+fi
 
 echo "synced $(find "$site/content/en/api" -name '*.md' ! -name 'index.md' | wc -l) module page(s) into the site"

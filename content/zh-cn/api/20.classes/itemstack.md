@@ -69,7 +69,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Parameters**
 
-- `data` `ItemStackData`: 
+- `data` [ItemStackData](itemstackdata): 
 
 **Returns** [ItemStack](itemstack)
 

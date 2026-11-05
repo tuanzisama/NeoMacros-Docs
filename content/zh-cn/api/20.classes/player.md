@@ -22,7 +22,7 @@ Handle · Wraps: `net.minecraft.world.entity.player.Player` · Extends: [`Living
 
 返回时点快照；玩家未加载时返回 null。
 
-**Returns** `EntitySnapshot`
+**Returns** [EntitySnapshot](entitysnapshot)
 
 Since: 0.1.0 · MC: * · Loader: *
 

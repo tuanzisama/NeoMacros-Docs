@@ -22,7 +22,7 @@ Live player handle: the entity read face comes through the entity port (works fo
 
 Returns a point-in-time snapshot copy, or null when the player is not loaded.
 
-**Returns** `EntitySnapshot`
+**Returns** [EntitySnapshot](entitysnapshot)
 
 Since: 0.1.0 · MC: * · Loader: *
 

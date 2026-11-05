@@ -119,7 +119,7 @@ class DocsGenerationTest {
         String info = read(outMd.outDir().resolve("api/classes/WorldInfo.md"));
         assertTrue(info.contains("Data"), "data kind badge rendered");
         String pos = read(outMd.outDir().resolve("api/classes/FixturePos.md"));
-        assertTrue(pos.contains("Record type referenced in module signatures."),
+        assertTrue(pos.contains("Record type referenced in API signatures."),
                 "referenced record type page rendered");
     }
 
@@ -145,10 +145,38 @@ class DocsGenerationTest {
         String marked = read(outMd.outDir().resolve("api/events/fixture-marked.md"));
         assertTrue(marked.contains("# fixture:marked"), "event page rendered");
         assertTrue(marked.contains("Cancellable"), "cancellable badge rendered");
-        assertTrue(marked.contains("`message`"), "payload fields rendered");
+        assertTrue(marked.contains("Since: 0.1.0"), "since badge rendered");
+        assertTrue(marked.contains("[`FixtureMarkedEvent`](../types/FixtureMarkedEvent.html)"),
+                "payload class link rendered");
+        assertTrue(marked.contains("| `message` | `string` | the message carried by the event |"),
+                "field description rendered from @param");
+        assertTrue(marked.contains("[FixturePos](../classes/FixturePos.html)"),
+                "record-typed field links to its class page");
+        String stamp = read(outMd.outDir().resolve("api/classes/FixtureStamp.md"));
+        assertTrue(stamp.contains("Record type referenced in API signatures."),
+                "record referenced only from an event gets its own page");
+        assertTrue(marked.contains("[FixtureStamp](../classes/FixtureStamp.html)"),
+                "event-only record field links to its new page");
         String zh = read(outMd.outDir().resolve("api/events/fixture-marked.zh.md"));
         assertTrue(zh.contains("Cancellable"), "cancellable badge stays English on the Chinese page");
         assertTrue(zh.contains("练习用的可取消事件描述符"), "translated body kept");
+        assertTrue(zh.contains("| `message` | `string` | 事件携带的消息 |"),
+                "field description rendered from @zh-param");
+    }
+
+    @Test
+    void eventTypePagesRendered() throws IOException {
+        String cls = read(outMd.outDir().resolve("api/types/FixtureMarkedEvent.md"));
+        assertTrue(cls.contains("# FixtureMarkedEvent"), "payload class page rendered");
+        assertTrue(cls.contains("Extends: [`BaseEvent`](BaseEvent.html)"),
+                "base class link rendered");
+        assertTrue(cls.contains("Raised by: [`fixture:marked`](../events/fixture/fixture-marked.html)"),
+                "raised-by link back to the event page rendered");
+        assertTrue(cls.contains("| `severity` | `number` | the severity level of the event |"),
+                "field table rendered on the payload class page");
+        String base = read(outMd.outDir().resolve("api/types/BaseEvent.md"));
+        assertTrue(base.contains("# BaseEvent"), "base event page rendered");
+        assertTrue(base.contains("| `cancellable` | `boolean` |"), "base fields rendered");
     }
 
     @Test
@@ -159,6 +187,8 @@ class DocsGenerationTest {
         assertTrue(ts.contains("export class RegionHandle extends WorldHandle"),
                 "extends chain rendered");
         assertTrue(ts.contains("export class WorldInfo"), "data kind is a class too");
+        assertTrue(ts.contains("export interface FixtureStamp"),
+                "records referenced only from events are defined in the types module");
     }
 
     @Test
@@ -174,6 +204,26 @@ class DocsGenerationTest {
         assertTrue(ts.contains("declare module '@neomacros/partial'"), "global=false still a module");
         assertFalse(ts.contains("partial: import("), "global=false stays out of neo");
         assertTrue(ts.contains("declare const neo"), "global aggregate present");
+    }
+
+    @Test
+    void tsEventsFacadeDeclaresTypedEventMap() throws IOException {
+        String ts = read(outTs.outDir().resolve("types/neomacros.d.ts"));
+        assertTrue(ts.contains("export interface EventPayloadMap"), "event name map emitted");
+        assertTrue(ts.contains("'fixture:marked': import('@neomacros/types').FixtureMarkedEvent;"),
+                "every event name declared with its payload class");
+        assertTrue(ts.contains("export type CancellableEvents ="), "cancellable name union emitted");
+        assertTrue(ts.contains("on<E extends keyof EventPayloadMap>(name: E, "
+                        + "handler: (event: EventPayloadMap[E]) => unknown): unknown;"),
+                "on resolves payload types per known event name");
+        assertTrue(ts.contains("onSync<E extends CancellableEvents>(name: E, "
+                        + "handler: (event: EventPayloadMap[E]) => unknown): void;"),
+                "onSync constrained to cancellable event names");
+        assertTrue(ts.contains("waitFor<E extends keyof EventPayloadMap>(name: E): Promise<EventPayloadMap[E]>;"),
+                "waitFor resolves payload types per known event name");
+        assertTrue(ts.contains("on(name: string, handler: (event: import('@neomacros/types').BaseEvent) "
+                        + "=> unknown): unknown;"),
+                "string overload kept for wildcards and custom events");
     }
 
     private static String read(Path file) throws IOException {

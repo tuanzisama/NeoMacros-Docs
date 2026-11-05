@@ -30,7 +30,7 @@ declare module '@neomacros/command' {
     /** The neo.command facade: client command registration and dispatch. Commands register declaratively with typed argument slots built through command.arg (int() float() bool() word() string() greedy() player() pos() plus optional() and default(v)); the handler receives a context whose args carry parsed values and whose raw keeps the remainder string. */
     export interface CommandApi {
         /** The typed argument-slot factory (command.arg). @since 0.1.0 @mc * */
-        readonly arg: CommandArgFactory;
+        readonly arg: import('@neomacros/types').CommandArgFactory;
         /** Kind names the slot factory answers to (kept for tests and docs). @since 0.1.0 @mc * */
         argKindNames(): Array<string>;
         /** Executes a client command as if typed by the player; dispatches through the vanilla dispatcher on the main thread. The promise settles with whether the command was found and executed. @since 0.1.0 @mc * @requires permission 'command' */
@@ -61,19 +61,19 @@ declare module '@neomacros/entity' {
         /** Whether the entity is loaded and alive (living entities must hold positive health). @since 0.2.0 @mc * */
         alive: boolean;
         /** The block-grid position (floored); undefined once the entity is gone. @since 0.2.0 @mc * */
-        readonly blockPos: BlockPos;
+        readonly blockPos: import('@neomacros/types').BlockPos;
         /** The axis-aligned bounding box as {min, max} points; undefined once the entity is gone. @since 0.2.0 @mc * */
         readonly boundingBox: Record<string, unknown>;
         /** The chunk coordinate containing this entity; undefined once the entity is gone. @since 0.2.0 @mc * */
-        readonly chunk: ChunkPos;
+        readonly chunk: import('@neomacros/types').ChunkPos;
         /** The dimension identifier the entity lives in; undefined once the entity is gone. @since 0.2.0 @mc * */
         readonly dimension: string;
         /** The view direction unit vector; undefined once the entity is gone. @since 0.2.0 @mc * */
-        readonly direction: Pos3D;
+        readonly direction: import('@neomacros/types').Pos3D;
         /** The eye height; undefined once the entity is gone. @since 0.2.0 @mc * */
         readonly eyeHeight: number;
         /** The eye position; undefined once the entity is gone. @since 0.2.0 @mc * */
-        readonly eyePos: Pos3D;
+        readonly eyePos: import('@neomacros/types').Pos3D;
         /** The discretized horizontal facing (north/south/east/west); undefined once the entity is gone. @since 0.2.0 @mc * */
         readonly facing: string;
         /** Whether the entity is gliding with an elytra. @since 0.2.0 @mc * */
@@ -93,13 +93,13 @@ declare module '@neomacros/entity' {
         /** The pitch angle in degrees; undefined once the entity is gone. @since 0.2.0 @mc * */
         readonly pitch: number;
         /** The world position; undefined once the entity is gone. @since 0.2.0 @mc * */
-        readonly pos: Pos3D;
+        readonly pos: import('@neomacros/types').Pos3D;
         /** The entity pose name (standing, crouching, ...); undefined once the entity is gone. @since 0.2.0 @mc * */
         readonly pose: string;
         /** Escape hatch: the raw host entity object wrapped as a JavaObject proxy. Requires the java permission. @since 0.1.0 @mc * @requires permission 'java' */
         raw: unknown;
         /** The rotation as Pos2D(yaw, pitch) in degrees; undefined once the entity is gone. @since 0.2.0 @mc * */
-        readonly rotation: Pos2D;
+        readonly rotation: import('@neomacros/types').Pos2D;
         /** Whether the entity is sneaking. @since 0.2.0 @mc * */
         sneaking: boolean;
         /** Whether the entity is sprinting. @since 0.2.0 @mc * */
@@ -115,7 +115,7 @@ declare module '@neomacros/entity' {
         /** The entity this one is riding, or undefined. @since 0.2.0 @mc * */
         readonly vehicle: Entity;
         /** The velocity vector; undefined once the entity is gone. @since 0.2.0 @mc * */
-        readonly velocity: Pos3D;
+        readonly velocity: import('@neomacros/types').Pos3D;
         /** The yaw angle in degrees; undefined once the entity is gone. @since 0.2.0 @mc * */
         readonly yaw: number;
         /** The distance to another entity or point. @since 0.1.0 @mc * */
@@ -130,44 +130,157 @@ declare module '@neomacros/entity' {
     /** Dropped item stack handle. */
     export class ItemEntity extends Entity {
         /** The dropped item stack; undefined once the entity is gone. @since 0.2.0 @mc * */
-        readonly stack: ItemStack;
+        readonly stack: import('@neomacros/types').ItemStack;
     }
     /** Living entity handle: adds the health and equipment read face on top of the entity base. */
     export class LivingEntity extends Entity {
         /** The health value; undefined once the entity is gone. @since 0.1.0 @mc * */
         readonly health: number;
         /** The item in the main hand; undefined for an empty hand or a gone entity. @since 0.2.0 @mc * */
-        readonly heldItem: ItemStack;
+        readonly heldItem: import('@neomacros/types').ItemStack;
         /** The maximum health value; undefined once the entity is gone. @since 0.2.0 @mc * */
         readonly maxHealth: number;
         /** The item in the off hand; undefined for an empty hand or a gone entity. @since 0.2.0 @mc * */
-        readonly offhandItem: ItemStack;
+        readonly offhandItem: import('@neomacros/types').ItemStack;
         /** Whether the entity is sleeping in a bed. @since 0.2.0 @mc * */
         sleeping: boolean;
         /** Whether either hand holds an item of the given id (namespace optional). @since 0.2.0 @mc * */
         isHolding(itemId: string): boolean;
     }
+    export interface AabbData {
+        max: Pos3d;
+        min: Pos3d;
+    }
+    export interface EntitySnapshot {
+        boundingBox: AabbData;
+        dimension: string;
+        direction: Pos3d;
+        eyeHeight: number;
+        facing: string;
+        gliding: boolean;
+        health: number;
+        heldItem: ItemStackData;
+        inLava: boolean;
+        inWater: boolean;
+        living: boolean;
+        maxHealth: number;
+        name: string;
+        offhandItem: ItemStackData;
+        onFire: boolean;
+        onGround: boolean;
+        passengers: Array<string>;
+        pos: Pos3d;
+        pose: string;
+        rotation: Rot2d;
+        sneaking: boolean;
+        sprinting: boolean;
+        swimming: boolean;
+        type: string;
+        uuid: string;
+        vehicle: string;
+        velocity: Pos3d;
+    }
+    export interface ItemStackData {
+        count: number;
+        damage: number;
+        enchantments: Array<import('@neomacros/types').EnchantmentData>;
+        id: string;
+        lore: Array<string>;
+        maxDamage: number;
+        name: string;
+    }
+    export interface Pos3d {
+        x: number;
+        y: number;
+        z: number;
+    }
+    export interface Rot2d {
+        pitchDeg: number;
+        yawDeg: number;
+    }
 }
 
 declare module '@neomacros/events' {
     /** The neo.events facade: EventEmitter-style subscription over the event bus. Subscriptions created while a module is loading are attributed to that module and auto-unsubscribed when the module unloads. */
+    /** The payload class delivered to handlers of each built-in event name. */
+    export interface EventPayloadMap {
+        'chat:receive': import('@neomacros/types').ChatReceiveEvent;
+        'chat:send': import('@neomacros/types').ChatSendEvent;
+        'entity:damage': import('@neomacros/types').EntityDamageEvent;
+        'entity:heal': import('@neomacros/types').EntityHealEvent;
+        'entity:load': import('@neomacros/types').EntityLoadEvent;
+        'entity:spawn': import('@neomacros/types').EntitySpawnEvent;
+        'entity:unload': import('@neomacros/types').EntityUnloadEvent;
+        'game:quit': import('@neomacros/types').GameQuitEvent;
+        'game:start': import('@neomacros/types').GameStartEvent;
+        'input:wheel': import('@neomacros/types').InputWheelEvent;
+        'key:press': import('@neomacros/types').KeyPressEvent;
+        'player:air': import('@neomacros/types').PlayerAirEvent;
+        'player:attackBlock': import('@neomacros/types').PlayerAttackBlockEvent;
+        'player:attackEntity': import('@neomacros/types').PlayerAttackEntityEvent;
+        'player:damage': import('@neomacros/types').PlayerDamageEvent;
+        'player:death': import('@neomacros/types').PlayerDeathEvent;
+        'player:dimensionChange': import('@neomacros/types').PlayerDimensionChangeEvent;
+        'player:effect': import('@neomacros/types').PlayerEffectEvent;
+        'player:exp': import('@neomacros/types').PlayerExpEvent;
+        'player:gamemode': import('@neomacros/types').PlayerGamemodeEvent;
+        'player:gliding': import('@neomacros/types').PlayerGlidingEvent;
+        'player:heal': import('@neomacros/types').PlayerHealEvent;
+        'player:health': import('@neomacros/types').PlayerHealthEvent;
+        'player:heldItem': import('@neomacros/types').PlayerHeldItemEvent;
+        'player:hunger': import('@neomacros/types').PlayerHungerEvent;
+        'player:interactBlock': import('@neomacros/types').PlayerInteractBlockEvent;
+        'player:interactEntity': import('@neomacros/types').PlayerInteractEntityEvent;
+        'player:join': import('@neomacros/types').PlayerJoinEvent;
+        'player:leave': import('@neomacros/types').PlayerLeaveEvent;
+        'player:respawn': import('@neomacros/types').PlayerRespawnEvent;
+        'player:sneak': import('@neomacros/types').PlayerSneakEvent;
+        'player:spawn': import('@neomacros/types').PlayerSpawnEvent;
+        'player:sprint': import('@neomacros/types').PlayerSprintEvent;
+        'screen:close': import('@neomacros/types').ScreenCloseEvent;
+        'screen:open': import('@neomacros/types').ScreenOpenEvent;
+        'tick': import('@neomacros/types').TickEvent;
+        'world:blockUpdate': import('@neomacros/types').WorldBlockUpdateEvent;
+        'world:bossbar': import('@neomacros/types').WorldBossbarEvent;
+        'world:chunkLoad': import('@neomacros/types').WorldChunkLoadEvent;
+        'world:chunkUnload': import('@neomacros/types').WorldChunkUnloadEvent;
+        'world:dimensionChange': import('@neomacros/types').WorldDimensionChangeEvent;
+        'world:join': import('@neomacros/types').WorldJoinEvent;
+        'world:leave': import('@neomacros/types').WorldLeaveEvent;
+        'world:sound': import('@neomacros/types').WorldSoundEvent;
+        'world:time': import('@neomacros/types').WorldTimeEvent;
+        'world:weather': import('@neomacros/types').WorldWeatherEvent;
+    }
+    /** Event names that accept synchronous, cancelling subscriptions. */
+    export type CancellableEvents =
+        'chat:send' |
+        'key:press' |
+        'player:attackBlock' |
+        'player:attackEntity' |
+        'player:interactBlock' |
+        'player:interactEntity';
     export interface EventsApi {
         /** Emits one custom event; the payload is a plain object (or undefined) and delivery is async. The name must be registered first; payload keys must not use the BaseEvent reserved words (type, timestamp, cancellable). @since 0.1.0 @mc * */
         emit(name: string, payload: unknown): void;
         /** Unsubscribes by the handle returned from / , or by event name when a string is given. @since 0.1.0 @mc * */
         off(handleOrName: unknown): void;
         /** Subscribes asynchronously; the handler runs on the script context's event loop. Wildcard patterns (domain:*, *) are allowed. @since 0.1.0 @mc * */
-        on(name: string, handler: Consumer): unknown;
+        on<E extends keyof EventPayloadMap>(name: E, handler: (event: EventPayloadMap[E]) => unknown): unknown;
+        on(name: string, handler: (event: import('@neomacros/types').BaseEvent) => unknown): unknown;
         /** Subscribes synchronously on the dispatch thread; only cancellable events accept sync subscriptions. The callback receives the payload and returns a truthy value to cancel the event (filter-style, like Array.filter). Sync callbacks must stay short; they block the dispatch thread. @since 0.1.0 @mc * */
-        onSync(name: string, handler: Predicate): void;
+        onSync<E extends CancellableEvents>(name: E, handler: (event: EventPayloadMap[E]) => unknown): void;
+        onSync(name: string, handler: (event: import('@neomacros/types').BaseEvent) => unknown): void;
         /** Subscribes for exactly one firing; the subscription auto-unsubscribes. @since 0.1.0 @mc * */
-        once(name: string, handler: Consumer): unknown;
+        once<E extends keyof EventPayloadMap>(name: E, handler: (event: EventPayloadMap[E]) => unknown): unknown;
+        once(name: string, handler: (event: import('@neomacros/types').BaseEvent) => unknown): unknown;
         /** Registers one custom event name owned by scripts. Names must be namespaced (domain:rest) and cannot shadow a built-in domain; custom events are non-cancellable and ride the async channel. @since 0.1.0 @mc * */
         register(name: string): void;
         /** Waits for one occurrence of the event; the promise settles with the event payload. @since 0.1.0 @mc * */
+        waitFor<E extends keyof EventPayloadMap>(name: E): Promise<EventPayloadMap[E]>;
         waitFor(name: string): Promise<object>;
         /** Waits for an occurrence matching filter; rejects (promise completes exceptionally) after timeoutMillis. The filter runs on the dispatch thread. @since 0.1.0 @mc * */
-        waitForUntil(name: string, filter: Predicate, timeoutMillis: number): Promise<object>;
+        waitForUntil<E extends keyof EventPayloadMap>(name: E, filter: (event: EventPayloadMap[E]) => unknown, timeoutMillis: number): Promise<EventPayloadMap[E]>;
+        waitForUntil(name: string, filter: (event: import('@neomacros/types').BaseEvent) => unknown, timeoutMillis: number): Promise<object>;
     }
     export const events: EventsApi;
 }
@@ -188,7 +301,7 @@ declare module '@neomacros/fs' {
         /** Moves a file or directory; fails when the target already exists. @since 0.1.0 @mc * @requires permission 'fs' */
         move(from: string, to: string): Promise<void>;
         /** Reads one file as raw bytes (each element 0-255; the engine renders the result as a Uint8Array). @since 0.1.0 @mc * @requires permission 'fs' */
-        readBytes(path: string): Promise<Uint8Array>;
+        readBytes(path: string): Promise<import('@neomacros/types').Uint8Array>;
         /** Reads a JSON file into neutral values (objects, arrays, strings, numbers, booleans). @since 0.1.0 @mc * @requires permission 'fs' */
         readJSON(path: string): Promise<any>;
         /** Reads a UTF-8 text file. @since 0.1.0 @mc * @requires permission 'fs' */
@@ -224,13 +337,13 @@ declare module '@neomacros/input' {
         /** Holds a raw key down for the given duration, then releases; the promise resolves after the release. @since 0.1.0 @mc * */
         hold(keyName: string, millis: number): Promise<void>;
         /** Subscribes to mouse wheel scroll; the value is the scroll offset (positive = wheel up). @since 0.1.0 @mc * */
-        onScroll(sink: DoubleConsumer): Promise<void>;
+        onScroll(sink: (arg: number) => void): Promise<void>;
         /** Injects one raw key press (down edge). @since 0.1.0 @mc * */
         press(keyName: string): void;
         /** Registers a one-shot press listener for a raw key. @since 0.1.0 @mc * */
-        registerKeyPress(keyName: string, sink: Runnable): Subscription;
+        registerKeyPress(keyName: string, sink: () => void): import('@neomacros/types').Subscription;
         /** Registers a persistent keybind; the sink fires on every press (repeats while held, per vanilla click semantics). The binding appears in the vanilla controls menu under the NeoMacros category. @since 0.1.0 @mc * */
-        registerKeybind(keyName: string, sink: Runnable): Subscription;
+        registerKeybind(keyName: string, sink: () => void): import('@neomacros/types').Subscription;
         /** Injects one raw key release (up edge). @since 0.1.0 @mc * */
         release(keyName: string): void;
         /** Injects one keybind state by bind name (key.use and friends), as if the user pressed the bound input. @since 0.1.0 @mc * */
@@ -253,22 +366,53 @@ declare module '@neomacros/java' {
         /** Converts one script array into a host list wrapped as an interop object, so it crosses back into Java APIs as a live java.util.List. @since 0.1.0 @mc * */
         toList(scriptArray: unknown): unknown;
         /** Looks up one host class by its binary name, e.g. java.util.UUID. The returned class proxy exposes static fields and methods directly, and new(...) constructs instances. @since 0.1.0 @mc * */
-        type(className: string, alternate: string): JavaClass;
+        type(className: string, alternate: string): import('@neomacros/types').JavaClass;
     }
     export const java: JavaApi;
 }
 
 declare module '@neomacros/net' {
-    /** The neo.net facade: HTTP client with fetch semantics. Requests run on a dedicated IO executor and require the net capability; the promise settles with a live whose body readers (text(), json(), bytes()) are async. */
+    /** The neo.net facade: HTTP client with fetch semantics. Requests run on a dedicated IO executor and require the net capability; the promise settles with a live whose body readers (text(), json(), bytes()) are async. Each settled request is also recorded through for the DevTools network panel — previews always, phase timings, and full bodies up to only while a sink listens. Recording is free when no dispatcher listens. */
     export interface NetApi {
         /** Performs an HTTP request with fetch semantics. The init object carries method (default GET), headers (map) and body (string). @since 0.1.0 @mc * @requires permission 'net' */
-        fetch(url: string, init: unknown): Promise<Response>;
+        fetch(url: string, init: unknown): Promise<import('@neomacros/types').Response>;
         /** Performs an HTTP GET; convenience form of . @since 0.1.0 @mc * @requires permission 'net' */
-        get(url: string): Promise<Response>;
+        get(url: string): Promise<import('@neomacros/types').Response>;
         /** Performs an HTTP POST with a string body; convenience form of . @since 0.1.0 @mc * @requires permission 'net' */
-        post(url: string, body: string): Promise<Response>;
+        post(url: string, body: string): Promise<import('@neomacros/types').Response>;
     }
     export const net: NetApi;
+}
+
+declare module '@neomacros/performance' {
+    /** The neo.performance facade: Web-Performance-style macro profiling — a high-resolution monotonic clock anchored at the script's session origin, plus User Timing marks and measures kept in a bounded per-script buffer. Wall-clock timestamps remain the domain of the ES-native Date.now(); this module measures durations. Each script session owns an isolated timeline, so timeOrigin and buffered entries reset when the script reloads. */
+    export interface PerformanceApi {
+        /** All kept entries in insertion order; the buffer keeps the newest 4096 and evicts older ones. (The MDN getEntries() query lands as a read-only property under the house no-argument-property rule.) @since 0.2.0 @mc * */
+        readonly entries: Array<PerformanceEntry>;
+        /** Wall-clock time, in milliseconds, at which this script's session started; performance.timeOrigin + performance.now() stays comparable to Date.now(). @since 0.2.0 @mc * */
+        readonly timeOrigin: number;
+        /** Removes recorded marks — all of them when name is omitted, otherwise only those under that name. @since 0.2.0 @mc * */
+        clearMarks(name?: string): void;
+        /** Removes recorded measures — all of them when name is omitted, otherwise only those under that name. @since 0.2.0 @mc * */
+        clearMeasures(name?: string): void;
+        /** Kept entries under name, optionally restricted to one entryType ("mark" or "measure"). @since 0.2.0 @mc * */
+        entriesByName(name: string, entryType?: string): Array<PerformanceEntry>;
+        /** Kept entries of one entryType ("mark" or "measure"); unknown types return an empty array. @since 0.2.0 @mc * */
+        entriesByType(entryType: string): Array<PerformanceEntry>;
+        /** Records a zero-duration timestamp under name and returns the stored entry; the name must be non-empty. @since 0.2.0 @mc * */
+        mark(name: string): PerformanceEntry;
+        /** Records a duration under name spanning start to end and returns the stored entry. Each bound accepts a mark name (that mark's timestamp) or a raw now() timestamp; omitted bounds default to the session origin and the current time. @since 0.2.0 @mc * */
+        measure(name: string, start?: string | number, end?: string | number): PerformanceEntry;
+        /** High-resolution monotonic timestamp in milliseconds (microsecond precision) since this script's session origin; unlike Date.now() it never steps backward with wall-clock changes. @since 0.2.0 @mc * */
+        now(): number;
+    }
+    export const performance: PerformanceApi;
+    export interface PerformanceEntry {
+        duration: number;
+        entryType: string;
+        name: string;
+        startTime: number;
+    }
 }
 
 declare module '@neomacros/player' {
@@ -307,27 +451,28 @@ declare module '@neomacros/player' {
         /** Quick-moves a slot to the other inventory. @since 0.1.0 @mc * */
         quickMove(slot: number): Promise<void>;
         /** Reads the stack at a slot, or undefined when out of range or empty. @since 0.1.0 @mc * */
-        slot(index: number): ItemStack;
+        slot(index: number): import('@neomacros/types').ItemStack;
         /** Swaps a container slot with a hotbar slot (0..8). @since 0.1.0 @mc * */
         swapHotbar(slot: number, hotbarIndex: number): Promise<void>;
     }
     /** The action surface of the local player: attack, interact, swing, and drop dispatch through the game on the main thread and resolve once processed. */
-    export class LocalPlayer extends Player {
+    export interface LocalPlayer extends Player {
         /** Attacks the entity behind the target handle. @since 0.1.0 @mc * */
-        attack(target: Entity): Promise<void>;
+        attack(target: import('@neomacros/entity').Entity): Promise<void>;
         /** Drops the held item stack (all = the whole stack). @since 0.1.0 @mc * */
         dropHeld(all: boolean): Promise<void>;
         /** Uses (right-clicks) the block behind the position handle. @since 0.1.0 @mc * */
-        interactBlock(pos: BlockPos): Promise<void>;
+        interactBlock(pos: import('@neomacros/types').BlockPos): Promise<void>;
         /** Uses (right-clicks) the entity behind the target handle. @since 0.1.0 @mc * */
-        interactEntity(target: Entity): Promise<void>;
+        interactEntity(target: import('@neomacros/entity').Entity): Promise<void>;
         /** Swings the main hand (offhand = the off hand). @since 0.1.0 @mc * */
         swingHand(offhand: boolean): Promise<void>;
         /** Human-readable form. */
         toString(): string;
     }
+    type PlayerBase = import('@neomacros/entity').LivingEntity;
     /** Live player handle: the entity read face comes through the entity port (works for remote players too); the local-only extras (hunger, air, gamemode, xp) read through the player port and are undefined for remote players. */
-    export class Player extends LivingEntity {
+    export interface Player extends PlayerBase {
         /** The air (breath) value; only the local player carries it. @since 0.1.0 @mc * */
         readonly air: number;
         /** The gamemode identifier (survival/creative/adventure/ spectator); only the local player carries it. @since 0.1.0 @mc * */
@@ -343,7 +488,7 @@ declare module '@neomacros/player' {
         /** The experience as {level, progress, total}; only the local player carries it. @since 0.1.0 @mc * */
         readonly xp: Record<string, unknown>;
         /** Returns a point-in-time snapshot copy, or null when the player is not loaded. @since 0.1.0 @mc * */
-        snapshot(): EntitySnapshot;
+        snapshot(): import('@neomacros/entity').EntitySnapshot;
         /** JSON form; the local player renders through the player view. @since 0.1.0 @mc * */
         toJSON(): Record<string, unknown>;
         /** Human-readable form. */
@@ -351,6 +496,57 @@ declare module '@neomacros/player' {
     }
     /** The local player's own inventory: the always-available inventory session (the same handle player.opened returns while the inventory screen is open). */
     export class PlayerInventory extends Inventory {
+    }
+    export interface AabbData {
+        max: import('@neomacros/entity').Pos3d;
+        min: import('@neomacros/entity').Pos3d;
+    }
+    export interface EntitySnapshot {
+        boundingBox: import('@neomacros/entity').AabbData;
+        dimension: string;
+        direction: import('@neomacros/entity').Pos3d;
+        eyeHeight: number;
+        facing: string;
+        gliding: boolean;
+        health: number;
+        heldItem: import('@neomacros/entity').ItemStackData;
+        inLava: boolean;
+        inWater: boolean;
+        living: boolean;
+        maxHealth: number;
+        name: string;
+        offhandItem: import('@neomacros/entity').ItemStackData;
+        onFire: boolean;
+        onGround: boolean;
+        passengers: Array<string>;
+        pos: import('@neomacros/entity').Pos3d;
+        pose: string;
+        rotation: import('@neomacros/entity').Rot2d;
+        sneaking: boolean;
+        sprinting: boolean;
+        swimming: boolean;
+        type: string;
+        uuid: string;
+        vehicle: string;
+        velocity: import('@neomacros/entity').Pos3d;
+    }
+    export interface ItemStackData {
+        count: number;
+        damage: number;
+        enchantments: Array<import('@neomacros/types').EnchantmentData>;
+        id: string;
+        lore: Array<string>;
+        maxDamage: number;
+        name: string;
+    }
+    export interface Pos3d {
+        x: number;
+        y: number;
+        z: number;
+    }
+    export interface Rot2d {
+        pitchDeg: number;
+        yawDeg: number;
     }
 }
 
@@ -377,9 +573,9 @@ declare module '@neomacros/render' {
         /** Removes all shapes on one layer. @since 0.1.0 @mc * */
         clearLayer(layerId: string): void;
         /** Draws a wireframe box between two world positions on one layer. @since 0.1.0 @mc * */
-        drawBox(layerId: string, min: Pos3D, max: Pos3D, argbColor: number): void;
+        drawBox(layerId: string, min: import('@neomacros/types').Pos3D, max: import('@neomacros/types').Pos3D, argbColor: number): void;
         /** Draws a line between two world positions on one layer. @since 0.1.0 @mc * */
-        drawLine(layerId: string, from: Pos3D, to: Pos3D, argbColor: number): void;
+        drawLine(layerId: string, from: import('@neomacros/types').Pos3D, to: import('@neomacros/types').Pos3D, argbColor: number): void;
         /** Lists all layers that currently hold shapes. @since 0.1.0 @mc * */
         layerIds(): Array<string>;
     }
@@ -407,17 +603,17 @@ declare module '@neomacros/thread' {
         /** Whether the calling code is currently running on the game main thread. @since 0.2.0 @mc * */
         main: boolean;
         /** Runs the function once on the script loop after millis of real time; the returned handle cancels the pending run. @since 0.2.0 @mc * */
-        after(millis: number, task: Runnable): TimerHandle;
+        after(millis: number, task: () => void): import('@neomacros/types').TimerHandle;
         /** Runs the function once on the script loop after count client tick boundaries; the returned handle cancels the pending run. @since 0.2.0 @mc * */
-        afterTick(count: number, task: Runnable): TimerHandle;
+        afterTick(count: number, task: () => void): import('@neomacros/types').TimerHandle;
         /** Runs the function on the script loop every millis of real time until the returned handle is cancelled. @since 0.2.0 @mc * */
-        every(millis: number, task: Runnable): TimerHandle;
+        every(millis: number, task: () => void): import('@neomacros/types').TimerHandle;
         /** Runs the function on the script loop every count client tick boundaries until the returned handle is cancelled. @since 0.2.0 @mc * */
-        everyTick(count: number, task: Runnable): TimerHandle;
+        everyTick(count: number, task: () => void): import('@neomacros/types').TimerHandle;
         /** Resolves at the end of the current client tick (or the next one when called between ticks). @since 0.1.0 @mc * */
         nextTick(): Promise<void>;
         /** Runs the function on the game main thread; the promise settles with its return value. Calling this from the main thread executes inline. @since 0.1.0 @mc * */
-        runOnMain(task: Callable): Promise<object>;
+        runOnMain(task: () => unknown): Promise<object>;
         /** Resolves after the given delay in milliseconds; the delay is real time, independent of game ticks. @since 0.1.0 @mc * */
         sleep(millis: number): Promise<void>;
         /** Resolves after count client ticks have passed. @since 0.1.0 @mc * */
@@ -446,13 +642,13 @@ declare module '@neomacros/world' {
         /** The biome identifier at the position. @since 0.1.0 @mc * */
         biomeAt(x: number, y: number, z: number): string;
         /** Returns the block at the coordinates, or null when outside the loaded world. @since 0.1.0 @mc * */
-        blockAt(x: number, y: number, z: number): Block;
+        blockAt(x: number, y: number, z: number): import('@neomacros/types').Block;
         /** Whether the chunk is loaded. @since 0.2.0 @mc * */
-        chunkLoaded(chunk: ChunkPos): boolean;
+        chunkLoaded(chunk: import('@neomacros/types').ChunkPos): boolean;
         /** Whether the chunk containing the position is loaded. @since 0.1.0 @mc * */
         loaded(x: number, y: number, z: number): boolean;
         /** Casts a ray from one point toward another and returns the first hit, or null when unobstructed or no world is loaded. @since 0.1.0 @mc * */
-        raycast(fromX: number, fromY: number, fromZ: number, toX: number, toY: number, toZ: number): RayHit;
+        raycast(fromX: number, fromY: number, fromZ: number, toX: number, toY: number, toZ: number): import('@neomacros/types').RayHit;
     }
     export const world: WorldApi;
 }
@@ -574,7 +770,7 @@ declare module '@neomacros/types' {
         /** Whether the other stack holds the same item, ignoring count, damage, and components. @since 0.2.0 @mc * */
         isSameItem(other: unknown): boolean;
         /** Builds the script stack from one neutral port snapshot. @since 0.2.0 */
-        of(data: ItemStackData): ItemStack;
+        of(data: import('@neomacros/entity').ItemStackData): ItemStack;
         /** Whether the other stack is a full copy of this one. @since 0.2.0 @mc * */
         same(other: unknown): boolean;
         /** JSON form so JSON.stringify renders the stack directly. @since 0.2.0 @mc * */
@@ -709,7 +905,7 @@ declare module '@neomacros/types' {
         /** The distance from the origin to the hit (max distance on a miss). @since 0.1.0 @mc * */
         readonly distance: number;
         /** The hit entity handle, or undefined on block hits / misses. @since 0.1.0 @mc * */
-        readonly entity: Entity;
+        readonly entity: import('@neomacros/entity').Entity;
         /** Whether the ray hit anything at all. @since 0.1.0 @mc * */
         hit: boolean;
         /** The exact hit position. @since 0.1.0 @mc * */
@@ -735,16 +931,16 @@ declare module '@neomacros/types' {
     /** Payload of the entity damage event; fires when a tracked entity takes damage. */
     export class EntityDamageEvent extends BaseEvent {
         amount: number;
-        entity: EntitySnapshot;
+        entity: import('@neomacros/entity').EntitySnapshot;
     }
     /** Payload of the entity heal event. */
     export class EntityHealEvent extends BaseEvent {
         amount: number;
-        entity: EntitySnapshot;
+        entity: import('@neomacros/entity').EntitySnapshot;
     }
     /** Payload of the entity load event; fires when an entity enters the client's tracked range. */
     export class EntityLoadEvent extends BaseEvent {
-        entity: EntitySnapshot;
+        entity: import('@neomacros/entity').EntitySnapshot;
     }
     /** Payload of the entity spawn/despawn edge events derived from per-tick entity tracking. These are distinct from entity:load/unload which track the vanilla entity lifecycle. */
     export class EntitySpawnEvent extends BaseEvent {
@@ -753,7 +949,7 @@ declare module '@neomacros/types' {
     }
     /** Payload of the entity unload event; fires when an entity leaves the client's tracked range. */
     export class EntityUnloadEvent extends BaseEvent {
-        entity: EntitySnapshot;
+        entity: import('@neomacros/entity').EntitySnapshot;
     }
     /** Raised when the game client is shutting down. */
     export class GameQuitEvent extends BaseEvent {
@@ -783,7 +979,7 @@ declare module '@neomacros/types' {
     }
     /** Payload of the entity attack event; synchronous subscribers may cancel the attack. */
     export class PlayerAttackEntityEvent extends BaseEvent {
-        target: EntitySnapshot;
+        target: import('@neomacros/entity').EntitySnapshot;
     }
     /** Payload of the local player damage event; carries the lost amount and the resulting health. */
     export class PlayerDamageEvent extends BaseEvent {
@@ -792,7 +988,7 @@ declare module '@neomacros/types' {
     }
     /** Payload of the local player death event. */
     export class PlayerDeathEvent extends BaseEvent {
-        player: EntitySnapshot;
+        player: import('@neomacros/entity').EntitySnapshot;
     }
     /** Payload of the local player changing dimension event. */
     export class PlayerDimensionChangeEvent extends BaseEvent {
@@ -831,8 +1027,8 @@ declare module '@neomacros/types' {
     }
     /** Payload of the held item change event. */
     export class PlayerHeldItemEvent extends BaseEvent {
-        current: ItemStackData;
-        previous: ItemStackData;
+        current: import('@neomacros/entity').ItemStackData;
+        previous: import('@neomacros/entity').ItemStackData;
     }
     /** Payload of the local player hunger change event. */
     export class PlayerHungerEvent extends BaseEvent {
@@ -845,11 +1041,11 @@ declare module '@neomacros/types' {
     }
     /** Payload of the entity interaction event; synchronous subscribers may cancel the interaction. */
     export class PlayerInteractEntityEvent extends BaseEvent {
-        target: EntitySnapshot;
+        target: import('@neomacros/entity').EntitySnapshot;
     }
     /** Payload of the local player joining a world event. */
     export class PlayerJoinEvent extends BaseEvent {
-        player: EntitySnapshot;
+        player: import('@neomacros/entity').EntitySnapshot;
     }
     /** Payload of the local player leaving the world event. */
     export class PlayerLeaveEvent extends BaseEvent {
@@ -858,7 +1054,7 @@ declare module '@neomacros/types' {
     }
     /** Payload of the local player respawn event. */
     export class PlayerRespawnEvent extends BaseEvent {
-        player: EntitySnapshot;
+        player: import('@neomacros/entity').EntitySnapshot;
     }
     /** Payload of the sneaking toggle event; fires on the enter/leave edge of the state. */
     export class PlayerSneakEvent extends BaseEvent {
@@ -866,7 +1062,7 @@ declare module '@neomacros/types' {
     }
     /** Payload of the local player spawning into the world event (first spawn of a world session). */
     export class PlayerSpawnEvent extends BaseEvent {
-        player: EntitySnapshot;
+        player: import('@neomacros/entity').EntitySnapshot;
     }
     /** Payload of the sprinting toggle event; fires on the enter/leave edge of the state. */
     export class PlayerSprintEvent extends BaseEvent {
@@ -932,6 +1128,27 @@ declare module '@neomacros/types' {
         raining: boolean;
         thundering: boolean;
     }
+    export interface ChatComponent {
+        bold: boolean;
+        children: Array<ChatComponent>;
+        color: string;
+        italic: boolean;
+        obfuscated: boolean;
+        strikethrough: boolean;
+        text: string;
+        underlined: boolean;
+    }
+}
+
+declare module '@neomacros/types' {
+    /** Referenced in signatures but not yet documented with @ApiClass; opaque until annotated. */
+    export type CommandArgFactory = object;
+    export type EnchantmentData = object;
+    export type Function = object;
+    export type Response = object;
+    export type Subscription = object;
+    export type TimerHandle = object;
+    export type Uint8Array = object;
 }
 
 declare const neo: {
@@ -945,6 +1162,7 @@ declare const neo: {
     input: import('@neomacros/input').InputApi;
     java: import('@neomacros/java').JavaApi;
     net: import('@neomacros/net').NetApi;
+    performance: import('@neomacros/performance').PerformanceApi;
     player: import('@neomacros/player').PlayerApi;
     reflect: import('@neomacros/reflect').ReflectApi;
     render: import('@neomacros/render').RenderApi;
@@ -952,3 +1170,100 @@ declare const neo: {
     thread: import('@neomacros/thread').ThreadApi;
     world: import('@neomacros/world').WorldApi;
 };
+// Post-processing: types module + standalone cell class declarations.
+// These cells are registered via registerGuestType (not @ApiModule facades),
+// so TSDoclet cannot scan them; the sync script appends this block.
+
+declare module '@neomacros/types' {
+    export const types: {
+        Entity: typeof import('@neomacros/entity').Entity;
+        // LocalPlayer is emitted as an interface (its base chain crosses
+        // module blocks), so only the instance type is nameable here.
+        LocalPlayer: import('@neomacros/player').LocalPlayer;
+        Inventory: typeof import('@neomacros/player').Inventory;
+        Vec3: Vec3Constructor;
+        BlockPos: BlockPosConstructor;
+        Block: BlockConstructor;
+        BlockState: BlockStateConstructor;
+        RayHit: RayHitConstructor;
+    };
+    // Only Vec3 stays a plain const: the generated part now declares the
+    // BlockPos/Block/BlockState/RayHit classes themselves.
+    export const Vec3: Vec3Constructor;
+}
+
+interface Vec3Constructor {
+    new(x?: number, y?: number, z?: number): Vec3Instance;
+    (x?: number, y?: number, z?: number): Vec3Instance;
+}
+
+interface BlockPosConstructor {
+    new(x?: number, y?: number, z?: number): BlockPosInstance;
+    (x?: number, y?: number, z?: number): BlockPosInstance;
+}
+
+interface BlockConstructor {
+    new(pos: { x: number; y: number; z: number }): BlockInstance;
+}
+
+interface BlockStateConstructor {
+    new(id: string, props?: Record<string, string>): BlockStateInstance;
+}
+
+interface RayHitConstructor {
+    new(): RayHitInstance;
+}
+
+interface Vec3Instance {
+    x: number; y: number; z: number;
+    add(v: Vec3Instance): Vec3Instance;
+    sub(v: Vec3Instance): Vec3Instance;
+    mul(n: number): Vec3Instance;
+    length(): number;
+    lengthSq(): number;
+    normalize(): Vec3Instance;
+    distanceTo(v: Vec3Instance): number;
+    dot(v: Vec3Instance): number;
+    cross(v: Vec3Instance): Vec3Instance;
+    lerp(v: Vec3Instance, t: number): Vec3Instance;
+    withX(x: number): Vec3Instance;
+    withY(y: number): Vec3Instance;
+    withZ(z: number): Vec3Instance;
+    floor(): BlockPosInstance;
+    toJSON(): { x: number; y: number; z: number };
+    toString(): string;
+}
+
+interface BlockPosInstance extends Vec3Instance {
+    intX: number; intY: number; intZ: number;
+    up(): BlockPosInstance;
+    up(n: number): BlockPosInstance;
+    down(): BlockPosInstance;
+    down(n: number): BlockPosInstance;
+    north(): BlockPosInstance;
+    south(): BlockPosInstance;
+    west(): BlockPosInstance;
+    east(): BlockPosInstance;
+    offset(dir: string, n: number): BlockPosInstance;
+    center(): Vec3Instance;
+}
+
+interface BlockInstance {
+    pos: { x: number; y: number; z: number };
+    state: BlockStateInstance;
+    valid: boolean;
+}
+
+interface BlockStateInstance {
+    id: string;
+    props: Record<string, string>;
+    is(id: string): boolean;
+}
+
+interface RayHitInstance {
+    block: BlockInstance | undefined;
+    entity: import('@neomacros/entity').Entity | undefined;
+    pos: { x: number; y: number; z: number };
+    distance: number;
+    hit: boolean;
+}

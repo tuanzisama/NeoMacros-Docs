@@ -13,10 +13,13 @@ import java.util.Map;
  * @param modules        modules sorted by name
  * @param events         event descriptors sorted by name (nested and standalone)
  * @param standaloneClasses @ApiClass classes not nested in any facade, sorted by name
+ * @param eventReferencedTypes record types referenced from event fields only,
+ *        sorted by name (facade-referenced records hang off their module)
  * @param warnings       generation warnings (missing @zh translations, missing @ApiSince)
  */
 public record ApiModel(List<ModuleModel> modules, List<EventModel> events,
-        List<ClassModel> standaloneClasses, List<String> warnings) {
+        List<ClassModel> standaloneClasses, List<TypeModel> eventReferencedTypes,
+        List<String> warnings) {
 
     /** One script-visible ES module. */
     public record ModuleModel(
@@ -47,8 +50,11 @@ public record ApiModel(List<ModuleModel> modules, List<EventModel> events,
             boolean experimental) {
     }
 
-    /** Method parameter. */
-    public record ParameterModel(String name, String type) {
+    /** Method parameter; {@code optional} marks parameters a script may omit. */
+    public record ParameterModel(String name, String type, boolean optional) {
+        public ParameterModel(String name, String type) {
+            this(name, type, false);
+        }
     }
 
     /** Script-facing class declared with {@code @ApiClass} (live handle or immutable data). */
@@ -58,10 +64,17 @@ public record ApiModel(List<ModuleModel> modules, List<EventModel> events,
             List<PropertyModel> properties, List<MethodModel> methods) {
     }
 
-    /** Event descriptor declared with {@code @ApiEvent}. */
+    /**
+     * Event descriptor declared with {@code @ApiEvent}. The payload always
+     * dispatches as a frozen {@code className extends BaseEvent} instance;
+     * field descriptions come from the record's {@code @param} and
+     * {@code @zh-param} tags.
+     */
     public record EventModel(
-            String name, boolean cancellable,
+            String name, boolean cancellable, String className,
             List<ParameterModel> fields,
+            Map<String, String> fieldDocs, Map<String, String> zhFieldDocs,
+            String since, String mc, String loader,
             String doc, String zhDoc) {
     }
 }

@@ -20,13 +20,15 @@ import java.util.Set;
  * English Javadoc (the normative source) and {@code <name>.zh.md} from the
  * {@code @zh} tag translations, falling back to the English text per member.
  * Class and referenced-record pages live under {@code classes/}, event pages
- * under {@code events/}. Generation warnings (missing translations, missing
+ * under {@code events/}, and event payload classes (plus {@code BaseEvent})
+ * under {@code types/}. Generation warnings (missing translations, missing
  * {@code @ApiSince}) are collected into {@code warnings.txt}.
  */
 public class MDDoclet implements Doclet {
 
     private Reporter reporter;
     private Path outDir = Path.of("docs-dist");
+
     /** Supported Minecraft versions, ascending; empty disables the matrix page. */
     private List<String> mcVersions = List.of();
 
@@ -122,6 +124,7 @@ public class MDDoclet implements Doclet {
         Path apiDir = outDir.resolve("api");
         Path classesDir = apiDir.resolve("classes");
         Path eventsDir = apiDir.resolve("events");
+        Path typesDir = apiDir.resolve("types");
         Map<String, List<String>> extendedBy = new java.util.LinkedHashMap<>();
         for (ApiModel.ModuleModel module : model.modules()) {
             for (ApiModel.ClassModel clazz : module.classes()) {
@@ -138,47 +141,65 @@ public class MDDoclet implements Doclet {
             }
         }
         // Every documented type name resolves to its own page under classes/.
-        Set<String> knownTypes = new java.util.TreeSet<>();
+        Set<String> classNames = new java.util.TreeSet<>();
         for (ApiModel.ModuleModel module : model.modules()) {
             for (ApiModel.ClassModel clazz : module.classes()) {
-                knownTypes.add(clazz.name());
+                classNames.add(clazz.name());
             }
         }
         for (ApiModel.ClassModel clazz : model.standaloneClasses()) {
-            knownTypes.add(clazz.name());
+            classNames.add(clazz.name());
         }
         // Referenced record types, deduplicated by name across modules; a
         // name that already has a class page wins.
         Map<String, ApiModel.TypeModel> referencedTypes = new java.util.TreeMap<>();
         for (ApiModel.ModuleModel module : model.modules()) {
             for (ApiModel.TypeModel type : module.referencedTypes()) {
-                if (!knownTypes.contains(type.name())) {
+                if (!classNames.contains(type.name())) {
                     referencedTypes.putIfAbsent(type.name(), type);
                 }
             }
         }
-        knownTypes.addAll(referencedTypes.keySet());
+        classNames.addAll(referencedTypes.keySet());
+        // Records referenced only from event fields get pages too; a name
+        // that already has a class page wins.
+        for (ApiModel.TypeModel type : model.eventReferencedTypes()) {
+            if (!classNames.contains(type.name())) {
+                referencedTypes.putIfAbsent(type.name(), type);
+                classNames.add(type.name());
+            }
+        }
+        // Event payload classes live under types/ (one page per dispatched
+        // class plus the shared BaseEvent), so their names link differently.
+        Set<String> eventTypeNames = new java.util.TreeSet<>();
+        eventTypeNames.add("BaseEvent");
+        for (ApiModel.EventModel event : model.events()) {
+            eventTypeNames.add(event.className());
+        }
         try {
             Files.createDirectories(apiDir);
             Files.createDirectories(classesDir);
             Files.createDirectories(eventsDir);
+            Files.createDirectories(typesDir);
             for (ApiModel.ModuleModel module : model.modules()) {
                 write(apiDir.resolve(module.name() + ".md"),
-                        renderModule(module, false, extendedBy, knownTypes));
+                        renderModule(module, false, extendedBy,
+                                linkTargets(classNames, eventTypeNames, "classes/", "types/")));
                 write(apiDir.resolve(module.name() + ".zh.md"),
-                        renderModule(module, true, extendedBy, knownTypes));
+                        renderModule(module, true, extendedBy,
+                                linkTargets(classNames, eventTypeNames, "classes/", "types/")));
                 for (ApiModel.ClassModel clazz : module.classes()) {
                     write(classesDir.resolve(clazz.name() + ".md"),
-                            renderClassPage(clazz, extendedBy, knownTypes, false));
+                            renderClassPage(clazz, extendedBy, classLinks(classNames, eventTypeNames), false));
                     write(classesDir.resolve(clazz.name() + ".zh.md"),
-                            renderClassPage(clazz, extendedBy, knownTypes, true));
+                            renderClassPage(clazz, extendedBy, classLinks(classNames, eventTypeNames), true));
                 }
             }
             for (ApiModel.ClassModel clazz : model.standaloneClasses()) {
                 write(classesDir.resolve(clazz.name() + ".md"),
-                        renderClassPage(clazz, extendedBy, knownTypes, false));
+                        renderClassPage(clazz, extendedBy, classLinks(classNames, eventTypeNames), false));
                 write(classesDir.resolve(clazz.name() + ".zh.md"),
-                        renderClassPage(clazz, extendedBy, knownTypes, true));
+                        renderClassPage(clazz, extendedBy, classLinks(classNames, eventTypeNames), true));
             }
             for (ApiModel.TypeModel type : referencedTypes.values()) {
                 write(classesDir.resolve(type.name() + ".md"), renderTypePage(type, false));
@@ -186,10 +207,16 @@ public class MDDoclet implements Doclet {
             }
             for (ApiModel.EventModel event : model.events()) {
                 write(eventsDir.resolve(eventSlug(event.name()) + ".md"),
-                        renderEventPage(event, false));
+                        renderEventPage(event, false, eventLinks(classNames, eventTypeNames)));
                 write(eventsDir.resolve(eventSlug(event.name()) + ".zh.md"),
-                        renderEventPage(event, true));
+                        renderEventPage(event, true, eventLinks(classNames, eventTypeNames)));
+                write(typesDir.resolve(event.className() + ".md"),
+                        renderEventTypePage(event, false, typePageLinks(classNames)));
+                write(typesDir.resolve(event.className() + ".zh.md"),
+                        renderEventTypePage(event, true, typePageLinks(classNames)));
             }
+            write(typesDir.resolve("BaseEvent.md"), renderBaseEventPage(false));
+            write(typesDir.resolve("BaseEvent.zh.md"), renderBaseEventPage(true));
             if (!mcVersions.isEmpty()) {
                 VersionMatrix.write(apiDir, model, mcVersions);
             }
@@ -208,10 +235,45 @@ public class MDDoclet implements Doclet {
         return eventName.toLowerCase(Locale.ROOT).replace(':', '-');
     }
 
+    /**
+     * Link targets for one page context: known type name to the relative
+     * link prefix that reaches its page from the rendered page. Classes and
+     * referenced records live under {@code classes/}, event payload classes
+     * under {@code types/}; pages inside a subdirectory need a {@code ../}
+     * prefix because the site strips only the numeric ordering prefix from
+     * directory routes.
+     */
+    private static Map<String, String> linkTargets(Set<String> classNames,
+            Set<String> eventTypeNames, String classPrefix, String typePrefix) {
+        Map<String, String> out = new java.util.LinkedHashMap<>();
+        for (String name : classNames) {
+            out.put(name, classPrefix);
+        }
+        for (String name : eventTypeNames) {
+            out.put(name, typePrefix);
+        }
+        return out;
+    }
+
+    /** Link targets on class pages: classes sit next door, types one level up. */
+    private static Map<String, String> classLinks(Set<String> classNames, Set<String> eventTypeNames) {
+        return linkTargets(classNames, eventTypeNames, "", "../types/");
+    }
+
+    /** Link targets on event pages, which the site nests one level deeper. */
+    private static Map<String, String> eventLinks(Set<String> classNames, Set<String> eventTypeNames) {
+        return linkTargets(classNames, eventTypeNames, "../classes/", "../types/");
+    }
+
+    /** Link targets on the types pages themselves. */
+    private static Map<String, String> typePageLinks(Set<String> classNames) {
+        return linkTargets(classNames, new java.util.TreeSet<>(), "../classes/", "");
+    }
+
     /** Renders one module page; {@code zh} selects the translation-fallback view. */
     private static String renderModule(ApiModel.ModuleModel module, boolean zh,
                                        Map<String, List<String>> extendedBy,
-                                       Set<String> knownTypes) {
+                                       Map<String, String> linkTargets) {
         StringBuilder sb = new StringBuilder();
         sb.append("# ").append(module.name()).append("\n\n");
         sb.append(text(module.doc(), module.zhDoc(), zh)).append("\n\n");
@@ -243,20 +305,20 @@ public class MDDoclet implements Doclet {
             sb.append(String.join(" · ", links)).append("\n\n");
         }
 
-        renderProperties(sb, module.properties(), zh, knownTypes, "classes/");
-        renderMethods(sb, module.methods(), zh, knownTypes, "classes/");
+        renderProperties(sb, module.properties(), zh, linkTargets);
+        renderMethods(sb, module.methods(), zh, linkTargets);
         return sb.toString();
     }
 
     /** Renders one script-facing class as its own page under classes/. */
     private static String renderClassPage(ApiModel.ClassModel clazz,
-            Map<String, List<String>> extendedBy, Set<String> knownTypes, boolean zh) {
+            Map<String, List<String>> extendedBy, Map<String, String> linkTargets, boolean zh) {
         StringBuilder sb = new StringBuilder();
         sb.append("# ").append(clazz.name()).append("\n\n");
         sb.append(String.join(" · ", classMeta(clazz, extendedBy))).append("\n\n");
         sb.append(text(clazz.doc(), clazz.zhDoc(), zh)).append("\n\n");
-        renderProperties(sb, clazz.properties(), zh, knownTypes, "");
-        renderMethods(sb, clazz.methods(), zh, knownTypes, "");
+        renderProperties(sb, clazz.properties(), zh, linkTargets);
+        renderMethods(sb, clazz.methods(), zh, linkTargets);
         return sb.toString();
     }
 
@@ -265,8 +327,8 @@ public class MDDoclet implements Doclet {
         StringBuilder sb = new StringBuilder();
         sb.append("# ").append(type.name()).append("\n\n");
         sb.append(zh
-                ? "\u6a21\u5757\u7b7e\u540d\u4e2d\u5f15\u7528\u7684 record \u7c7b\u578b\u3002\n\n"
-                : "Record type referenced in module signatures.\n\n");
+                ? "API 签名中引用的 record 类型。\n\n"
+                : "Record type referenced in API signatures.\n\n");
         sb.append("| Field | Type |\n");
         sb.append("| --- | --- |\n");
         for (ApiModel.ParameterModel field : type.fields()) {
@@ -276,22 +338,110 @@ public class MDDoclet implements Doclet {
         return sb.toString();
     }
 
-    /** Renders one event as its own page under events/. */
-    private static String renderEventPage(ApiModel.EventModel event, boolean zh) {
+    /**
+     * Renders one event as its own page under events/. The meta line leads
+     * to the dispatched payload class under types/ so a script author can
+     * follow the event name to its type definition.
+     */
+    private static String renderEventPage(ApiModel.EventModel event, boolean zh,
+            Map<String, String> linkTargets) {
         StringBuilder sb = new StringBuilder();
         sb.append("# ").append(event.name()).append("\n\n");
+        List<String> meta = new java.util.ArrayList<>();
+        meta.add("Payload: [`" + event.className() + "`](../types/" + event.className() + ".html)");
         if (event.cancellable()) {
-            sb.append("Cancellable\n\n");
+            meta.add("Cancellable");
         }
+        if (event.since() != null) {
+            meta.add("Since: " + event.since());
+        }
+        if (event.mc() != null) {
+            meta.add("MC: " + event.mc());
+        }
+        if (event.loader() != null) {
+            meta.add("Loader: " + event.loader());
+        }
+        sb.append(String.join(" · ", meta)).append("\n\n");
         sb.append(text(event.doc(), event.zhDoc(), zh)).append("\n\n");
         if (!event.fields().isEmpty()) {
-            sb.append("| Field | Type |\n| --- | --- |\n");
+            sb.append("| Field | Type | Description |\n| --- | --- | --- |\n");
             for (ApiModel.ParameterModel field : event.fields()) {
-                sb.append("| `").append(field.name()).append("` | `").append(field.type()).append("` |\n");
+                sb.append("| `").append(field.name()).append("` | ")
+                        .append(linkType(field.type(), linkTargets)).append(" | ")
+                        .append(fieldDescription(event, field.name(), zh)).append(" |\n");
             }
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    /**
+     * Renders one event payload class as its own page under types/, with a
+     * raised-by link back to its event page.
+     */
+    private static String renderEventTypePage(ApiModel.EventModel event, boolean zh,
+            Map<String, String> linkTargets) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("# ").append(event.className()).append("\n\n");
+        List<String> meta = new java.util.ArrayList<>();
+        meta.add("Extends: [`BaseEvent`](BaseEvent.html)");
+        meta.add("Raised by: [`" + event.name() + "`](" + eventHref(eventSlug(event.name())) + ")");
+        if (event.since() != null) {
+            meta.add("Since: " + event.since());
+        }
+        if (event.mc() != null) {
+            meta.add("MC: " + event.mc());
+        }
+        if (event.loader() != null) {
+            meta.add("Loader: " + event.loader());
+        }
+        sb.append(String.join(" · ", meta)).append("\n\n");
+        sb.append(text(event.doc(), event.zhDoc(), zh)).append("\n\n");
+        if (!event.fields().isEmpty()) {
+            sb.append("| Field | Type | Description |\n| --- | --- | --- |\n");
+            for (ApiModel.ParameterModel field : event.fields()) {
+                sb.append("| `").append(field.name()).append("` | ")
+                        .append(linkType(field.type(), linkTargets)).append(" | ")
+                        .append(fieldDescription(event, field.name(), zh)).append(" |\n");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    /** Renders the shared event base class as its own page under types/. */
+    private static String renderBaseEventPage(boolean zh) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("# BaseEvent\n\n");
+        sb.append(zh
+                ? "所有事件载荷共用的基类；分发到脚本的事件实例都是它的冻结子类实例。\n\n"
+                : "Base class shared by all event payloads; dispatched event instances are frozen subclasses of it.\n\n");
+        sb.append("| Property | Type | Description |\n| --- | --- | --- |\n");
+        sb.append("| `type` | `string` | ").append(zh ? "事件名，如 `chat:receive`。" : "Event name, e.g. `chat:receive`.").append(" |\n");
+        sb.append("| `timestamp` | `number` | ").append(zh ? "事件分发时的毫秒时间戳。" : "Dispatch time in epoch milliseconds.").append(" |\n");
+        sb.append("| `cancellable` | `boolean` | ").append(zh ? "本事件是否可取消。" : "Whether this event is cancellable.").append(" |\n");
+        sb.append("\n## Methods\n\n### `toJSON()`\n\n");
+        sb.append(zh ? "返回事件的普通对象形式，可直接 `JSON.stringify`。"
+                     : "Plain-object form of the event so `JSON.stringify` renders it directly.");
+        sb.append("\n\n");
+        return sb.toString();
+    }
+
+    /** Picks the event field description for the current view, falling back to English. */
+    private static String fieldDescription(ApiModel.EventModel event, String field, boolean zh) {
+        String en = event.fieldDocs().getOrDefault(field, "");
+        return zh ? event.zhFieldDocs().getOrDefault(field, en) : en;
+    }
+
+    /**
+     * Location of one synced event page relative to the types/ directory:
+     * the site groups event pages into a per-domain subfolder derived from
+     * the slug's first dash segment (e.g. chat-receive -> events/chat/).
+     */
+    private static String eventHref(String slug) {
+        int dash = slug.indexOf('-');
+        String domain = dash < 0 ? slug : slug.substring(0, dash);
+        return "../events/" + domain + "/" + slug + ".html";
     }
 
     /** Composes the kind/wraps/inheritance meta line of one class page. */
@@ -328,7 +478,7 @@ public class MDDoclet implements Doclet {
     }
 
     private static void renderProperties(StringBuilder sb, List<ApiModel.PropertyModel> properties,
-            boolean zh, Set<String> knownTypes, String classPrefix) {
+            boolean zh, Map<String, String> linkTargets) {
         if (properties.isEmpty()) {
             return;
         }
@@ -337,7 +487,7 @@ public class MDDoclet implements Doclet {
         sb.append("| --- | --- | --- |\n");
         for (ApiModel.PropertyModel property : properties) {
             sb.append("| `").append(property.name()).append("` | ")
-                    .append(linkType(property.type(), knownTypes, classPrefix)).append(" | ");
+                    .append(linkType(property.type(), linkTargets)).append(" | ");
             sb.append(text(property.doc(), property.zhDoc(), zh));
             if (property.readOnly()) {
                 sb.append(" (read-only)");
@@ -351,7 +501,7 @@ public class MDDoclet implements Doclet {
     }
 
     private static void renderMethods(StringBuilder sb, List<ApiModel.MethodModel> methods,
-            boolean zh, Set<String> knownTypes, String classPrefix) {
+            boolean zh, Map<String, String> linkTargets) {
         if (methods.isEmpty()) {
             return;
         }
@@ -365,15 +515,19 @@ public class MDDoclet implements Doclet {
                 sb.append("**Parameters**\n\n");
                 for (ApiModel.ParameterModel parameter : method.parameters()) {
                     sb.append("- `").append(parameter.name()).append("` ").append(
-                            linkType(parameter.type(), knownTypes, classPrefix)
+                            linkType(parameter.type(), linkTargets)
                     ).append(": ").append(method.paramDocs().getOrDefault(parameter.name(),
-                            method.zhParamDocs().getOrDefault(parameter.name(), ""))).append("\n");
+                            method.zhParamDocs().getOrDefault(parameter.name(), "")));
+                    if (parameter.optional()) {
+                        sb.append(zh ? "（可选，缺省按方法说明取默认值）" : " (optional, defaults per the method description)");
+                    }
+                    sb.append("\n");
                 }
                 sb.append("\n");
             }
             String returns = text(method.returnDoc(), method.zhReturnDoc(), zh);
             if (!returns.isEmpty() || !method.returnType().equals("void")) {
-                sb.append("**Returns** ").append(linkType(method.returnType(), knownTypes, classPrefix));
+                sb.append("**Returns** ").append(linkType(method.returnType(), linkTargets));
                 if (!returns.isEmpty()) {
                     sb.append(" — ").append(returns);
                 }
@@ -411,20 +565,20 @@ public class MDDoclet implements Doclet {
                 sb.append(", ");
             }
             ApiModel.ParameterModel parameter = method.parameters().get(i);
-            sb.append(parameter.name()).append(": ").append(parameter.type());
+            sb.append(parameter.name()).append(parameter.optional() ? "?" : "")
+                    .append(": ").append(parameter.type());
         }
         return sb.toString();
     }
 
     /**
-     * Wraps known type names in wiki-style links to their pages under
-     * {@code classes/}. Unlinked regions stay one code span each so
+     * Wraps known type names in wiki-style links to their pages. The link
+     * target map supplies each known name's relative link prefix for the
+     * current page context. Unlinked regions stay one code span each so
      * generics like {@code Promise<void>} render verbatim; bare code spans
-     * are skipped when nothing links. {@code classPrefix} is empty on the
-     * class pages themselves (same directory) and {@code classes/} on
-     * module pages.
+     * are skipped when nothing links.
      */
-    private static String linkType(String type, Set<String> knownTypes, String classPrefix) {
+    private static String linkType(String type, Map<String, String> linkTargets) {
         if (type == null || type.isEmpty()) {
             return "`" + type + "`";
         }
@@ -434,13 +588,14 @@ public class MDDoclet implements Doclet {
         boolean linked = false;
         while (matcher.find()) {
             String word = matcher.group();
-            if (knownTypes.contains(word)) {
+            String prefix = linkTargets.get(word);
+            if (prefix != null) {
                 String before = type.substring(last, matcher.start());
                 if (!before.isEmpty()) {
                     out.append("`").append(before).append("`");
                 }
                 out.append("[").append(word).append("](")
-                        .append(classPrefix).append(word).append(".html)");
+                        .append(prefix).append(word).append(".html)");
                 last = matcher.end();
                 linked = true;
             }

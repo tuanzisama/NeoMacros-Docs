@@ -13,6 +13,7 @@ import ink.tuanzi.neomacros.doc.api.ApiExperimental;
 import ink.tuanzi.neomacros.doc.api.ApiInternal;
 import ink.tuanzi.neomacros.doc.api.ApiMC;
 import ink.tuanzi.neomacros.doc.api.ApiModule;
+import ink.tuanzi.neomacros.doc.api.ApiOptional;
 import ink.tuanzi.neomacros.doc.api.ApiPermission;
 import ink.tuanzi.neomacros.doc.api.ApiReadOnly;
 import ink.tuanzi.neomacros.doc.api.ApiLoader;
@@ -242,6 +243,25 @@ final class DocletSupport {
         return type.getAnnotation(ApiEvent.class);
     }
 
+    /** The script-facing payload class name of one event ({@code chat:receive} ->
+     * {@code ChatReceiveEvent}); mirrors the engine glue rule. */
+    static String eventClassName(String eventName) {
+        StringBuilder out = new StringBuilder();
+        boolean upperNext = true;
+        for (char ch : eventName.toCharArray()) {
+            if (ch == ':' || ch == '_' || ch == '-') {
+                upperNext = true;
+            } else if (upperNext) {
+                out.append(Character.toUpperCase(ch));
+                upperNext = false;
+            } else {
+                out.append(ch);
+            }
+        }
+        out.append("Event");
+        return out.toString();
+    }
+
     /** True when the method is a bean getter (getX/isX with no parameters and a non-void return). */
     static boolean isBeanGetter(ExecutableElement method) {
         String name = method.getSimpleName().toString();
@@ -308,15 +328,26 @@ final class DocletSupport {
                     (args.isEmpty() ? "unknown" : tsType(args.get(0))) + " | undefined";
             case "java.util.concurrent.CompletableFuture" ->
                     "Promise<" + (args.isEmpty() ? "void" : tsType(args.get(0))) + ">";
+            case "java.util.concurrent.Callable" ->
+                    "() => " + (args.isEmpty() ? "unknown" : tsType(args.get(0)));
+            case "java.util.function.Consumer" ->
+                    "(arg: " + (args.isEmpty() ? "unknown" : tsType(args.get(0))) + ") => void";
+            case "java.util.function.Predicate" ->
+                    "(arg: " + (args.isEmpty() ? "unknown" : tsType(args.get(0))) + ") => boolean";
+            case "java.util.function.DoubleConsumer" -> "(arg: number) => void";
+            case "java.lang.Runnable" -> "() => void";
+            case "ink.tuanzi.neomacros.core.event.Subscription" -> "unknown";
             default -> element.getSimpleName().toString();
         };
     }
 
-    /** Returns the parameters of the method as name/type pairs, honoring @ApiType overrides. */
+    /** Returns the parameters of the method as name/type pairs, honoring
+     * {@code @ApiType} overrides and the {@code @ApiOptional} marker. */
     static List<ApiModel.ParameterModel> parametersOf(ExecutableElement method) {
         return method.getParameters().stream()
                 .map(p -> new ApiModel.ParameterModel(p.getSimpleName().toString(),
-                        typeOverrideOf(p).orElseGet(() -> tsType(p.asType()))))
+                        typeOverrideOf(p).orElseGet(() -> tsType(p.asType())),
+                        p.getAnnotation(ApiOptional.class) != null))
                 .toList();
     }
 
