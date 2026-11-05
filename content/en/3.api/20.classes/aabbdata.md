@@ -1,4 +1,6 @@
-# AabbData
+---
+title: "AabbData"
+---
 
 Record type referenced in API signatures.
 

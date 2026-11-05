@@ -1,4 +1,6 @@
-# PlayerGlidingEvent
+---
+title: "PlayerGlidingEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:gliding`](../events/player/player-gliding) · Since: 0.2.0 · MC: * · Loader: *
 

@@ -1,4 +1,6 @@
-# player:health
+---
+title: "player:health"
+---
 
 Payload: [`PlayerHealthEvent`](../types/playerhealthevent) · Since: 0.1.0 · MC: * · Loader: *
 

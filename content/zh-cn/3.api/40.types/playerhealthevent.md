@@ -1,4 +1,6 @@
-# PlayerHealthEvent
+---
+title: "PlayerHealthEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:health`](../events/player/player-health) · Since: 0.1.0 · MC: * · Loader: *
 

@@ -1,4 +1,6 @@
-# JavaObject
+---
+title: "JavaObject"
+---
 
 Handle
 

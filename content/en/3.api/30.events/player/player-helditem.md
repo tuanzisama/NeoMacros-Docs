@@ -1,4 +1,6 @@
-# player:heldItem
+---
+title: "player:heldItem"
+---
 
 Payload: [`PlayerHeldItemEvent`](../types/playerhelditemevent) · Since: 0.1.0 · MC: * · Loader: *
 

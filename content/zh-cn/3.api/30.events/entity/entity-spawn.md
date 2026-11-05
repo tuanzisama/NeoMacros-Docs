@@ -1,4 +1,6 @@
-# entity:spawn
+---
+title: "entity:spawn"
+---
 
 Payload: [`EntitySpawnEvent`](../types/entityspawnevent) · Since: 0.1.0 · MC: * · Loader: *
 

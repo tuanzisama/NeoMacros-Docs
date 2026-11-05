@@ -1,4 +1,6 @@
-# world:dimensionChange
+---
+title: "world:dimensionChange"
+---
 
 Payload: [`WorldDimensionChangeEvent`](../types/worlddimensionchangeevent) · Since: 0.1.0 · MC: * · Loader: *
 

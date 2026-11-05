@@ -1,4 +1,6 @@
-# ChunkPos
+---
+title: "ChunkPos"
+---
 
 Data
 

@@ -1,4 +1,6 @@
-# entity:unload
+---
+title: "entity:unload"
+---
 
 Payload: [`EntityUnloadEvent`](../types/entityunloadevent) · Since: 0.1.0 · MC: * · Loader: *
 

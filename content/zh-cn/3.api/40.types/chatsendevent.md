@@ -1,4 +1,6 @@
-# ChatSendEvent
+---
+title: "ChatSendEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`chat:send`](../events/chat/chat-send) · Since: 0.1.0 · MC: * · Loader: *
 

@@ -1,4 +1,6 @@
-# PlayerSneakEvent
+---
+title: "PlayerSneakEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:sneak`](../events/player/player-sneak) · Since: 0.2.0 · MC: * · Loader: *
 

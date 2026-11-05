@@ -1,4 +1,6 @@
-# PlayerDimensionChangeEvent
+---
+title: "PlayerDimensionChangeEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:dimensionChange`](../events/player/player-dimensionchange) · Since: 0.1.0 · MC: * · Loader: *
 

@@ -1,4 +1,6 @@
-# world:bossbar
+---
+title: "world:bossbar"
+---
 
 Payload: [`WorldBossbarEvent`](../types/worldbossbarevent) · Since: 0.1.0 · MC: * · Loader: *
 

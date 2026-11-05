@@ -1,4 +1,6 @@
-# entity:heal
+---
+title: "entity:heal"
+---
 
 Payload: [`EntityHealEvent`](../types/entityhealevent) · Since: 0.1.0 · MC: * · Loader: *
 

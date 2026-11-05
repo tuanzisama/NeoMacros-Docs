@@ -1,4 +1,6 @@
-# Rot2d
+---
+title: "Rot2d"
+---
 
 Record type referenced in API signatures.
 

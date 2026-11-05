@@ -1,4 +1,6 @@
-# BaseEvent
+---
+title: "BaseEvent"
+---
 
 Base class shared by all event payloads; dispatched event instances are frozen subclasses of it.
 

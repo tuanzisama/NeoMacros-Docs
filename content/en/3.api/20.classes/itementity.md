@@ -1,4 +1,6 @@
-# ItemEntity
+---
+title: "ItemEntity"
+---
 
 Handle · Wraps: `net.minecraft.world.entity.item.ItemEntity` · Extends: [`Entity`](entity)
 

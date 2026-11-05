@@ -1,4 +1,6 @@
-# player:join
+---
+title: "player:join"
+---
 
 Payload: [`PlayerJoinEvent`](../types/playerjoinevent) · Since: 0.1.0 · MC: * · Loader: *
 

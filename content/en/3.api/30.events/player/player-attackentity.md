@@ -1,4 +1,6 @@
-# player:attackEntity
+---
+title: "player:attackEntity"
+---
 
 Payload: [`PlayerAttackEntityEvent`](../types/playerattackentityevent) · Cancellable · Since: 0.1.0 · MC: * · Loader: *
 

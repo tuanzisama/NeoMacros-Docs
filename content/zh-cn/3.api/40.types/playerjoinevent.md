@@ -1,4 +1,6 @@
-# PlayerJoinEvent
+---
+title: "PlayerJoinEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:join`](../events/player/player-join) · Since: 0.1.0 · MC: * · Loader: *
 

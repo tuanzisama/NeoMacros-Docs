@@ -1,4 +1,6 @@
-# entity:damage
+---
+title: "entity:damage"
+---
 
 Payload: [`EntityDamageEvent`](../types/entitydamageevent) · Since: 0.1.0 · MC: * · Loader: *
 

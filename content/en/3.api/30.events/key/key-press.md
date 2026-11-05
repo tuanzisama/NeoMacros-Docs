@@ -1,4 +1,6 @@
-# key:press
+---
+title: "key:press"
+---
 
 Payload: [`KeyPressEvent`](../types/keypressevent) · Cancellable · Since: 0.1.0 · MC: * · Loader: *
 

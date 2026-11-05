@@ -1,4 +1,6 @@
-# player:leave
+---
+title: "player:leave"
+---
 
 Payload: [`PlayerLeaveEvent`](../types/playerleaveevent) · Since: 0.1.0 · MC: * · Loader: *
 

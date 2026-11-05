@@ -1,4 +1,6 @@
-# world:weather
+---
+title: "world:weather"
+---
 
 Payload: [`WorldWeatherEvent`](../types/worldweatherevent) · Since: 0.1.0 · MC: * · Loader: *
 

@@ -1,4 +1,6 @@
-# world:sound
+---
+title: "world:sound"
+---
 
 Payload: [`WorldSoundEvent`](../types/worldsoundevent) · Since: 0.1.0 · MC: * · Loader: *
 

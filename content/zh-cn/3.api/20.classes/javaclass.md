@@ -1,4 +1,6 @@
-# JavaClass
+---
+title: "JavaClass"
+---
 
 Handle
 

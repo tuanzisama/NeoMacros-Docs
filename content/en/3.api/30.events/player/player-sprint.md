@@ -1,4 +1,6 @@
-# player:sprint
+---
+title: "player:sprint"
+---
 
 Payload: [`PlayerSprintEvent`](../types/playersprintevent) · Since: 0.2.0 · MC: * · Loader: *
 

@@ -1,4 +1,6 @@
-# player:respawn
+---
+title: "player:respawn"
+---
 
 Payload: [`PlayerRespawnEvent`](../types/playerrespawnevent) · Since: 0.1.0 · MC: * · Loader: *
 

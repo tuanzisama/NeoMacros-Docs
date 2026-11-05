@@ -1,4 +1,6 @@
-# entity:load
+---
+title: "entity:load"
+---
 
 Payload: [`EntityLoadEvent`](../types/entityloadevent) · Since: 0.1.0 · MC: * · Loader: *
 

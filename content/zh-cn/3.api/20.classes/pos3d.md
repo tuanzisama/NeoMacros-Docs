@@ -1,4 +1,6 @@
-# Pos3d
+---
+title: "Pos3d"
+---
 
 API 签名中引用的 record 类型。
 

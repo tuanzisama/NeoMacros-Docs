@@ -1,4 +1,6 @@
-# EntitySpawnEvent
+---
+title: "EntitySpawnEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`entity:spawn`](../events/entity/entity-spawn) · Since: 0.1.0 · MC: * · Loader: *
 

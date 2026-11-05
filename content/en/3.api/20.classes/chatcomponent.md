@@ -1,4 +1,6 @@
-# ChatComponent
+---
+title: "ChatComponent"
+---
 
 Record type referenced in API signatures.
 

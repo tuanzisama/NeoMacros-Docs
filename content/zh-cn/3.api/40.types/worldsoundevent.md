@@ -1,4 +1,6 @@
-# WorldSoundEvent
+---
+title: "WorldSoundEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`world:sound`](../events/world/world-sound) · Since: 0.1.0 · MC: * · Loader: *
 

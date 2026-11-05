@@ -1,4 +1,6 @@
-# EntityDamageEvent
+---
+title: "EntityDamageEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`entity:damage`](../events/entity/entity-damage) · Since: 0.1.0 · MC: * · Loader: *
 

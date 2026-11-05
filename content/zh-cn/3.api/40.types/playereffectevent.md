@@ -1,4 +1,6 @@
-# PlayerEffectEvent
+---
+title: "PlayerEffectEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:effect`](../events/player/player-effect) · Since: 0.1.0 · MC: * · Loader: *
 

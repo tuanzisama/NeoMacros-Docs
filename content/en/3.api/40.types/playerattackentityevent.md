@@ -1,4 +1,6 @@
-# PlayerAttackEntityEvent
+---
+title: "PlayerAttackEntityEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:attackEntity`](../events/player/player-attackentity) · Since: 0.1.0 · MC: * · Loader: *
 

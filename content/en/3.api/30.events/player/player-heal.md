@@ -1,4 +1,6 @@
-# player:heal
+---
+title: "player:heal"
+---
 
 Payload: [`PlayerHealEvent`](../types/playerhealevent) · Since: 0.1.0 · MC: * · Loader: *
 

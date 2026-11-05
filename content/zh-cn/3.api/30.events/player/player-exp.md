@@ -1,4 +1,6 @@
-# player:exp
+---
+title: "player:exp"
+---
 
 Payload: [`PlayerExpEvent`](../types/playerexpevent) · Since: 0.1.0 · MC: * · Loader: *
 

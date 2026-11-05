@@ -1,4 +1,6 @@
-# tick
+---
+title: "tick"
+---
 
 Payload: [`TickEvent`](../types/tickevent) · Since: 0.1.0 · MC: * · Loader: *
 

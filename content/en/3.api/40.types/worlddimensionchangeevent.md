@@ -1,4 +1,6 @@
-# WorldDimensionChangeEvent
+---
+title: "WorldDimensionChangeEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`world:dimensionChange`](../events/world/world-dimensionchange) · Since: 0.1.0 · MC: * · Loader: *
 

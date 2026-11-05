@@ -1,4 +1,6 @@
-# PlayerLeaveEvent
+---
+title: "PlayerLeaveEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:leave`](../events/player/player-leave) · Since: 0.1.0 · MC: * · Loader: *
 

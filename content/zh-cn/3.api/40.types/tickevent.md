@@ -1,4 +1,6 @@
-# TickEvent
+---
+title: "TickEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`tick`](../events/tick/tick) · Since: 0.1.0 · MC: * · Loader: *
 

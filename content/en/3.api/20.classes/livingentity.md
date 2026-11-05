@@ -1,4 +1,6 @@
-# LivingEntity
+---
+title: "LivingEntity"
+---
 
 Handle · Wraps: `net.minecraft.world.entity.LivingEntity` · Extends: [`Entity`](entity) · Extended by: [`Player`](player)
 

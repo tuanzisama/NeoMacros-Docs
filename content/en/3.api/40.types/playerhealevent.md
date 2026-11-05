@@ -1,4 +1,6 @@
-# PlayerHealEvent
+---
+title: "PlayerHealEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:heal`](../events/player/player-heal) · Since: 0.1.0 · MC: * · Loader: *
 

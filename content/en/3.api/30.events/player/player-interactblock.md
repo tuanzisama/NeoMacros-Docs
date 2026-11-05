@@ -1,4 +1,6 @@
-# player:interactBlock
+---
+title: "player:interactBlock"
+---
 
 Payload: [`PlayerInteractBlockEvent`](../types/playerinteractblockevent) · Cancellable · Since: 0.1.0 · MC: * · Loader: *
 

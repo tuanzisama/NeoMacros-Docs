@@ -1,4 +1,6 @@
-# ItemStackBuilder
+---
+title: "ItemStackBuilder"
+---
 
 Data
 

@@ -1,4 +1,6 @@
-# world:blockUpdate
+---
+title: "world:blockUpdate"
+---
 
 Payload: [`WorldBlockUpdateEvent`](../types/worldblockupdateevent) · Since: 0.1.0 · MC: * · Loader: *
 

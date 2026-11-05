@@ -1,4 +1,6 @@
-# ChatComponent
+---
+title: "ChatComponent"
+---
 
 API 签名中引用的 record 类型。
 

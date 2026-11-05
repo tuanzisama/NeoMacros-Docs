@@ -1,4 +1,6 @@
-# player:death
+---
+title: "player:death"
+---
 
 Payload: [`PlayerDeathEvent`](../types/playerdeathevent) · Since: 0.1.0 · MC: * · Loader: *
 

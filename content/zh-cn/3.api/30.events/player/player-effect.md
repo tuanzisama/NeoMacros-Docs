@@ -1,4 +1,6 @@
-# player:effect
+---
+title: "player:effect"
+---
 
 Payload: [`PlayerEffectEvent`](../types/playereffectevent) · Since: 0.1.0 · MC: * · Loader: *
 

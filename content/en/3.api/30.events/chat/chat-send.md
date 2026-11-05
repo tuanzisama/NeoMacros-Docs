@@ -1,4 +1,6 @@
-# chat:send
+---
+title: "chat:send"
+---
 
 Payload: [`ChatSendEvent`](../types/chatsendevent) · Cancellable · Since: 0.1.0 · MC: * · Loader: *
 

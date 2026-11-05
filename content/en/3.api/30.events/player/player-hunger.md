@@ -1,4 +1,6 @@
-# player:hunger
+---
+title: "player:hunger"
+---
 
 Payload: [`PlayerHungerEvent`](../types/playerhungerevent) · Since: 0.1.0 · MC: * · Loader: *
 

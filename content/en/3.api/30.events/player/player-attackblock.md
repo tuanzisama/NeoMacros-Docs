@@ -1,4 +1,6 @@
-# player:attackBlock
+---
+title: "player:attackBlock"
+---
 
 Payload: [`PlayerAttackBlockEvent`](../types/playerattackblockevent) · Cancellable · Since: 0.1.0 · MC: * · Loader: *
 

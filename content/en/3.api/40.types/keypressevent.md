@@ -1,4 +1,6 @@
-# KeyPressEvent
+---
+title: "KeyPressEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`key:press`](../events/key/key-press) · Since: 0.1.0 · MC: * · Loader: *
 

@@ -1,4 +1,6 @@
-# world:time
+---
+title: "world:time"
+---
 
 Payload: [`WorldTimeEvent`](../types/worldtimeevent) · Since: 0.1.0 · MC: * · Loader: *
 

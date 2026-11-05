@@ -1,4 +1,6 @@
-# world:chunkUnload
+---
+title: "world:chunkUnload"
+---
 
 Payload: [`WorldChunkUnloadEvent`](../types/worldchunkunloadevent) · Since: 0.1.0 · MC: * · Loader: *
 

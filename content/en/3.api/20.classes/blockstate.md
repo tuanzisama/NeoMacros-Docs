@@ -1,4 +1,6 @@
-# BlockState
+---
+title: "BlockState"
+---
 
 Data
 

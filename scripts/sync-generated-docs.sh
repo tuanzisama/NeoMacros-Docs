@@ -174,6 +174,20 @@ fix_module_links() {
   sed -E -i 's#]\((classes|events|types)/#](../../\1/#g' "$1"
 }
 
+# MDDoclet leads every page with an H1, but the Docus docs layout already
+# renders the page title (Content v3 extracts it) — the H1 made every page
+# show its title twice. Convert the leading H1 into frontmatter title and
+# drop the blank line after it. Generator titles are identifiers/slugs and
+# never contain double quotes or backslashes, so plain quoting is safe.
+frontmatter_title() {
+  local f="$1" title
+  [[ "$(head -c 2 "$f")" == "# " ]] || return 0
+  title="$(sed '1s/^# //' "$f" | head -n1)"
+  printf -- '---\ntitle: "%s"\n---\n\n' "$title" > "$f.tmp"
+  sed '1d' "$f" | sed '1{/^$/d}' >> "$f.tmp"
+  mv "$f.tmp" "$f"
+}
+
 write_navigation en
 write_navigation zh-cn
 
@@ -188,6 +202,7 @@ while IFS= read -r f; do
       dest="$site/content/en/3.api/$target"
       mkdir -p "$(dirname "$dest")"
       cp "$f" "$dest"
+      frontmatter_title "$dest"
       strip_html_links "$dest"
       case "$target" in 10.modules/*) fix_module_links "$dest" ;; esac
       append_examples "$dest" "$examples/en/$(basename "$f")"
@@ -203,6 +218,7 @@ while IFS= read -r f; do
   dest="$site/content/zh-cn/3.api/$target"
   mkdir -p "$(dirname "$dest")"
   cp "$f" "$dest"
+  frontmatter_title "$dest"
   strip_html_links "$dest"
   case "$target" in 10.modules/*) fix_module_links "$dest" ;; esac
   append_examples "$dest" "$examples/zh/$name"

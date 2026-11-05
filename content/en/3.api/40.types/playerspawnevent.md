@@ -1,4 +1,6 @@
-# PlayerSpawnEvent
+---
+title: "PlayerSpawnEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:spawn`](../events/player/player-spawn) · Since: 0.1.0 · MC: * · Loader: *
 

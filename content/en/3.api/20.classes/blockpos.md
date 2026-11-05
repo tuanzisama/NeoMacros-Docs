@@ -1,4 +1,6 @@
-# BlockPos
+---
+title: "BlockPos"
+---
 
 Data · Extends: [`Pos3D`](pos3d)
 

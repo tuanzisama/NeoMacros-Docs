@@ -1,4 +1,6 @@
-# input:wheel
+---
+title: "input:wheel"
+---
 
 Payload: [`InputWheelEvent`](../types/inputwheelevent) · Since: 0.1.0 · MC: * · Loader: *
 

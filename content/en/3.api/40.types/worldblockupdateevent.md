@@ -1,4 +1,6 @@
-# WorldBlockUpdateEvent
+---
+title: "WorldBlockUpdateEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`world:blockUpdate`](../events/world/world-blockupdate) · Since: 0.1.0 · MC: * · Loader: *
 

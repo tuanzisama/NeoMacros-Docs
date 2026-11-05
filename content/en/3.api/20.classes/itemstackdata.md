@@ -1,4 +1,6 @@
-# ItemStackData
+---
+title: "ItemStackData"
+---
 
 Record type referenced in API signatures.
 

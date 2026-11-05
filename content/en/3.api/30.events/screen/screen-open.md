@@ -1,4 +1,6 @@
-# screen:open
+---
+title: "screen:open"
+---
 
 Payload: [`ScreenOpenEvent`](../types/screenopenevent) · Since: 0.1.0 · MC: * · Loader: *
 

@@ -1,4 +1,6 @@
-# PlayerHungerEvent
+---
+title: "PlayerHungerEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:hunger`](../events/player/player-hunger) · Since: 0.1.0 · MC: * · Loader: *
 

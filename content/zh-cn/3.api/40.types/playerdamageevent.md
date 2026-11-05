@@ -1,4 +1,6 @@
-# PlayerDamageEvent
+---
+title: "PlayerDamageEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:damage`](../events/player/player-damage) · Since: 0.1.0 · MC: * · Loader: *
 

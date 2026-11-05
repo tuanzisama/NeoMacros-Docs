@@ -1,4 +1,6 @@
-# EntitySnapshot
+---
+title: "EntitySnapshot"
+---
 
 Record type referenced in API signatures.
 

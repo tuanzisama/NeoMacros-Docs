@@ -1,4 +1,6 @@
-# LocalPlayer
+---
+title: "LocalPlayer"
+---
 
 Handle · Wraps: `net.minecraft.client.player.LocalPlayer` · Extends: [`Player`](player)
 

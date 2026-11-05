@@ -1,4 +1,6 @@
-# player:air
+---
+title: "player:air"
+---
 
 Payload: [`PlayerAirEvent`](../types/playerairevent) · Since: 0.1.0 · MC: * · Loader: *
 

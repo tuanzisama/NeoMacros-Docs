@@ -1,4 +1,6 @@
-# player:dimensionChange
+---
+title: "player:dimensionChange"
+---
 
 Payload: [`PlayerDimensionChangeEvent`](../types/playerdimensionchangeevent) · Since: 0.1.0 · MC: * · Loader: *
 

@@ -1,4 +1,6 @@
-# PlayerAttackBlockEvent
+---
+title: "PlayerAttackBlockEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:attackBlock`](../events/player/player-attackblock) · Since: 0.1.0 · MC: * · Loader: *
 

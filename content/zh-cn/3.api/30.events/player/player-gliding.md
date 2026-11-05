@@ -1,4 +1,6 @@
-# player:gliding
+---
+title: "player:gliding"
+---
 
 Payload: [`PlayerGlidingEvent`](../types/playerglidingevent) · Since: 0.2.0 · MC: * · Loader: *
 

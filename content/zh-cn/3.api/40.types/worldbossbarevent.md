@@ -1,4 +1,6 @@
-# WorldBossbarEvent
+---
+title: "WorldBossbarEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`world:bossbar`](../events/world/world-bossbar) · Since: 0.1.0 · MC: * · Loader: *
 

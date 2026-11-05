@@ -1,4 +1,6 @@
-# PlayerInteractEntityEvent
+---
+title: "PlayerInteractEntityEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:interactEntity`](../events/player/player-interactentity) · Since: 0.1.0 · MC: * · Loader: *
 

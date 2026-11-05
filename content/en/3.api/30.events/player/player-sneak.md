@@ -1,4 +1,6 @@
-# player:sneak
+---
+title: "player:sneak"
+---
 
 Payload: [`PlayerSneakEvent`](../types/playersneakevent) · Since: 0.2.0 · MC: * · Loader: *
 

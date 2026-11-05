@@ -1,4 +1,6 @@
-# Player
+---
+title: "Player"
+---
 
 Handle · Wraps: `net.minecraft.world.entity.player.Player` · Extends: [`LivingEntity`](livingentity) · Extended by: [`LocalPlayer`](localplayer)
 

@@ -1,4 +1,6 @@
-# PlayerInventory
+---
+title: "PlayerInventory"
+---
 
 Handle · Extends: [`Inventory`](inventory)
 

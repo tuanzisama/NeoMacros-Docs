@@ -1,4 +1,6 @@
-# EntityUnloadEvent
+---
+title: "EntityUnloadEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`entity:unload`](../events/entity/entity-unload) · Since: 0.1.0 · MC: * · Loader: *
 

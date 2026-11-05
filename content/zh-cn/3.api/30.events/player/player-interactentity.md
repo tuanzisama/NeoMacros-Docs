@@ -1,4 +1,6 @@
-# player:interactEntity
+---
+title: "player:interactEntity"
+---
 
 Payload: [`PlayerInteractEntityEvent`](../types/playerinteractentityevent) · Cancellable · Since: 0.1.0 · MC: * · Loader: *
 

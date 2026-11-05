@@ -1,4 +1,6 @@
-# PlayerHeldItemEvent
+---
+title: "PlayerHeldItemEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`player:heldItem`](../events/player/player-helditem) · Since: 0.1.0 · MC: * · Loader: *
 

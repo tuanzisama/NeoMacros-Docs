@@ -1,4 +1,6 @@
-# ChatReceiveEvent
+---
+title: "ChatReceiveEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`chat:receive`](../events/chat/chat-receive) · Since: 0.1.0 · MC: * · Loader: *
 

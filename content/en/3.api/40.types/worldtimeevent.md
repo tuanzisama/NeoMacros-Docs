@@ -1,4 +1,6 @@
-# WorldTimeEvent
+---
+title: "WorldTimeEvent"
+---
 
 Extends: [`BaseEvent`](baseevent) · Raised by: [`world:time`](../events/world/world-time) · Since: 0.1.0 · MC: * · Loader: *
 

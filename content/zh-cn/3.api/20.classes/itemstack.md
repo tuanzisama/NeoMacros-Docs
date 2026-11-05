@@ -1,4 +1,6 @@
-# ItemStack
+---
+title: "ItemStack"
+---
 
 Data
 
