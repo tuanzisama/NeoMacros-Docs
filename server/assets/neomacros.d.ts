@@ -372,7 +372,7 @@ declare module '@neomacros/java' {
 }
 
 declare module '@neomacros/net' {
-    /** The neo.net facade: HTTP client with fetch semantics. Requests run on a dedicated IO executor and require the net capability; the promise settles with a live whose body readers (text(), json(), bytes()) are async. Each settled request is also recorded through for the DevTools network panel — previews always, phase timings, and full bodies up to only while a sink listens. Recording is free when no dispatcher listens. */
+    /** The neo.net facade: HTTP client with fetch semantics. Requests run on a dedicated IO executor and require the net capability; the promise settles with a live whose body readers (text(), json(), bytes()) are async. */
     export interface NetApi {
         /** Performs an HTTP request with fetch semantics. The init object carries method (default GET), headers (map) and body (string). @since 0.1.0 @mc * @requires permission 'net' */
         fetch(url: string, init: unknown): Promise<import('@neomacros/types').Response>;
@@ -382,37 +382,6 @@ declare module '@neomacros/net' {
         post(url: string, body: string): Promise<import('@neomacros/types').Response>;
     }
     export const net: NetApi;
-}
-
-declare module '@neomacros/performance' {
-    /** The neo.performance facade: Web-Performance-style macro profiling — a high-resolution monotonic clock anchored at the script's session origin, plus User Timing marks and measures kept in a bounded per-script buffer. Wall-clock timestamps remain the domain of the ES-native Date.now(); this module measures durations. Each script session owns an isolated timeline, so timeOrigin and buffered entries reset when the script reloads. */
-    export interface PerformanceApi {
-        /** All kept entries in insertion order; the buffer keeps the newest 4096 and evicts older ones. (The MDN getEntries() query lands as a read-only property under the house no-argument-property rule.) @since 0.2.0 @mc * */
-        readonly entries: Array<PerformanceEntry>;
-        /** Wall-clock time, in milliseconds, at which this script's session started; performance.timeOrigin + performance.now() stays comparable to Date.now(). @since 0.2.0 @mc * */
-        readonly timeOrigin: number;
-        /** Removes recorded marks — all of them when name is omitted, otherwise only those under that name. @since 0.2.0 @mc * */
-        clearMarks(name?: string): void;
-        /** Removes recorded measures — all of them when name is omitted, otherwise only those under that name. @since 0.2.0 @mc * */
-        clearMeasures(name?: string): void;
-        /** Kept entries under name, optionally restricted to one entryType ("mark" or "measure"). @since 0.2.0 @mc * */
-        entriesByName(name: string, entryType?: string): Array<PerformanceEntry>;
-        /** Kept entries of one entryType ("mark" or "measure"); unknown types return an empty array. @since 0.2.0 @mc * */
-        entriesByType(entryType: string): Array<PerformanceEntry>;
-        /** Records a zero-duration timestamp under name and returns the stored entry; the name must be non-empty. @since 0.2.0 @mc * */
-        mark(name: string): PerformanceEntry;
-        /** Records a duration under name spanning start to end and returns the stored entry. Each bound accepts a mark name (that mark's timestamp) or a raw now() timestamp; omitted bounds default to the session origin and the current time. @since 0.2.0 @mc * */
-        measure(name: string, start?: string | number, end?: string | number): PerformanceEntry;
-        /** High-resolution monotonic timestamp in milliseconds (microsecond precision) since this script's session origin; unlike Date.now() it never steps backward with wall-clock changes. @since 0.2.0 @mc * */
-        now(): number;
-    }
-    export const performance: PerformanceApi;
-    export interface PerformanceEntry {
-        duration: number;
-        entryType: string;
-        name: string;
-        startTime: number;
-    }
 }
 
 declare module '@neomacros/player' {
@@ -1162,7 +1131,6 @@ declare const neo: {
     input: import('@neomacros/input').InputApi;
     java: import('@neomacros/java').JavaApi;
     net: import('@neomacros/net').NetApi;
-    performance: import('@neomacros/performance').PerformanceApi;
     player: import('@neomacros/player').PlayerApi;
     reflect: import('@neomacros/reflect').ReflectApi;
     render: import('@neomacros/render').RenderApi;
