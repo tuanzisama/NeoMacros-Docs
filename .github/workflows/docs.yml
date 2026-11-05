@@ -52,6 +52,9 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
       - name: Publish doc-api annotations to the local repository
         working-directory: mod
         run: ./gradlew :doc-api:publishToMavenLocal --console=plain
