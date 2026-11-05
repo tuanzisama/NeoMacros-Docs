@@ -9,7 +9,7 @@
     "api:sync": "bash scripts/sync-generated-docs.sh"
   },
   "dependencies": {
-    "docus": "latest",
+    "docus": "^5.15.0",
     "better-sqlite3": "^12.11.1",
     "nuxt": "^4.4.8"
   }
