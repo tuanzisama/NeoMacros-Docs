@@ -242,41 +242,4 @@ if [[ -f "$supplement" ]]; then
   cat "$supplement" >> "$site/server/assets/neomacros.d.ts"
 fi
 
-# Legacy-URL redirect manifest for nuxt.config's routeRules, derived from
-# the synced tree so the config carries no hardcoded API names and the
-# manifest always matches the shipped pages: module pages moved under
-# Modules/<domain>/ keep their old flat URLs, event payload types that
-# merged into Classes & types keep their old /types/ URLs (only for pages
-# that actually exist — a types page the generator no longer emits gets no
-# orphan redirect). One rule per page — a trailing-slash variant would map
-# to the same prerendered index.html and the concurrent prerender workers
-# race, nondeterministically dropping the file; a "/x/" request reaches the
-# same file through the directory index anyway. nuxt.config reads this file
-# at startup.
-manifest="$repo_root/redirects.manifest.json"
-{
-  printf '['
-  first=1
-  for f in "$site"/content/en/3.api/10.modules/*/*.md; do
-    name="$(basename "$f" .md)"
-    dir="$(basename "$(dirname "$f")")"
-    for loc in en zh-cn; do
-      [[ "$first" -eq 1 ]] || printf ','
-      first=0
-      printf '\n  { "from": "/%s/api/%s", "to": "/%s/api/modules/%s/%s" }' "$loc" "$name" "$loc" "$dir" "$name"
-    done
-  done
-  for f in "$gen_md"/api/types/*.md; do
-    case "$f" in *.zh.md) continue ;; esac
-    name="$(basename "$f" .md | tr '[:upper:]' '[:lower:]')"
-    [[ -f "$site/content/en/3.api/20.classes/$name.md" ]] || continue
-    for loc in en zh-cn; do
-      [[ "$first" -eq 1 ]] || printf ','
-      first=0
-      printf '\n  { "from": "/%s/api/types/%s", "to": "/%s/api/classes/%s" }' "$loc" "$name" "$loc" "$name"
-    done
-  done
-  printf '\n]\n'
-} > "$manifest"
-
 echo "synced $(find "$site/content/en/3.api" -name '*.md' ! -name 'index.md' | wc -l) module page(s) into the site"
