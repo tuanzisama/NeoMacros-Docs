@@ -16,6 +16,8 @@ on:
       - "content/**"
       - "api-examples/**"
       - "server/**"
+      - "package.json"
+      - "package-lock.json"
       - ".github/workflows/docs.yml"
   repository_dispatch:
     types: [api-docs]
