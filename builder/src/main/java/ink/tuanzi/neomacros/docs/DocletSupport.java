@@ -13,7 +13,6 @@ import ink.tuanzi.neomacros.doc.api.ApiExperimental;
 import ink.tuanzi.neomacros.doc.api.ApiInternal;
 import ink.tuanzi.neomacros.doc.api.ApiMC;
 import ink.tuanzi.neomacros.doc.api.ApiModule;
-import ink.tuanzi.neomacros.doc.api.ApiOptional;
 import ink.tuanzi.neomacros.doc.api.ApiPermission;
 import ink.tuanzi.neomacros.doc.api.ApiReadOnly;
 import ink.tuanzi.neomacros.doc.api.ApiLoader;
@@ -341,13 +340,22 @@ final class DocletSupport {
         };
     }
 
+    /** Whether the element carries {@code @ApiOptional}, detected by qualified
+     * name: the marker only exists in doc-api revisions that ship it, and a
+     * compile-time reference here would break builds against older jars. */
+    static boolean hasApiOptional(Element element) {
+        return element.getAnnotationMirrors().stream().anyMatch(mirror ->
+                mirror.getAnnotationType().toString()
+                        .equals("ink.tuanzi.neomacros.doc.api.ApiOptional"));
+    }
+
     /** Returns the parameters of the method as name/type pairs, honoring
      * {@code @ApiType} overrides and the {@code @ApiOptional} marker. */
     static List<ApiModel.ParameterModel> parametersOf(ExecutableElement method) {
         return method.getParameters().stream()
                 .map(p -> new ApiModel.ParameterModel(p.getSimpleName().toString(),
                         typeOverrideOf(p).orElseGet(() -> tsType(p.asType())),
-                        p.getAnnotation(ApiOptional.class) != null))
+                        hasApiOptional(p)))
                 .toList();
     }
 
