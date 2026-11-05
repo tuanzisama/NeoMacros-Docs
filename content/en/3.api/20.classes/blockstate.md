@@ -1,9 +1,9 @@
 ---
 title: "BlockState"
-description: "Data"
+description: "Immutable block state: the namespaced block identifier plus the vanilla state properties (facing, open, ...)."
 ---
 
-Immutable block state: the namespaced block identifier plus the vanilla state properties (facing, open, ...).
+Data
 
 ## Properties
 

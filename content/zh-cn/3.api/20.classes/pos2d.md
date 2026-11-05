@@ -1,9 +1,9 @@
 ---
 title: "Pos2D"
-description: "Data"
+description: "不可变二维点：旋转（yaw, pitch）与屏幕坐标。所有运算都返回新实例。"
 ---
 
-不可变二维点：旋转（yaw, pitch）与屏幕坐标。所有运算都返回新实例。
+Data
 
 ## Properties
 

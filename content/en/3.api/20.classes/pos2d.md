@@ -1,9 +1,9 @@
 ---
 title: "Pos2D"
-description: "Data"
+description: "Immutable two-dimensional point: rotations (yaw, pitch) and screen coordinates. Every operation returns a new instance."
 ---
 
-Immutable two-dimensional point: rotations (yaw, pitch) and screen coordinates. Every operation returns a new instance.
+Data
 
 ## Properties
 

@@ -1,9 +1,9 @@
 ---
 title: "ChunkPos"
-description: "Data"
+description: "Immutable chunk-grid coordinate. Deliberately unrelated to : chunk coordinates and block coordinates are different spaces and every conversion between them is explicit (x = blockX >> 4)."
 ---
 
-Immutable chunk-grid coordinate. Deliberately unrelated to : chunk coordinates and block coordinates are different spaces and every conversion between them is explicit (x = blockX >> 4).
+Data
 
 ## Properties
 
