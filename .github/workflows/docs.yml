@@ -1,0 +1,98 @@
+name: docs
+
+# Regenerates the API documentation from the NeoMacros mod sources
+# (builder/) and commits it when the output differs from the committed
+# trees. The site build doubles as validation for the synced content.
+#
+# Triggers: pushes touching the pipeline or site, manual dispatch, and the
+# `api-docs` repository_dispatch event sent by the mod repository's
+# docs-dispatch workflow when its API sources change.
+on:
+  push:
+    branches: [master]
+    paths:
+      - "builder/**"
+      - "scripts/**"
+      - "content/**"
+      - "api-examples/**"
+      - "server/**"
+      - ".github/workflows/docs.yml"
+  repository_dispatch:
+    types: [api-docs]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: docs-regen
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: regenerate docs site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      # The mod repository holds the facade sources (core + ports) the
+      # generator scans and the doc-api annotations it resolves by
+      # coordinates from the local repository.
+      - uses: actions/checkout@v5
+        with:
+          repository: tuanzisama/NeoMacros
+          path: mod
+
+      # The builder's Gradle build runs its toolchain on JVM 25 (the same
+      # JDK the mod build's daemon needs for fabric-loom).
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 25
+
+      - uses: gradle/actions/setup-gradle@v5
+
+      - name: Publish doc-api annotations to the local repository
+        working-directory: mod
+        run: ./gradlew :doc-api:publishToMavenLocal --console=plain
+
+      - name: Generate API docs from the current sources
+        run: ./gradlew -p builder generateApiDocs -PneomacrosRoot="${{ github.workspace }}/mod" --console=plain
+
+      - name: Sync generated docs into the site
+        run: bash scripts/sync-generated-docs.sh
+
+      # Generation warnings (missing translations, missing @ApiSince) stay
+      # inspectable without failing the build.
+      - name: Upload generation warnings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-docs-warnings
+          path: builder/build/gen/md/api/warnings.txt
+          if-no-files-found: ignore
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The site build doubles as validation: it fails when the synced
+      # trees cannot produce a working site.
+      - name: Build site
+        run: npm run generate
+
+      - name: Commit regenerated docs
+        run: |
+          git config user.name "neomacros-docs-bot"
+          git config user.email "docs-bot@users.noreply.github.com"
+          git add content server/assets
+          if git diff --cached --quiet; then
+            echo "No drift; the committed docs already match the sources."
+          else
+            git commit -m "docs(api): regenerate documentation from sources"
+            git push
+          fi

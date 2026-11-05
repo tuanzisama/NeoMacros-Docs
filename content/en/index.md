@@ -1,26 +1,20 @@
 ---
-seo:
-  title: Write beautiful docs with Markdown
-  description: Ship fast, flexible, and SEO-optimized documentation with beautiful
-    design out of the box. Docus brings together the best of the Nuxt ecosystem.
-    Powered by Nuxt UI.
+title: NeoMacros
+description: ECMAScript client scripting for Minecraft (Fabric)
 ---
 
 ::u-page-hero
 #title
-Write beautiful docs with Markdown
-
+NeoMacros
 #description
-Ship fast, flexible, and SEO-optimized documentation with beautiful design out of the box.
-
-Docus brings the best of the Nuxt ecosystem into one CLI.
-
+Client-side scripting for Minecraft with plain JavaScript. Write ES modules,
+hook into 49 game events, draw HUD overlays, and automate anything — all
+sandboxed behind an explicit permission model.
 #links
   :::u-button
   ---
-  color: neutral
   size: xl
-  to: /en/getting-started/installation
+  to: /en/guide/getting-started
   trailing-icon: i-lucide-arrow-right
   ---
   Get started
@@ -29,95 +23,114 @@ Docus brings the best of the Nuxt ecosystem into one CLI.
   :::u-button
   ---
   color: neutral
-  icon: simple-icons-github
   size: xl
-  to: https://github.com/nuxt-content/docus
+  to: /en/examples/overview/
   variant: outline
   ---
-  Star on GitHub
+  Examples
+  :::
+
+  :::u-button
+  ---
+  color: neutral
+  size: xl
+  to: /en/api/overview/
+  variant: outline
+  ---
+  API Reference
   :::
 ::
 
 ::u-page-section
+  :::u-page-grid
+    ::::u-page-card
+    ---
+    spotlight: true
+  to: /en/guide/first-script
+    ---
+    #title
+    Real JavaScript, not a dialect
+    #description
+    Powered by GraalJS: ES modules, promises, async/await, and a real event
+    loop per script. Debug with familiar tooling and the generated
+    `neomacros.d.ts` type definitions.
+    ::::
+
+    ::::u-page-card
+    ---
+    spotlight: true
+  to: /en/guide/events
+    ---
+    #title
+    Hook into the game
+    #description
+    49 client events across chat, player, entity, world, input, and screen
+    domains — subscribe with `neo.events.on`, filter high-frequency streams,
+    and cancel actions at the boundary.
+    ::::
+
+    ::::u-page-card
+    ---
+    spotlight: true
+  to: /en/guide/hud-rendering
+    ---
+    #title
+    Draw on screen and in world
+    #description
+    Persistent HUD text overlays and world-space wireframes that survive
+    across frames, cleaned up automatically when your script unloads.
+    ::::
+
+    ::::u-page-card
+    ---
+    spotlight: true
+  to: /en/guide/permissions-trust
+    ---
+    #title
+    Sandboxed by design
+    #description
+    Filesystem, network, and Java interop are capability-gated. You grant
+    each script exactly what it needs — nothing more — through the trust
+    system.
+    ::::
+
+    ::::u-page-card
+    ---
+    spotlight: true
+  to: /en/guide/storage
+    ---
+    #title
+    Persistent state included
+    #description
+    Every script owns an isolated JSON store that survives reloads and game
+    restarts. No files to manage, no schema to migrate.
+    ::::
+
+    ::::u-page-card
+    ---
+    spotlight: true
+  to: /en/api/overview/version-matrix
+    ---
+    #title
+    One codebase, every version
+    #description
+    NeoMacros builds for Minecraft 1.18.2 through 26.3 from the same source.
+    The API surface is documented per version in the compatibility matrix.
+    ::::
+  :::
+::
+
+::u-page-section
+---
+links:
+  - label: Write your first script
+  to: /en/guide/first-script
+    size: lg
+    trailing-icon: i-lucide-arrow-right
+---
 #title
-Shipped with many features
-
-#features
-  :::u-page-feature
-  ---
-  icon: i-simple-icons-nuxt
-  target: _blank
-  to: https://nuxt.com
-  ---
-  #title
-  Built with [Nuxt 4]{.text-primary}
-  
-  #description
-  Optimized by the most famous Vue framework. Docus gives you everything you need to build fast, performant, and SEO-friendly websites.
-  :::
-
-  :::u-page-feature
-  ---
-  icon: i-simple-icons-nuxt
-  target: _blank
-  to: https://ui.nuxt.com/
-  ---
-  #title
-  Powered by [Nuxt UI]{.text-primary}
-  
-  #description
-  Beautiful out of the box, minimal by design but highly customizable. Docus leverages Nuxt UI to give you the best docs writing experience with zero boilerplate, just focus on your content.
-  :::
-
-  :::u-page-feature
-  ---
-  icon: i-simple-icons-nuxt
-  target: _blank
-  to: https://content.nuxt.com
-  ---
-  #title
-  Enhanced Markdown syntax by [Nuxt Content]{.text-primary}
-  
-  #description
-  The only thing you need to take care about is writing your content. Write your pages in Markdown and extend with MDC syntax to embed Nuxt UI or custom Vue components. Structure, routing, and rendering are handled for you.
-  :::
-
-  :::u-page-feature
-  ---
-  icon: i-simple-icons-nuxt
-  target: _blank
-  to: https://nuxt.com/docs/guide/directory-structure/app-config
-  ---
-  #title
-  Customize with [Nuxt App Config]{.text-primary}
-  
-  #description
-  Update colors, social links, header logos and component styles globally using the `app.config.ts`, no direct code modifications required.
-  :::
-
-  :::u-page-feature
-  ---
-  icon: i-simple-icons-nuxt
-  target: _blank
-  to: https://content.nuxt.com/studio
-  ---
-  #title
-  Edit in production with [Nuxt Studio]{.text-primary}
-  
-  #description
-  Edit your content in production with zero Markdown knowledge required. Let your non technical colleagues collaborate on the documentation and integrate Vue components without code skills.
-  :::
-
-  :::u-page-feature
-  ---
-  icon: i-simple-icons-nuxt
-  target: _blank
-  to: https://ui.nuxt.com/components/content-search
-  ---
-  #title
-  Built-in navigation and [full-text search]{.text-primary}
-  
-  #description
-  Only focus on ordering your content, Docus handles the search modal and auto-generates the side navigation for you.
-  :::
+Ready in five minutes
+#description
+Install the jar, drop a script folder into `config/neomacros/macros`, and
+reload — no build step, no toolchain.
 ::

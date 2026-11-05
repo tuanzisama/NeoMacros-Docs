@@ -1,123 +1,67 @@
-# Docus i18n Starter
+[English](README.md) | [简体中文](README.zh-CN.md)
 
-> A beautiful, internationalized starter for creating multi-language documentation with Docus
+# NeoMacros-Docs
 
-This is the i18n Docus starter template that provides everything you need to build beautiful, multi-language documentation sites with Markdown and Vue components.
+The documentation site for
+[NeoMacros](https://github.com/tuanzisama/NeoMacros), a client-side
+ECMAScript scripting mod for Minecraft (Fabric). Built with
+[Docus](https://docus.dev/) (Nuxt 4), bilingual English / 简体中文.
 
-## ✨ Features
+Three content sections per locale (`content/en/`, `content/zh-cn/`):
 
-- 🌍 **Internationalization** - Native i18n support for multi-language docs
-- 🎨 **Beautiful Design** - Clean, modern documentation theme
-- 📱 **Responsive** - Mobile-first responsive design  
-- 🌙 **Dark Mode** - Built-in dark/light mode support
-- 🔍 **Search** - Full-text search functionality per language
-- 📝 **Markdown Enhanced** - Extended markdown with custom components
-- 🎨 **Customizable** - Easy theming and brand customization
-- ⚡ **Fast** - Optimized for performance with Nuxt 4
-- 🔧 **TypeScript** - Full TypeScript support
+| Section | Source |
+| --- | --- |
+| `guide/` | hand-written tutorial pages |
+| `examples/` | hand-written complete runnable scripts |
+| `api/` | **generated** from the mod's `doc-api` annotated facade sources (`index.md` is hand-written) |
 
-## 🚀 Quick Start
+The generated trees also include the version-compatibility matrix page
+(`api/00.version-matrix`) rendered from `@ApiMC` availability annotations.
+
+## API generation pipeline
+
+`builder/` is a standalone Gradle project with two Javadoc doclets that scan
+the mod repository's `core` + `ports` facade sources:
+
+- `MDDoclet` — bilingual Markdown pages (`<page>.md` EN + `<page>.zh.md` ZH,
+  `@zh` tag translations with per-member English fallback) and the
+  version-compatibility matrix (MC versions discovered from the mod's
+  `versions/*` Stonecutter nodes)
+- `TSDoclet` — `neomacros.d.ts` ambient definitions for editor autocompletion
 
 ```bash
-# Install dependencies
+# one-time, in the mod repository: publish the annotation jar
+cd ../neomacros && ./gradlew :doc-api:publishToMavenLocal
+
+# generate + sync into the site (repo root layout, no site/ subdir)
+./gradlew -p builder generateApiDocs
+bash scripts/sync-generated-docs.sh
+# or: npm run api:generate && npm run api:sync
+```
+
+Generated API pages and the `.d.ts` are committed, so the site can be
+built without a Java toolchain. Never edit generated API pages by hand —
+everything outside `api/index.md` is wiped and re-synced.
+
+Hand-written per-module snippets (`api-examples/<en,zh>/<module>.md`) are
+appended to the generated module pages under `## Examples` by the sync
+script.
+
+## Development
+
+```bash
 npm install
-
-# Start development server
-npm run dev
+npm run dev        # http://localhost:3300
+npm run generate   # static output in .output/public
 ```
 
-Your multilingual documentation site will be running at `http://localhost:3000`
+## CI
 
-## 🌍 Languages
+`.github/workflows/docs.yml` regenerates the API trees and commits when the
+sources change. Triggers: pushes touching pipeline/site paths, manual
+dispatch, and the `api-docs` repository dispatch sent by the mod
+repository's `docs-dispatch` workflow.
 
-This starter comes pre-configured with:
-- 🇺🇸 **English** (`en`) - Default language
-- 🇫🇷 **Français** (`fr`) - French translation
+## License
 
-## 📁 Project Structure
-
-```
-my-docs/
-├── content/              # Your markdown content
-│   ├── en/              # English content
-│   │   ├── index.md     # English homepage
-│   │   └── docs/        # English documentation
-│   └── fr/              # French content
-│       ├── index.md     # French homepage
-│       └── docs/        # French documentation
-├── public/              # Static assets
-├── nuxt.config.ts       # Nuxt configuration with i18n setup
-└── package.json         # Dependencies and scripts
-```
-
-### Content Structure
-
-The content is organized by language, making it easy to manage translations:
-
-```
-content/
-├── en/                   # English content
-│   ├── index.md
-│   ├── 1.getting-started/
-│   │   ├── installation.md
-│   │   └── configuration.md
-│   └── 2.essentials/
-│       ├── markdown.md
-│       └── components.md
-└── fr/                   # French content
-    ├── index.md
-    ├── 1.getting-started/
-    │   ├── installation.md
-    │   └── configuration.md
-    └── 2.essentials/
-        ├── markdown.md
-        └── components.md
-```
-
-## 🔗 URL Structure
-
-The i18n starter generates URLs with language prefixes:
-
-- English: `/en/getting-started/installation`
-- French: `/fr/getting-started/installation`
-- Default locale fallback: `/getting-started/installation` (redirects to English)
-
-## ⚡ Built with
-
-This starter comes pre-configured with:
-
-- [Nuxt 4](https://nuxt.com) - The web framework
-- [Nuxt Content](https://content.nuxt.com/) - File-based CMS
-- [Nuxt i18n](https://i18n.nuxt.com/) - Internationalization
-- [Nuxt UI](https://ui.nuxt.com) - UI components
-- [Nuxt Image](https://image.nuxt.com/) - Optimized images
-- [Tailwind CSS 4](https://tailwindcss.com/) - Utility-first CSS
-- [Docus Layer](https://www.npmjs.com/package/docus) - Documentation theme
-
-## 📖 Documentation
-
-For detailed documentation on customizing your Docus project, visit the [Docus Documentation](https://docus.dev)
-
-### 🤖 AI Assistant Skill
-
-Get started quickly with Docus by adding specialized knowledge to your AI assistant (Cursor, Claude, etc.):
-
-```bash
-npx skills add nuxt-content/docus
-```
-
-This skill helps you create documentation faster by providing your AI assistant with best practices, MDC component usage, ready-to-use templates, writing guidelines, and configuration tips for Docus. Perfect for quickly scaffolding new documentation projects.
-
-## 🚀 Deployment
-
-Build for production:
-
-```bash
-npm run build
-```
-
-The built files will be in the `.output` directory, ready for deployment to any hosting provider that supports Node.js.
-
-## 📄 License
-
-[MIT License](https://opensource.org/licenses/MIT) 
+MIT

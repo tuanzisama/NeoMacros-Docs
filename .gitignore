@@ -35,3 +35,14 @@ logs
 #VSC
 .history
 .wrangler
+
+# Gradle builder outputs
+builder/build
+builder/.gradle
+.gradle
+
+# Agent scratch files
+.tmp
+
+# Playwright MCP debug artifacts
+.playwright-mcp
