@@ -7,13 +7,16 @@ The documentation site for
 ECMAScript scripting mod for Minecraft (Fabric). Built with
 [Docus](https://docus.dev/) (Nuxt 4), bilingual English / 简体中文.
 
-Three content sections per locale (`content/en/`, `content/zh-cn/`):
+Three content sections per locale (`content/en/`, `content/zh-cn/`). The
+folder names carry numeric prefixes (stripped from the routes) so Nuxt
+Content's alphabetical navigation order matches the header order
+Guide → Examples → API:
 
 | Section | Source |
 | --- | --- |
-| `guide/` | hand-written tutorial pages |
-| `examples/` | hand-written complete runnable scripts |
-| `api/` | **generated** from the mod's `doc-api` annotated facade sources (`index.md` is hand-written) |
+| `1.guide/` | hand-written tutorial pages |
+| `2.examples/` | hand-written complete runnable scripts |
+| `3.api/` | **generated** from the mod's `doc-api` annotated facade sources (`index.md` is hand-written) |
 
 The generated trees also include the version-compatibility matrix page
 (`api/00.version-matrix`) rendered from `@ApiMC` availability annotations.

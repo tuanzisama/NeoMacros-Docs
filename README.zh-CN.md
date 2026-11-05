@@ -6,13 +6,15 @@
 客户端的 ECMAScript 脚本模组，Fabric）的文档站。基于
 [Docus](https://docus.dev/)（Nuxt 4）构建，中英双语。
 
-每个语言（`content/en/`、`content/zh-cn/`）下三个内容分区：
+每个语言（`content/en/`、`content/zh-cn/`）下三个内容分区。目录名带数字
+前缀（会从路由中剥掉），使 Nuxt Content 按路径字母序生成的导航与 header
+预期顺序一致：指南 → 示例 → API：
 
 | 分区 | 来源 |
 | --- | --- |
-| `guide/` | 手写教程页 |
-| `examples/` | 手写完整可运行脚本 |
-| `api/` | 从模组 `doc-api` 注解门面源码**生成**（仅 `index.md` 为手写） |
+| `1.guide/` | 手写教程页 |
+| `2.examples/` | 手写完整可运行脚本 |
+| `3.api/` | 从模组 `doc-api` 注解门面源码**生成**（仅 `index.md` 为手写） |
 
 生成树里还包含版本兼容矩阵页（`api/00.version-matrix`），由 `@ApiMC`
 可用性注解渲染。
