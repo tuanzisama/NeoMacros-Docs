@@ -1,10 +1,9 @@
 ---
 title: "entity:damage"
+description: "实体受伤时触发。"
 ---
 
-Payload: [`EntityDamageEvent`](../types/entitydamageevent) · Since: 0.1.0 · MC: * · Loader: *
-
-实体受伤时触发。
+Payload: [`EntityDamageEvent`](../../classes/entitydamageevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

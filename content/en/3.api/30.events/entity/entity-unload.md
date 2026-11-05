@@ -1,10 +1,9 @@
 ---
 title: "entity:unload"
+description: "Payload of the entity unload event; fires when an entity leaves the client's tracked range."
 ---
 
-Payload: [`EntityUnloadEvent`](../types/entityunloadevent) · Since: 0.1.0 · MC: * · Loader: *
-
-Payload of the entity unload event; fires when an entity leaves the client's tracked range.
+Payload: [`EntityUnloadEvent`](../../classes/entityunloadevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

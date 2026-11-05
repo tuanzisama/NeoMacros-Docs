@@ -1,8 +1,7 @@
 ---
 title: "AabbData"
+description: "API 签名中引用的 record 类型。"
 ---
-
-API 签名中引用的 record 类型。
 
 | Field | Type |
 | --- | --- |

@@ -1,0 +1,67 @@
+---
+title: "hud"
+description: "The neo.hud facade: HUD overlay text rendered on top of the vanilla HUD. Text entries persist across frames until removed or the module unloads."
+---
+
+Category: UI · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.hud` and `@neomacros/hud`
+
+## Methods
+
+### `addText(id: string, text: string, x: number, y: number, color: number)`
+
+Adds a persistent text entry on the HUD overlay.
+
+**Parameters**
+
+- `id` `string`: stable text identifier (remove via )
+- `text` `string`: the text content
+- `x` `number`: screen x (pixels from left)
+- `y` `number`: screen y (pixels from top)
+- `color` `number`: ARGB color (e.g. 0xFFFFFFFF for white)
+
+**Returns** `Promise<void>`
+
+Since: 0.1.0 · MC: * · Loader: *
+
+### `removeText(id: string)`
+
+Removes a previously added text entry.
+
+**Parameters**
+
+- `id` `string`: 
+
+**Returns** `Promise<void>`
+
+Since: 0.1.0 · MC: * · Loader: *
+
+### `textIds()`
+
+Lists all registered text entry identifiers.
+
+**Returns** `Array<string>`
+
+Since: 0.1.0 · MC: * · Loader: *
+
+
+## Examples
+
+Maintain a persistent score line on the HUD overlay: calling addText again with the same id replaces the entry, so refreshing is just another addText.
+
+```js
+const { hud } = neo;
+
+// Calling addText again with the same id replaces the entry: refresh freely
+hud.addText('score', 'K 12  D 3', 8, 8, 0xFF55FF55); // ARGB, top-left
+
+function updateScore(kills, deaths) {
+  hud.addText('score', `K ${kills}  D ${deaths}`, 8, 8, 0xFF55FF55);
+}
+
+updateScore(13, 3);
+
+// Inspect the overlay, then take the line down when done
+if (hud.textIds().includes('score')) {
+  hud.removeText('score');
+}
+```

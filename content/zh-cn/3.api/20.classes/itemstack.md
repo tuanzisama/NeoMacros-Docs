@@ -1,8 +1,7 @@
 ---
 title: "ItemStack"
+description: "Data"
 ---
-
-Data
 
 不可变的物品堆副本。实例只来自查询（容器槽位、事件载荷）或 ；不提供直接构造器。JSON.stringify 输出纯字段。
 

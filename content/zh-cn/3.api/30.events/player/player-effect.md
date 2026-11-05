@@ -1,10 +1,9 @@
 ---
 title: "player:effect"
+description: "玩家状态效果变更时触发。"
 ---
 
-Payload: [`PlayerEffectEvent`](../types/playereffectevent) · Since: 0.1.0 · MC: * · Loader: *
-
-玩家状态效果变更时触发。
+Payload: [`PlayerEffectEvent`](../../classes/playereffectevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

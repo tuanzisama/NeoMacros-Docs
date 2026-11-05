@@ -1,10 +1,9 @@
 ---
 title: "player:spawn"
+description: "本地玩家出生事件载荷（世界会话的首次出生）。"
 ---
 
-Payload: [`PlayerSpawnEvent`](../types/playerspawnevent) · Since: 0.1.0 · MC: * · Loader: *
-
-本地玩家出生事件载荷（世界会话的首次出生）。
+Payload: [`PlayerSpawnEvent`](../../classes/playerspawnevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

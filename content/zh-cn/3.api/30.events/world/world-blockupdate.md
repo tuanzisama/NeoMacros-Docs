@@ -1,10 +1,9 @@
 ---
 title: "world:blockUpdate"
+description: "方块更新时触发（高流量事件）。"
 ---
 
-Payload: [`WorldBlockUpdateEvent`](../types/worldblockupdateevent) · Since: 0.1.0 · MC: * · Loader: *
-
-方块更新时触发（高流量事件）。
+Payload: [`WorldBlockUpdateEvent`](../../classes/worldblockupdateevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

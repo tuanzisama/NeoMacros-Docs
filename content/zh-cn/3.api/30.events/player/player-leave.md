@@ -1,10 +1,9 @@
 ---
 title: "player:leave"
+description: "本地玩家离开世界事件载荷。"
 ---
 
-Payload: [`PlayerLeaveEvent`](../types/playerleaveevent) · Since: 0.1.0 · MC: * · Loader: *
-
-本地玩家离开世界事件载荷。
+Payload: [`PlayerLeaveEvent`](../../classes/playerleaveevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

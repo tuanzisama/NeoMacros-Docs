@@ -1,10 +1,9 @@
 ---
 title: "player:respawn"
+description: "本地玩家重生事件载荷。"
 ---
 
-Payload: [`PlayerRespawnEvent`](../types/playerrespawnevent) · Since: 0.1.0 · MC: * · Loader: *
-
-本地玩家重生事件载荷。
+Payload: [`PlayerRespawnEvent`](../../classes/playerrespawnevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

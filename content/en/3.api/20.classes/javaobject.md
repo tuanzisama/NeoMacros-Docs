@@ -1,10 +1,9 @@
 ---
 title: "JavaObject"
+description: "Proxy over one host object: public fields read and write as values, methods dispatch as callables bound to the instance."
 ---
 
 Handle
-
-Proxy over one host object: public fields read and write as values, methods dispatch as callables bound to the instance.
 
 ## Methods
 

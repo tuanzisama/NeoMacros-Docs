@@ -1,10 +1,9 @@
 ---
 title: "ItemEntity"
+description: "掉落物句柄。"
 ---
 
 Handle · Wraps: `net.minecraft.world.entity.item.ItemEntity` · Extends: [`Entity`](entity)
-
-掉落物句柄。
 
 ## Properties
 

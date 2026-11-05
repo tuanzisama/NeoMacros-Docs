@@ -1,10 +1,9 @@
 ---
 title: "world:chunkLoad"
+description: "客户端区块加载时触发。"
 ---
 
-Payload: [`WorldChunkLoadEvent`](../types/worldchunkloadevent) · Since: 0.1.0 · MC: * · Loader: *
-
-客户端区块加载时触发。
+Payload: [`WorldChunkLoadEvent`](../../classes/worldchunkloadevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

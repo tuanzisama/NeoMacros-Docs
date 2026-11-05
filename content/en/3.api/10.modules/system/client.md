@@ -1,0 +1,32 @@
+---
+title: "client"
+description: "The neo.client facade: process-level facts about the running game client plus the controlled escape-layer entry to the raw client instance."
+---
+
+Category: System · Since: 0.2.0 · MC availability: * · Loader availability: * · Exposed as `neo.client` and `@neomacros/client`
+
+## Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `fps` | `number` | The current frames-per-second measurement of the client. (read-only) |
+| `gameVersion` | `string` | The game version string the client runs on. (read-only) |
+| `minecraft` | `unknown` | The raw host client instance as a JavaObject proxy. Requires the java permission; equivalent to java.type('net.minecraft.client.Minecraft').getInstance(). |
+
+
+## Examples
+
+Read process-level client facts; the raw minecraft entry requires the java permission.
+
+```js
+const { client } = neo;
+
+// Process-level facts, readable at any time
+if (client.fps < 30) {
+  // client is struggling — skip heavy per-tick work
+}
+const version = client.gameVersion; // the game version string
+
+// Escape hatch to the raw client; requires the java permission
+const mc = client.minecraft; // ≙ java.type('net.minecraft.client.Minecraft').getInstance()
+```

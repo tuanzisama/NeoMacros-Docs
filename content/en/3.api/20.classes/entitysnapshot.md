@@ -1,8 +1,7 @@
 ---
 title: "EntitySnapshot"
+description: "Record type referenced in API signatures."
 ---
-
-Record type referenced in API signatures.
 
 | Field | Type |
 | --- | --- |

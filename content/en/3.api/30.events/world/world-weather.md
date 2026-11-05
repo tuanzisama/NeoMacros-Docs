@@ -1,10 +1,9 @@
 ---
 title: "world:weather"
+description: "Payload of the weather change event."
 ---
 
-Payload: [`WorldWeatherEvent`](../types/worldweatherevent) · Since: 0.1.0 · MC: * · Loader: *
-
-Payload of the weather change event.
+Payload: [`WorldWeatherEvent`](../../classes/worldweatherevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

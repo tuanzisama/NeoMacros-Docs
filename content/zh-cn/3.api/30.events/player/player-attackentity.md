@@ -1,10 +1,9 @@
 ---
 title: "player:attackEntity"
+description: "玩家攻击实体事件载荷；同步订阅可取消攻击。"
 ---
 
-Payload: [`PlayerAttackEntityEvent`](../types/playerattackentityevent) · Cancellable · Since: 0.1.0 · MC: * · Loader: *
-
-玩家攻击实体事件载荷；同步订阅可取消攻击。
+Payload: [`PlayerAttackEntityEvent`](../../classes/playerattackentityevent) · Cancellable · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

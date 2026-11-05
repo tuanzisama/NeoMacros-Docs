@@ -1,6 +1,7 @@
-# world
-
-练习完整注解集与完整双语文档的 fixture 模块：类级与方法级注解、句柄类型、签名引用的 record 类型与覆写的参数类型。
+---
+title: "world"
+description: "练习完整注解集与完整双语文档的 fixture 模块：类级与方法级注解、句柄类型、签名引用的 record 类型与覆写的参数类型。"
+---
 
 Category: test · Since: 0.1.0 · MC availability: >=1.20.6 · Exposed as `neo.world` and `@neomacros/world`
 

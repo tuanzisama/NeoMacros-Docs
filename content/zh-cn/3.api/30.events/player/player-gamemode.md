@@ -1,10 +1,9 @@
 ---
 title: "player:gamemode"
+description: "游戏模式变化事件载荷。"
 ---
 
-Payload: [`PlayerGamemodeEvent`](../types/playergamemodeevent) · Since: 0.1.0 · MC: * · Loader: *
-
-游戏模式变化事件载荷。
+Payload: [`PlayerGamemodeEvent`](../../classes/playergamemodeevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

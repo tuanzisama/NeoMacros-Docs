@@ -1,10 +1,9 @@
 ---
 title: "Block"
+description: "Live block handle: state reads re-query the world on every access; a block outside the loaded world reads back as undefined instead of raising."
 ---
 
 Handle
-
-Live block handle: state reads re-query the world on every access; a block outside the loaded world reads back as undefined instead of raising.
 
 ## Properties
 

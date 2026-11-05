@@ -1,10 +1,9 @@
 ---
 title: "player:exp"
+description: "经验值变化事件载荷。"
 ---
 
-Payload: [`PlayerExpEvent`](../types/playerexpevent) · Since: 0.1.0 · MC: * · Loader: *
-
-经验值变化事件载荷。
+Payload: [`PlayerExpEvent`](../../classes/playerexpevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

@@ -1,10 +1,9 @@
 ---
 title: "RayHit"
+description: "Live raycast result: the first hit along the ray. block and entity are mutually exclusive; both are live handles."
 ---
 
 Handle
-
-Live raycast result: the first hit along the ray. block and entity are mutually exclusive; both are live handles.
 
 ## Properties
 

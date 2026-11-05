@@ -1,8 +1,7 @@
 ---
 title: "ChunkPos"
+description: "Data"
 ---
-
-Data
 
 不可变区块坐标。刻意不与 发生继承关系：区块坐标与方块坐标分属两套坐标系，相互换算必须显式（x = blockX >> 4）。
 

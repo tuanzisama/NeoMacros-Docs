@@ -49,40 +49,45 @@ mkdir -p "$site/content/en/3.api" "$site/content/zh-cn/3.api" "$site/server/asse
 find "$site/content/en/3.api" -mindepth 1 -maxdepth 1 ! -name 'index.md' ! -name '00.overview.md' -exec rm -rf {} +
 find "$site/content/zh-cn/3.api" -mindepth 1 -maxdepth 1 ! -name 'index.md' ! -name '00.overview.md' -exec rm -rf {} +
 
-# Sidebar titles for the API section root and the generated subtrees
-# (Modules/Classes/Events/Types). The section folders carry no index.md
-# (Nuxt Content v3 turns a folder's index.md into a non-routable navigation
-# ghost that breaks the header section links), so a folder-level
-# .navigation.yml is safe here and gives the nav a proper label instead of
-# the raw folder name. Module pages are grouped under Modules/ by the
-# upstream Category annotation: Core/UI/World/Input/System, matching the
-# overview page's facade tables.
+# Sidebar titles for the API section root and the generated subtrees. The
+# section folders carry no index.md (Nuxt Content v3 turns a folder's
+# index.md into a non-routable navigation ghost that breaks the header
+# section links), so a folder-level .navigation.yml is safe here and gives
+# the nav a proper label instead of the raw folder name. Module groups are
+# discovered from the generated pages' Category annotations (arg 2: the
+# whitespace-separated set); the zh table below is pure display labeling —
+# unknown categories fall back to their raw name in both locales.
+zh_category_label() {
+  case "$1" in
+    Core)   printf '核心' ;;
+    UI)     printf '界面' ;;
+    World)  printf '世界' ;;
+    Input)  printf '输入' ;;
+    System) printf '系统' ;;
+    *)      printf '%s' "$1" ;;
+  esac
+}
+
 write_navigation() {
-  local loc="$1"
-  local section_title modules_title classes_title events_title types_title
-  local core_title ui_title world_title input_title system_title
+  local loc="$1" cats="$2" c lc title
+  local section_title modules_title classes_title events_title
   if [[ "$loc" == zh-cn ]]; then
-    section_title='API 参考' modules_title='模块' classes_title='类' events_title='事件' types_title='类型'
-    core_title='核心' ui_title='界面' world_title='世界' input_title='输入' system_title='系统'
+    section_title='API 参考' modules_title='模块' classes_title='类与类型' events_title='事件'
   else
-    section_title='API Reference' modules_title='Modules' classes_title='Classes' events_title='Events' types_title='Types'
-    core_title='Core' ui_title='UI' world_title='World' input_title='Input' system_title='System'
+    section_title='API Reference' modules_title='Modules' classes_title='Classes & Types' events_title='Events'
   fi
   local modules="$site/content/$loc/3.api/10.modules"
-  mkdir -p "$modules/10.core" "$modules/20.ui" "$modules/30.world" \
-    "$modules/40.input" "$modules/50.system" \
-    "$site/content/$loc/3.api/20.classes" "$site/content/$loc/3.api/30.events" \
-    "$site/content/$loc/3.api/40.types"
+  mkdir -p "$modules" "$site/content/$loc/3.api/20.classes" "$site/content/$loc/3.api/30.events"
   printf 'title: %s\n' "$section_title" > "$site/content/$loc/3.api/.navigation.yml"
   printf 'title: %s\n' "$modules_title" > "$modules/.navigation.yml"
-  printf 'title: %s\n' "$core_title"    > "$modules/10.core/.navigation.yml"
-  printf 'title: %s\n' "$ui_title"      > "$modules/20.ui/.navigation.yml"
-  printf 'title: %s\n' "$world_title"   > "$modules/30.world/.navigation.yml"
-  printf 'title: %s\n' "$input_title"   > "$modules/40.input/.navigation.yml"
-  printf 'title: %s\n' "$system_title"  > "$modules/50.system/.navigation.yml"
   printf 'title: %s\n' "$classes_title" > "$site/content/$loc/3.api/20.classes/.navigation.yml"
   printf 'title: %s\n' "$events_title"  > "$site/content/$loc/3.api/30.events/.navigation.yml"
-  printf 'title: %s\n' "$types_title"   > "$site/content/$loc/3.api/40.types/.navigation.yml"
+  for c in $cats; do
+    lc="$(printf '%s' "$c" | tr '[:upper:]' '[:lower:]')"
+    mkdir -p "$modules/$lc"
+    if [[ "$loc" == zh-cn ]]; then title="$(zh_category_label "$c")"; else title="$c"; fi
+    printf 'title: %s\n' "$title" > "$modules/$lc/.navigation.yml"
+  done
 }
 
 # Appends the locale's example snippet for one module, when one exists.
@@ -102,47 +107,29 @@ strip_html_links() {
             -e 's/\]\(([^):]+)\)/](\L\1\E)/g' "$1"
 }
 
-# Facade module order for the sidebar, mirroring the old VitePress config:
-# modules first, then Classes, then Events. Numeric prefixes order the
-# auto-generated sidebar and are stripped from the routes.
-api_modules_order="events thread storage performance chat hud command render world player entity fs net java input client reflect"
+# Module pages sort alphabetically inside their domain group — no hardcoded
+# module order list; upstream adds/removes modules and the sidebar follows.
 
-module_prefix() {
-  local name="$1" i=1 m
-  for m in $api_modules_order; do
-    if [[ "$m" == "$name" ]]; then
-      # Zero-padded so the lexicographic file sort matches numeric order.
-      printf '%02d.' "$i"
-      return
-    fi
-    i=$((i + 1))
-  done
-  printf ''
-}
-
-# URL segment for a module's domain group under Modules/, derived from the
-# upstream Category annotation on the generated page. Unknown categories
-# fall back to a lowercased folder of their own so a new upstream category
-# still lands in a working subtree (its label falls back to the raw name
-# until write_navigation learns it).
+# URL segment for a module's domain group under Modules/: the upstream
+# Category annotation lowercased. No hardcoded category list — a new
+# upstream category automatically gets its own group (labelled with its
+# raw name until write_navigation's label table learns it).
 category_dir() {
   local cat
   cat="$(grep -m1 -o '^Category: [A-Za-z-]*' "$1" | cut -d' ' -f2)"
-  case "$cat" in
-    Core)   printf '10.core' ;;
-    UI)     printf '20.ui' ;;
-    World)  printf '30.world' ;;
-    Input)  printf '40.input' ;;
-    System) printf '50.system' ;;
-    *)      printf '60.%s' "$(printf '%s' "$cat" | tr '[:upper:]' '[:lower:]')" ;;
-  esac
+  if [[ -n "$cat" ]]; then
+    printf '%s' "$cat" | tr '[:upper:]' '[:lower:]'
+  else
+    printf 'uncategorized'
+  fi
 }
 
-# Target path relative to the locale's api/ dir. Class pages are lowercased
-# to match the served routes; event slugs gain a per-domain subfolder from
-# their first dash segment (e.g. chat-send -> events/chat/); types pages
-# (event payload classes) are lowercased like classes; facade module pages
-# are grouped under Modules/ by their upstream Category; the generated
+# Target path relative to the locale's api/ dir. Class and types pages
+# (event payload classes, generated into types/) share one Classes &
+# types group, lowercased to match the served routes; event slugs gain a
+# per-domain subfolder from their first dash segment (e.g. chat-send ->
+# events/chat/); facade module pages are grouped under Modules/ by their
+# upstream Category (alphabetical within each group); the generated
 # version matrix sits above everything. Needs the source page (arg 2) to
 # read the Category line for the Modules grouping.
 target_for() {
@@ -152,16 +139,16 @@ target_for() {
     local slug
     slug="$(basename "$rel" .md)"
     printf '30.events/%s/%s.md' "${slug%%-*}" "$slug"
-  elif [[ "$dir" == classes || "$dir" == classes/* ]]; then
+  elif [[ "$dir" == classes* || "$dir" == types* ]]; then
+    # Event payload types share the Classes & types group with the handle
+    # classes, one lowercased page per name.
     printf '20.classes/%s.md' "$(basename "$rel" .md | tr '[:upper:]' '[:lower:]')"
-  elif [[ "$dir" == types || "$dir" == types/* ]]; then
-    printf '40.types/%s.md' "$(basename "$rel" .md | tr '[:upper:]' '[:lower:]')"
   else
     name="$(basename "$rel" .md)"
     if [[ "$name" == "version-matrix" ]]; then
       printf '00.%s.md' "$name"
     else
-      printf '10.modules/%s/%s%s.md' "$(category_dir "$src")" "$(module_prefix "$name")" "$name"
+      printf '10.modules/%s/%s.md' "$(category_dir "$src")" "$name"
     fi
   fi
 }
@@ -172,6 +159,13 @@ target_for() {
 # already removed the .html suffixes and lowercased the targets.
 fix_module_links() {
   sed -E -i 's#]\((classes|events|types)/#](../../\1/#g' "$1"
+}
+
+# Event payload links are emitted relative to the old VitePress layout
+# (../types/<name>), which never resolved from the events/<domain>/ depth;
+# point them at the payload pages' home in Classes & types.
+fix_event_links() {
+  sed -E -i 's#]\(\.\./types/#](../../classes/#g' "$1"
 }
 
 # MDDoclet leads every page with an H1, but the Docus docs layout already
@@ -188,8 +182,16 @@ frontmatter_title() {
   mv "$f.tmp" "$f"
 }
 
-write_navigation en
-write_navigation zh-cn
+# Discover the upstream Category set from the generated module pages (the
+# zh pages translate category names, so scan the English ones). Drives the
+# Modules/ domain groups and their sidebar labels.
+categories="$(for f in "$gen_md"/api/*.md; do
+  case "$f" in *.zh.md) continue ;; esac
+  grep -m1 -o '^Category: [A-Za-z-]*' "$f" | cut -d' ' -f2
+done | sort -u)"
+
+write_navigation en "$categories"
+write_navigation zh-cn "$categories"
 
 # English pages keep their name; Chinese pages drop the .zh.md suffix so
 # each locale tree maps module name to route identically.
@@ -204,7 +206,10 @@ while IFS= read -r f; do
       cp "$f" "$dest"
       frontmatter_title "$dest"
       strip_html_links "$dest"
-      case "$target" in 10.modules/*) fix_module_links "$dest" ;; esac
+      case "$target" in
+        10.modules/*) fix_module_links "$dest" ;;
+        30.events/*)  fix_event_links "$dest" ;;
+      esac
       append_examples "$dest" "$examples/en/$(basename "$f")"
       ;;
   esac
@@ -220,7 +225,10 @@ while IFS= read -r f; do
   cp "$f" "$dest"
   frontmatter_title "$dest"
   strip_html_links "$dest"
-  case "$target" in 10.modules/*) fix_module_links "$dest" ;; esac
+  case "$target" in
+    10.modules/*) fix_module_links "$dest" ;;
+    30.events/*)  fix_event_links "$dest" ;;
+  esac
   append_examples "$dest" "$examples/zh/$name"
 done < <(find "$gen_md/api" -name '*.zh.md' -type f | sort)
 
@@ -233,5 +241,42 @@ cp "$gen_ts/types/neomacros.d.ts" "$site/server/assets/neomacros.d.ts"
 if [[ -f "$supplement" ]]; then
   cat "$supplement" >> "$site/server/assets/neomacros.d.ts"
 fi
+
+# Legacy-URL redirect manifest for nuxt.config's routeRules, derived from
+# the synced tree so the config carries no hardcoded API names and the
+# manifest always matches the shipped pages: module pages moved under
+# Modules/<domain>/ keep their old flat URLs, event payload types that
+# merged into Classes & types keep their old /types/ URLs (only for pages
+# that actually exist — a types page the generator no longer emits gets no
+# orphan redirect). One rule per page — a trailing-slash variant would map
+# to the same prerendered index.html and the concurrent prerender workers
+# race, nondeterministically dropping the file; a "/x/" request reaches the
+# same file through the directory index anyway. nuxt.config reads this file
+# at startup.
+manifest="$repo_root/redirects.manifest.json"
+{
+  printf '['
+  first=1
+  for f in "$site"/content/en/3.api/10.modules/*/*.md; do
+    name="$(basename "$f" .md)"
+    dir="$(basename "$(dirname "$f")")"
+    for loc in en zh-cn; do
+      [[ "$first" -eq 1 ]] || printf ','
+      first=0
+      printf '\n  { "from": "/%s/api/%s", "to": "/%s/api/modules/%s/%s" }' "$loc" "$name" "$loc" "$dir" "$name"
+    done
+  done
+  for f in "$gen_md"/api/types/*.md; do
+    case "$f" in *.zh.md) continue ;; esac
+    name="$(basename "$f" .md | tr '[:upper:]' '[:lower:]')"
+    [[ -f "$site/content/en/3.api/20.classes/$name.md" ]] || continue
+    for loc in en zh-cn; do
+      [[ "$first" -eq 1 ]] || printf ','
+      first=0
+      printf '\n  { "from": "/%s/api/types/%s", "to": "/%s/api/classes/%s" }' "$loc" "$name" "$loc" "$name"
+    done
+  done
+  printf '\n]\n'
+} > "$manifest"
 
 echo "synced $(find "$site/content/en/3.api" -name '*.md' ! -name 'index.md' | wc -l) module page(s) into the site"

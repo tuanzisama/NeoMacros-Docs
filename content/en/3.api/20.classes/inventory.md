@@ -1,10 +1,9 @@
 ---
 title: "Inventory"
+description: "Live inventory handle: slot reads re-query the inventory port on every access; actions dispatch on the main thread and resolve once processed."
 ---
 
 Handle · Extended by: [`PlayerInventory`](playerinventory)
-
-Live inventory handle: slot reads re-query the inventory port on every access; actions dispatch on the main thread and resolve once processed.
 
 ## Properties
 

@@ -1,8 +1,7 @@
 ---
 title: "BlockState"
+description: "Data"
 ---
-
-Data
 
 不可变方块状态：带命名空间的方块标识符加原版状态属性（facing、open 等）。
 

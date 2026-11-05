@@ -1,10 +1,9 @@
 ---
 title: "LivingEntity"
+description: "生物句柄：在实体基类之上增加生命与装备读面。"
 ---
 
 Handle · Wraps: `net.minecraft.world.entity.LivingEntity` · Extends: [`Entity`](entity) · Extended by: [`Player`](player)
-
-生物句柄：在实体基类之上增加生命与装备读面。
 
 ## Properties
 

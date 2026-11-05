@@ -1,10 +1,9 @@
 ---
 title: "world:sound"
+description: "声音播放事件；高流量事件，默认不进通配分发。"
 ---
 
-Payload: [`WorldSoundEvent`](../types/worldsoundevent) · Since: 0.1.0 · MC: * · Loader: *
-
-声音播放事件；高流量事件，默认不进通配分发。
+Payload: [`WorldSoundEvent`](../../classes/worldsoundevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

@@ -2,8 +2,8 @@
   "name": "NeoMacros-Docs",
   "scripts": {
     "dev": "nuxt dev --port 3300",
-    "build": "nuxt build",
-    "generate": "nuxt generate",
+    "build": "nuxt build && node scripts/write-redirects.mjs",
+    "generate": "nuxt generate && node scripts/write-redirects.mjs",
     "preview": "nuxt preview",
     "api:generate": "./gradlew -p builder generateApiDocs --console=plain",
     "api:sync": "bash scripts/sync-generated-docs.sh"

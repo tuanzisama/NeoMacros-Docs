@@ -1,10 +1,9 @@
 ---
 title: "Block"
+description: "活方块句柄：状态读取每次都重新查询世界；未加载世界的方块读取返回 undefined 而不是抛错。"
 ---
 
 Handle
-
-活方块句柄：状态读取每次都重新查询世界；未加载世界的方块读取返回 undefined 而不是抛错。
 
 ## Properties
 

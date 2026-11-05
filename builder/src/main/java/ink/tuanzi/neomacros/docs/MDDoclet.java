@@ -270,13 +270,31 @@ public class MDDoclet implements Doclet {
         return linkTargets(classNames, new java.util.TreeSet<>(), "../classes/", "");
     }
 
+    /**
+     * YAML frontmatter leading every generated page: the Docus docs layout
+     * renders the page title and description from it in the page header,
+     * so the body carries neither a duplicate H1 nor a duplicate
+     * description paragraph. Nuxt Content v3 would otherwise auto-extract
+     * the first body paragraph as the description — for class pages that
+     * first paragraph is the meta line ("Handle · ..."), which reads as a
+     * nonsense description.
+     */
+    static String frontmatter(String title, String description) {
+        String desc = description.replaceAll("\\s+", " ").trim();
+        return "---\ntitle: " + yaml(title) + "\ndescription: " + yaml(desc) + "\n---\n\n";
+    }
+
+    /** Double-quoted YAML scalar with the two special characters escaped. */
+    private static String yaml(String s) {
+        return "\"" + s.replace("\\", "\\\\").replace("\"", "\\\"") + "\"";
+    }
+
     /** Renders one module page; {@code zh} selects the translation-fallback view. */
     private static String renderModule(ApiModel.ModuleModel module, boolean zh,
                                        Map<String, List<String>> extendedBy,
                                        Map<String, String> linkTargets) {
         StringBuilder sb = new StringBuilder();
-        sb.append("# ").append(module.name()).append("\n\n");
-        sb.append(text(module.doc(), module.zhDoc(), zh)).append("\n\n");
+        sb.append(frontmatter(module.name(), text(module.doc(), module.zhDoc(), zh)));
 
         List<String> meta = new java.util.ArrayList<>();
         if (!module.category().isEmpty()) {
@@ -314,9 +332,8 @@ public class MDDoclet implements Doclet {
     private static String renderClassPage(ApiModel.ClassModel clazz,
             Map<String, List<String>> extendedBy, Map<String, String> linkTargets, boolean zh) {
         StringBuilder sb = new StringBuilder();
-        sb.append("# ").append(clazz.name()).append("\n\n");
+        sb.append(frontmatter(clazz.name(), text(clazz.doc(), clazz.zhDoc(), zh)));
         sb.append(String.join(" · ", classMeta(clazz, extendedBy))).append("\n\n");
-        sb.append(text(clazz.doc(), clazz.zhDoc(), zh)).append("\n\n");
         renderProperties(sb, clazz.properties(), zh, linkTargets);
         renderMethods(sb, clazz.methods(), zh, linkTargets);
         return sb.toString();
@@ -325,10 +342,9 @@ public class MDDoclet implements Doclet {
     /** Renders one referenced record type as its own page under classes/. */
     private static String renderTypePage(ApiModel.TypeModel type, boolean zh) {
         StringBuilder sb = new StringBuilder();
-        sb.append("# ").append(type.name()).append("\n\n");
-        sb.append(zh
-                ? "API 签名中引用的 record 类型。\n\n"
-                : "Record type referenced in API signatures.\n\n");
+        sb.append(frontmatter(type.name(), zh
+                ? "API 签名中引用的 record 类型。"
+                : "Record type referenced in API signatures."));
         sb.append("| Field | Type |\n");
         sb.append("| --- | --- |\n");
         for (ApiModel.ParameterModel field : type.fields()) {
@@ -346,7 +362,7 @@ public class MDDoclet implements Doclet {
     private static String renderEventPage(ApiModel.EventModel event, boolean zh,
             Map<String, String> linkTargets) {
         StringBuilder sb = new StringBuilder();
-        sb.append("# ").append(event.name()).append("\n\n");
+        sb.append(frontmatter(event.name(), text(event.doc(), event.zhDoc(), zh)));
         List<String> meta = new java.util.ArrayList<>();
         meta.add("Payload: [`" + event.className() + "`](../types/" + event.className() + ".html)");
         if (event.cancellable()) {
@@ -362,7 +378,6 @@ public class MDDoclet implements Doclet {
             meta.add("Loader: " + event.loader());
         }
         sb.append(String.join(" · ", meta)).append("\n\n");
-        sb.append(text(event.doc(), event.zhDoc(), zh)).append("\n\n");
         if (!event.fields().isEmpty()) {
             sb.append("| Field | Type | Description |\n| --- | --- | --- |\n");
             for (ApiModel.ParameterModel field : event.fields()) {
@@ -382,7 +397,7 @@ public class MDDoclet implements Doclet {
     private static String renderEventTypePage(ApiModel.EventModel event, boolean zh,
             Map<String, String> linkTargets) {
         StringBuilder sb = new StringBuilder();
-        sb.append("# ").append(event.className()).append("\n\n");
+        sb.append(frontmatter(event.className(), text(event.doc(), event.zhDoc(), zh)));
         List<String> meta = new java.util.ArrayList<>();
         meta.add("Extends: [`BaseEvent`](BaseEvent.html)");
         meta.add("Raised by: [`" + event.name() + "`](" + eventHref(eventSlug(event.name())) + ")");
@@ -396,7 +411,6 @@ public class MDDoclet implements Doclet {
             meta.add("Loader: " + event.loader());
         }
         sb.append(String.join(" · ", meta)).append("\n\n");
-        sb.append(text(event.doc(), event.zhDoc(), zh)).append("\n\n");
         if (!event.fields().isEmpty()) {
             sb.append("| Field | Type | Description |\n| --- | --- | --- |\n");
             for (ApiModel.ParameterModel field : event.fields()) {
@@ -412,10 +426,9 @@ public class MDDoclet implements Doclet {
     /** Renders the shared event base class as its own page under types/. */
     private static String renderBaseEventPage(boolean zh) {
         StringBuilder sb = new StringBuilder();
-        sb.append("# BaseEvent\n\n");
-        sb.append(zh
-                ? "所有事件载荷共用的基类；分发到脚本的事件实例都是它的冻结子类实例。\n\n"
-                : "Base class shared by all event payloads; dispatched event instances are frozen subclasses of it.\n\n");
+        sb.append(frontmatter("BaseEvent", zh
+                ? "所有事件载荷共用的基类；分发到脚本的事件实例都是它的冻结子类实例。"
+                : "Base class shared by all event payloads; dispatched event instances are frozen subclasses of it."));
         sb.append("| Property | Type | Description |\n| --- | --- | --- |\n");
         sb.append("| `type` | `string` | ").append(zh ? "事件名，如 `chat:receive`。" : "Event name, e.g. `chat:receive`.").append(" |\n");
         sb.append("| `timestamp` | `number` | ").append(zh ? "事件分发时的毫秒时间戳。" : "Dispatch time in epoch milliseconds.").append(" |\n");

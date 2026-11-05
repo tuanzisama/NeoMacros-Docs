@@ -1,10 +1,9 @@
 ---
 title: "world:bossbar"
+description: "Boss 血条更新时触发。"
 ---
 
-Payload: [`WorldBossbarEvent`](../types/worldbossbarevent) · Since: 0.1.0 · MC: * · Loader: *
-
-Boss 血条更新时触发。
+Payload: [`WorldBossbarEvent`](../../classes/worldbossbarevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

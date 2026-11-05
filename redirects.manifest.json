@@ -1,0 +1,506 @@
+[
+  {
+    "from": "/en/api/events",
+    "to": "/en/api/modules/core/events"
+  },
+  {
+    "from": "/zh-cn/api/events",
+    "to": "/zh-cn/api/modules/core/events"
+  },
+  {
+    "from": "/en/api/storage",
+    "to": "/en/api/modules/core/storage"
+  },
+  {
+    "from": "/zh-cn/api/storage",
+    "to": "/zh-cn/api/modules/core/storage"
+  },
+  {
+    "from": "/en/api/thread",
+    "to": "/en/api/modules/core/thread"
+  },
+  {
+    "from": "/zh-cn/api/thread",
+    "to": "/zh-cn/api/modules/core/thread"
+  },
+  {
+    "from": "/en/api/input",
+    "to": "/en/api/modules/input/input"
+  },
+  {
+    "from": "/zh-cn/api/input",
+    "to": "/zh-cn/api/modules/input/input"
+  },
+  {
+    "from": "/en/api/client",
+    "to": "/en/api/modules/system/client"
+  },
+  {
+    "from": "/zh-cn/api/client",
+    "to": "/zh-cn/api/modules/system/client"
+  },
+  {
+    "from": "/en/api/fs",
+    "to": "/en/api/modules/system/fs"
+  },
+  {
+    "from": "/zh-cn/api/fs",
+    "to": "/zh-cn/api/modules/system/fs"
+  },
+  {
+    "from": "/en/api/java",
+    "to": "/en/api/modules/system/java"
+  },
+  {
+    "from": "/zh-cn/api/java",
+    "to": "/zh-cn/api/modules/system/java"
+  },
+  {
+    "from": "/en/api/net",
+    "to": "/en/api/modules/system/net"
+  },
+  {
+    "from": "/zh-cn/api/net",
+    "to": "/zh-cn/api/modules/system/net"
+  },
+  {
+    "from": "/en/api/reflect",
+    "to": "/en/api/modules/system/reflect"
+  },
+  {
+    "from": "/zh-cn/api/reflect",
+    "to": "/zh-cn/api/modules/system/reflect"
+  },
+  {
+    "from": "/en/api/chat",
+    "to": "/en/api/modules/ui/chat"
+  },
+  {
+    "from": "/zh-cn/api/chat",
+    "to": "/zh-cn/api/modules/ui/chat"
+  },
+  {
+    "from": "/en/api/command",
+    "to": "/en/api/modules/ui/command"
+  },
+  {
+    "from": "/zh-cn/api/command",
+    "to": "/zh-cn/api/modules/ui/command"
+  },
+  {
+    "from": "/en/api/hud",
+    "to": "/en/api/modules/ui/hud"
+  },
+  {
+    "from": "/zh-cn/api/hud",
+    "to": "/zh-cn/api/modules/ui/hud"
+  },
+  {
+    "from": "/en/api/render",
+    "to": "/en/api/modules/ui/render"
+  },
+  {
+    "from": "/zh-cn/api/render",
+    "to": "/zh-cn/api/modules/ui/render"
+  },
+  {
+    "from": "/en/api/entity",
+    "to": "/en/api/modules/world/entity"
+  },
+  {
+    "from": "/zh-cn/api/entity",
+    "to": "/zh-cn/api/modules/world/entity"
+  },
+  {
+    "from": "/en/api/player",
+    "to": "/en/api/modules/world/player"
+  },
+  {
+    "from": "/zh-cn/api/player",
+    "to": "/zh-cn/api/modules/world/player"
+  },
+  {
+    "from": "/en/api/world",
+    "to": "/en/api/modules/world/world"
+  },
+  {
+    "from": "/zh-cn/api/world",
+    "to": "/zh-cn/api/modules/world/world"
+  },
+  {
+    "from": "/en/api/types/baseevent",
+    "to": "/en/api/classes/baseevent"
+  },
+  {
+    "from": "/zh-cn/api/types/baseevent",
+    "to": "/zh-cn/api/classes/baseevent"
+  },
+  {
+    "from": "/en/api/types/chatreceiveevent",
+    "to": "/en/api/classes/chatreceiveevent"
+  },
+  {
+    "from": "/zh-cn/api/types/chatreceiveevent",
+    "to": "/zh-cn/api/classes/chatreceiveevent"
+  },
+  {
+    "from": "/en/api/types/chatsendevent",
+    "to": "/en/api/classes/chatsendevent"
+  },
+  {
+    "from": "/zh-cn/api/types/chatsendevent",
+    "to": "/zh-cn/api/classes/chatsendevent"
+  },
+  {
+    "from": "/en/api/types/entitydamageevent",
+    "to": "/en/api/classes/entitydamageevent"
+  },
+  {
+    "from": "/zh-cn/api/types/entitydamageevent",
+    "to": "/zh-cn/api/classes/entitydamageevent"
+  },
+  {
+    "from": "/en/api/types/entityhealevent",
+    "to": "/en/api/classes/entityhealevent"
+  },
+  {
+    "from": "/zh-cn/api/types/entityhealevent",
+    "to": "/zh-cn/api/classes/entityhealevent"
+  },
+  {
+    "from": "/en/api/types/entityloadevent",
+    "to": "/en/api/classes/entityloadevent"
+  },
+  {
+    "from": "/zh-cn/api/types/entityloadevent",
+    "to": "/zh-cn/api/classes/entityloadevent"
+  },
+  {
+    "from": "/en/api/types/entityspawnevent",
+    "to": "/en/api/classes/entityspawnevent"
+  },
+  {
+    "from": "/zh-cn/api/types/entityspawnevent",
+    "to": "/zh-cn/api/classes/entityspawnevent"
+  },
+  {
+    "from": "/en/api/types/entityunloadevent",
+    "to": "/en/api/classes/entityunloadevent"
+  },
+  {
+    "from": "/zh-cn/api/types/entityunloadevent",
+    "to": "/zh-cn/api/classes/entityunloadevent"
+  },
+  {
+    "from": "/en/api/types/gamequitevent",
+    "to": "/en/api/classes/gamequitevent"
+  },
+  {
+    "from": "/zh-cn/api/types/gamequitevent",
+    "to": "/zh-cn/api/classes/gamequitevent"
+  },
+  {
+    "from": "/en/api/types/gamestartevent",
+    "to": "/en/api/classes/gamestartevent"
+  },
+  {
+    "from": "/zh-cn/api/types/gamestartevent",
+    "to": "/zh-cn/api/classes/gamestartevent"
+  },
+  {
+    "from": "/en/api/types/inputwheelevent",
+    "to": "/en/api/classes/inputwheelevent"
+  },
+  {
+    "from": "/zh-cn/api/types/inputwheelevent",
+    "to": "/zh-cn/api/classes/inputwheelevent"
+  },
+  {
+    "from": "/en/api/types/keypressevent",
+    "to": "/en/api/classes/keypressevent"
+  },
+  {
+    "from": "/zh-cn/api/types/keypressevent",
+    "to": "/zh-cn/api/classes/keypressevent"
+  },
+  {
+    "from": "/en/api/types/playerairevent",
+    "to": "/en/api/classes/playerairevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerairevent",
+    "to": "/zh-cn/api/classes/playerairevent"
+  },
+  {
+    "from": "/en/api/types/playerattackblockevent",
+    "to": "/en/api/classes/playerattackblockevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerattackblockevent",
+    "to": "/zh-cn/api/classes/playerattackblockevent"
+  },
+  {
+    "from": "/en/api/types/playerattackentityevent",
+    "to": "/en/api/classes/playerattackentityevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerattackentityevent",
+    "to": "/zh-cn/api/classes/playerattackentityevent"
+  },
+  {
+    "from": "/en/api/types/playerdamageevent",
+    "to": "/en/api/classes/playerdamageevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerdamageevent",
+    "to": "/zh-cn/api/classes/playerdamageevent"
+  },
+  {
+    "from": "/en/api/types/playerdeathevent",
+    "to": "/en/api/classes/playerdeathevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerdeathevent",
+    "to": "/zh-cn/api/classes/playerdeathevent"
+  },
+  {
+    "from": "/en/api/types/playerdimensionchangeevent",
+    "to": "/en/api/classes/playerdimensionchangeevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerdimensionchangeevent",
+    "to": "/zh-cn/api/classes/playerdimensionchangeevent"
+  },
+  {
+    "from": "/en/api/types/playereffectevent",
+    "to": "/en/api/classes/playereffectevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playereffectevent",
+    "to": "/zh-cn/api/classes/playereffectevent"
+  },
+  {
+    "from": "/en/api/types/playerexpevent",
+    "to": "/en/api/classes/playerexpevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerexpevent",
+    "to": "/zh-cn/api/classes/playerexpevent"
+  },
+  {
+    "from": "/en/api/types/playergamemodeevent",
+    "to": "/en/api/classes/playergamemodeevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playergamemodeevent",
+    "to": "/zh-cn/api/classes/playergamemodeevent"
+  },
+  {
+    "from": "/en/api/types/playerglidingevent",
+    "to": "/en/api/classes/playerglidingevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerglidingevent",
+    "to": "/zh-cn/api/classes/playerglidingevent"
+  },
+  {
+    "from": "/en/api/types/playerhealevent",
+    "to": "/en/api/classes/playerhealevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerhealevent",
+    "to": "/zh-cn/api/classes/playerhealevent"
+  },
+  {
+    "from": "/en/api/types/playerhealthevent",
+    "to": "/en/api/classes/playerhealthevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerhealthevent",
+    "to": "/zh-cn/api/classes/playerhealthevent"
+  },
+  {
+    "from": "/en/api/types/playerhelditemevent",
+    "to": "/en/api/classes/playerhelditemevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerhelditemevent",
+    "to": "/zh-cn/api/classes/playerhelditemevent"
+  },
+  {
+    "from": "/en/api/types/playerhungerevent",
+    "to": "/en/api/classes/playerhungerevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerhungerevent",
+    "to": "/zh-cn/api/classes/playerhungerevent"
+  },
+  {
+    "from": "/en/api/types/playerinteractblockevent",
+    "to": "/en/api/classes/playerinteractblockevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerinteractblockevent",
+    "to": "/zh-cn/api/classes/playerinteractblockevent"
+  },
+  {
+    "from": "/en/api/types/playerinteractentityevent",
+    "to": "/en/api/classes/playerinteractentityevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerinteractentityevent",
+    "to": "/zh-cn/api/classes/playerinteractentityevent"
+  },
+  {
+    "from": "/en/api/types/playerjoinevent",
+    "to": "/en/api/classes/playerjoinevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerjoinevent",
+    "to": "/zh-cn/api/classes/playerjoinevent"
+  },
+  {
+    "from": "/en/api/types/playerleaveevent",
+    "to": "/en/api/classes/playerleaveevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerleaveevent",
+    "to": "/zh-cn/api/classes/playerleaveevent"
+  },
+  {
+    "from": "/en/api/types/playerrespawnevent",
+    "to": "/en/api/classes/playerrespawnevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerrespawnevent",
+    "to": "/zh-cn/api/classes/playerrespawnevent"
+  },
+  {
+    "from": "/en/api/types/playersneakevent",
+    "to": "/en/api/classes/playersneakevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playersneakevent",
+    "to": "/zh-cn/api/classes/playersneakevent"
+  },
+  {
+    "from": "/en/api/types/playerspawnevent",
+    "to": "/en/api/classes/playerspawnevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playerspawnevent",
+    "to": "/zh-cn/api/classes/playerspawnevent"
+  },
+  {
+    "from": "/en/api/types/playersprintevent",
+    "to": "/en/api/classes/playersprintevent"
+  },
+  {
+    "from": "/zh-cn/api/types/playersprintevent",
+    "to": "/zh-cn/api/classes/playersprintevent"
+  },
+  {
+    "from": "/en/api/types/screencloseevent",
+    "to": "/en/api/classes/screencloseevent"
+  },
+  {
+    "from": "/zh-cn/api/types/screencloseevent",
+    "to": "/zh-cn/api/classes/screencloseevent"
+  },
+  {
+    "from": "/en/api/types/screenopenevent",
+    "to": "/en/api/classes/screenopenevent"
+  },
+  {
+    "from": "/zh-cn/api/types/screenopenevent",
+    "to": "/zh-cn/api/classes/screenopenevent"
+  },
+  {
+    "from": "/en/api/types/tickevent",
+    "to": "/en/api/classes/tickevent"
+  },
+  {
+    "from": "/zh-cn/api/types/tickevent",
+    "to": "/zh-cn/api/classes/tickevent"
+  },
+  {
+    "from": "/en/api/types/worldblockupdateevent",
+    "to": "/en/api/classes/worldblockupdateevent"
+  },
+  {
+    "from": "/zh-cn/api/types/worldblockupdateevent",
+    "to": "/zh-cn/api/classes/worldblockupdateevent"
+  },
+  {
+    "from": "/en/api/types/worldbossbarevent",
+    "to": "/en/api/classes/worldbossbarevent"
+  },
+  {
+    "from": "/zh-cn/api/types/worldbossbarevent",
+    "to": "/zh-cn/api/classes/worldbossbarevent"
+  },
+  {
+    "from": "/en/api/types/worldchunkloadevent",
+    "to": "/en/api/classes/worldchunkloadevent"
+  },
+  {
+    "from": "/zh-cn/api/types/worldchunkloadevent",
+    "to": "/zh-cn/api/classes/worldchunkloadevent"
+  },
+  {
+    "from": "/en/api/types/worldchunkunloadevent",
+    "to": "/en/api/classes/worldchunkunloadevent"
+  },
+  {
+    "from": "/zh-cn/api/types/worldchunkunloadevent",
+    "to": "/zh-cn/api/classes/worldchunkunloadevent"
+  },
+  {
+    "from": "/en/api/types/worlddimensionchangeevent",
+    "to": "/en/api/classes/worlddimensionchangeevent"
+  },
+  {
+    "from": "/zh-cn/api/types/worlddimensionchangeevent",
+    "to": "/zh-cn/api/classes/worlddimensionchangeevent"
+  },
+  {
+    "from": "/en/api/types/worldjoinevent",
+    "to": "/en/api/classes/worldjoinevent"
+  },
+  {
+    "from": "/zh-cn/api/types/worldjoinevent",
+    "to": "/zh-cn/api/classes/worldjoinevent"
+  },
+  {
+    "from": "/en/api/types/worldleaveevent",
+    "to": "/en/api/classes/worldleaveevent"
+  },
+  {
+    "from": "/zh-cn/api/types/worldleaveevent",
+    "to": "/zh-cn/api/classes/worldleaveevent"
+  },
+  {
+    "from": "/en/api/types/worldsoundevent",
+    "to": "/en/api/classes/worldsoundevent"
+  },
+  {
+    "from": "/zh-cn/api/types/worldsoundevent",
+    "to": "/zh-cn/api/classes/worldsoundevent"
+  },
+  {
+    "from": "/en/api/types/worldtimeevent",
+    "to": "/en/api/classes/worldtimeevent"
+  },
+  {
+    "from": "/zh-cn/api/types/worldtimeevent",
+    "to": "/zh-cn/api/classes/worldtimeevent"
+  },
+  {
+    "from": "/en/api/types/worldweatherevent",
+    "to": "/en/api/classes/worldweatherevent"
+  },
+  {
+    "from": "/zh-cn/api/types/worldweatherevent",
+    "to": "/zh-cn/api/classes/worldweatherevent"
+  }
+]

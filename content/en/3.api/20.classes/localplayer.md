@@ -1,10 +1,9 @@
 ---
 title: "LocalPlayer"
+description: "The action surface of the local player: attack, interact, swing, and drop dispatch through the game on the main thread and resolve once processed."
 ---
 
 Handle · Wraps: `net.minecraft.client.player.LocalPlayer` · Extends: [`Player`](player)
-
-The action surface of the local player: attack, interact, swing, and drop dispatch through the game on the main thread and resolve once processed.
 
 ## Methods
 

@@ -1,8 +1,7 @@
 ---
 title: "BlockState"
+description: "Data"
 ---
-
-Data
 
 Immutable block state: the namespaced block identifier plus the vanilla state properties (facing, open, ...).
 

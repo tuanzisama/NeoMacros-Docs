@@ -1,8 +1,7 @@
 ---
 title: "BlockPos"
+description: "Data · Extends: [`Pos3D`](pos3d)"
 ---
-
-Data · Extends: [`Pos3D`](pos3d)
 
 Immutable block-grid position: an integer with directional offsets. new BlockPos(10.7, 64.2, 200.9) floors onto the grid.
 

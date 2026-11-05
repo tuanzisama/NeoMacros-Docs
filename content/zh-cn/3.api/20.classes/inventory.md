@@ -1,10 +1,9 @@
 ---
 title: "Inventory"
+description: "物品栏句柄：槽位读取每次都重新查询物品栏端口；操作在主线程派发，处理完成后落定。"
 ---
 
 Handle · Extended by: [`PlayerInventory`](playerinventory)
-
-物品栏句柄：槽位读取每次都重新查询物品栏端口；操作在主线程派发，处理完成后落定。
 
 ## Properties
 

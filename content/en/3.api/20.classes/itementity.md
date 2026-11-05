@@ -1,10 +1,9 @@
 ---
 title: "ItemEntity"
+description: "Dropped item stack handle."
 ---
 
 Handle · Wraps: `net.minecraft.world.entity.item.ItemEntity` · Extends: [`Entity`](entity)
-
-Dropped item stack handle.
 
 ## Properties
 

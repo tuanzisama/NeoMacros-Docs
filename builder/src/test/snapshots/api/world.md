@@ -1,6 +1,7 @@
-# world
-
-Fixture module exercising the full annotation set with complete bilingual documentation: class and member annotations, a handle type, a referenced record type, and an overridden parameter type.
+---
+title: "world"
+description: "Fixture module exercising the full annotation set with complete bilingual documentation: class and member annotations, a handle type, a referenced record type, and an overridden parameter type."
+---
 
 Category: test · Since: 0.1.0 · MC availability: >=1.20.6 · Exposed as `neo.world` and `@neomacros/world`
 

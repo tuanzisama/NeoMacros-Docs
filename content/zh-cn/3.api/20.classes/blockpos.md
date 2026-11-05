@@ -1,8 +1,7 @@
 ---
 title: "BlockPos"
+description: "Data · Extends: [`Pos3D`](pos3d)"
 ---
-
-Data · Extends: [`Pos3D`](pos3d)
 
 不可变的方块网格坐标：整数化的 ，带六个方向的偏移方法。new BlockPos(10.7, 64.2, 200.9) 会向下取整到网格。
 

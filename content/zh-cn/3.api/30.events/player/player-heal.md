@@ -1,10 +1,9 @@
 ---
 title: "player:heal"
+description: "本地玩家治疗事件载荷；携带恢复量与治疗后的生命值。"
 ---
 
-Payload: [`PlayerHealEvent`](../types/playerhealevent) · Since: 0.1.0 · MC: * · Loader: *
-
-本地玩家治疗事件载荷；携带恢复量与治疗后的生命值。
+Payload: [`PlayerHealEvent`](../../classes/playerhealevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

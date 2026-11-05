@@ -1,8 +1,7 @@
 ---
 title: "ItemStackBuilder"
+description: "Data"
 ---
-
-Data
 
 Builder for local values; the single construction path for script-made stacks. The product is local data: it enters the world only through privileged writes (creative inventory) or stays comparison/display data — survival mode has no "materialize items" path (server authority).
 

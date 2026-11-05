@@ -1,8 +1,7 @@
 ---
 title: "ItemStack"
+description: "Data"
 ---
-
-Data
 
 Immutable copy of one item stack. Instances come only from queries (inventory slots, event payloads) or the ; there is no direct constructor. JSON.stringify renders the plain fields.
 

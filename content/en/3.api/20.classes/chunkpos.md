@@ -1,8 +1,7 @@
 ---
 title: "ChunkPos"
+description: "Data"
 ---
-
-Data
 
 Immutable chunk-grid coordinate. Deliberately unrelated to : chunk coordinates and block coordinates are different spaces and every conversion between them is explicit (x = blockX >> 4).
 

@@ -1,10 +1,9 @@
 ---
 title: "player:death"
+description: "本地玩家死亡事件载荷。"
 ---
 
-Payload: [`PlayerDeathEvent`](../types/playerdeathevent) · Since: 0.1.0 · MC: * · Loader: *
-
-本地玩家死亡事件载荷。
+Payload: [`PlayerDeathEvent`](../../classes/playerdeathevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |

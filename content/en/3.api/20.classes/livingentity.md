@@ -1,10 +1,9 @@
 ---
 title: "LivingEntity"
+description: "Living entity handle: adds the health and equipment read face on top of the entity base."
 ---
 
 Handle · Wraps: `net.minecraft.world.entity.LivingEntity` · Extends: [`Entity`](entity) · Extended by: [`Player`](player)
-
-Living entity handle: adds the health and equipment read face on top of the entity base.
 
 ## Properties
 

@@ -108,7 +108,8 @@ class DocsGenerationTest {
     @Test
     void classPagesRenderKindWrapsAndInheritance() throws IOException {
         String handle = read(outMd.outDir().resolve("api/classes/WorldHandle.md"));
-        assertTrue(handle.contains("# WorldHandle"), "class page rendered");
+        assertTrue(handle.contains("title: \"WorldHandle\""), "class page frontmatter rendered");
+        assertTrue(handle.contains("description: \""), "class page description frontmatter rendered");
         assertTrue(handle.contains("Handle · Wraps: `net.minecraft.world.fixture.World`"),
                 "kind and wraps meta rendered");
         assertTrue(handle.contains("Extended by: [`RegionHandle`](RegionHandle.html)"),
@@ -136,14 +137,14 @@ class DocsGenerationTest {
     @Test
     void standaloneClassPageRendered() throws IOException {
         String vec = read(outMd.outDir().resolve("api/classes/StandaloneVec.md"));
-        assertTrue(vec.contains("# StandaloneVec"), "standalone class page rendered");
+        assertTrue(vec.contains("title: \"StandaloneVec\""), "standalone class page rendered");
         assertTrue(vec.contains("Data"), "data kind badge rendered");
     }
 
     @Test
     void eventPagesRendered() throws IOException {
         String marked = read(outMd.outDir().resolve("api/events/fixture-marked.md"));
-        assertTrue(marked.contains("# fixture:marked"), "event page rendered");
+        assertTrue(marked.contains("title: \"fixture:marked\""), "event page rendered");
         assertTrue(marked.contains("Cancellable"), "cancellable badge rendered");
         assertTrue(marked.contains("Since: 0.1.0"), "since badge rendered");
         assertTrue(marked.contains("[`FixtureMarkedEvent`](../types/FixtureMarkedEvent.html)"),
@@ -167,7 +168,7 @@ class DocsGenerationTest {
     @Test
     void eventTypePagesRendered() throws IOException {
         String cls = read(outMd.outDir().resolve("api/types/FixtureMarkedEvent.md"));
-        assertTrue(cls.contains("# FixtureMarkedEvent"), "payload class page rendered");
+        assertTrue(cls.contains("title: \"FixtureMarkedEvent\""), "payload class page rendered");
         assertTrue(cls.contains("Extends: [`BaseEvent`](BaseEvent.html)"),
                 "base class link rendered");
         assertTrue(cls.contains("Raised by: [`fixture:marked`](../events/fixture/fixture-marked.html)"),
@@ -175,7 +176,7 @@ class DocsGenerationTest {
         assertTrue(cls.contains("| `severity` | `number` | the severity level of the event |"),
                 "field table rendered on the payload class page");
         String base = read(outMd.outDir().resolve("api/types/BaseEvent.md"));
-        assertTrue(base.contains("# BaseEvent"), "base event page rendered");
+        assertTrue(base.contains("title: \"BaseEvent\""), "base event page rendered");
         assertTrue(base.contains("| `cancellable` | `boolean` |"), "base fields rendered");
     }
 

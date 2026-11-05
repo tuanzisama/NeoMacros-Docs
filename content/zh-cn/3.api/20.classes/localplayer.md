@@ -1,10 +1,9 @@
 ---
 title: "LocalPlayer"
+description: "本地玩家动作面：attack/interact/swing/drop 经游戏主线程派发，处理完成后落定。"
 ---
 
 Handle · Wraps: `net.minecraft.client.player.LocalPlayer` · Extends: [`Player`](player)
-
-本地玩家动作面：attack/interact/swing/drop 经游戏主线程派发，处理完成后落定。
 
 ## Methods
 

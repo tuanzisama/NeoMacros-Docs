@@ -1,10 +1,9 @@
 ---
 title: "RayHit"
+description: "活射线检测结果：沿射线的首个命中。block 与 entity 互斥，均为活句柄。"
 ---
 
 Handle
-
-活射线检测结果：沿射线的首个命中。block 与 entity 互斥，均为活句柄。
 
 ## Properties
 

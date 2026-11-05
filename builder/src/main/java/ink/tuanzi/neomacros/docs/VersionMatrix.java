@@ -32,17 +32,15 @@ final class VersionMatrix {
     private static String render(ApiModel model, List<String> versions, boolean zh) {
         StringBuilder sb = new StringBuilder();
         if (zh) {
-            sb.append("# 版本兼容性\n\n");
-            sb.append("每个发布版本为每个受支持的 Minecraft 版本提供独立构建。")
-              .append("下表列出每个门面模块在各个构建上的可用性；页面标注为 `*` 的成员")
-              .append("在所有列出的构建上均可用。\n\n");
+            sb.append(MDDoclet.frontmatter("版本兼容性",
+                    "每个发布版本为每个受支持的 Minecraft 版本提供独立构建。下表列出每个门面模块在各个构建上的可用性；页面标注为 `*` 的成员在所有列出的构建上均可用。"));
             sb.append("## 模块\n\n");
         } else {
-            sb.append("# Version compatibility\n\n");
-            sb.append("Every release ships one build per supported Minecraft version. ")
-              .append("The tables below map every facade module to the builds it is available on; ")
-              .append("a member whose page shows `*` as its MC availability is available in ")
-              .append("every listed build.\n\n");
+            sb.append(MDDoclet.frontmatter("Version compatibility",
+                    "Every release ships one build per supported Minecraft version. "
+                    + "The tables below map every facade module to the builds it is available on; "
+                    + "a member whose page shows `*` as its MC availability is available in "
+                    + "every listed build."));
             sb.append("## Modules\n\n");
         }
         sb.append(moduleHeader(versions, zh)).append("\n");

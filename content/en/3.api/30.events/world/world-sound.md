@@ -1,10 +1,9 @@
 ---
 title: "world:sound"
+description: "Payload of the sound event; fires when the client plays a sound. High-traffic, so wildcard dispatch skips it by default."
 ---
 
-Payload: [`WorldSoundEvent`](../types/worldsoundevent) · Since: 0.1.0 · MC: * · Loader: *
-
-Payload of the sound event; fires when the client plays a sound. High-traffic, so wildcard dispatch skips it by default.
+Payload: [`WorldSoundEvent`](../../classes/worldsoundevent) · Since: 0.1.0 · MC: * · Loader: *
 
 | Field | Type | Description |
 | --- | --- | --- |
