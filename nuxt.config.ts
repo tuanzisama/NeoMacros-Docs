@@ -1,3 +1,24 @@
+// Facade module pages moved from the api root into the Modules/<domain>
+// tree (see scripts/sync-generated-docs.sh); redirect the old flat URLs
+// in both slash variants so existing links keep working.
+const moduleRedirects = Object.fromEntries(
+  [
+    ['events', 'core'], ['thread', 'core'], ['storage', 'core'],
+    ['chat', 'ui'], ['hud', 'ui'], ['command', 'ui'], ['render', 'ui'],
+    ['world', 'world'], ['player', 'world'], ['entity', 'world'],
+    ['input', 'input'],
+    ['fs', 'system'], ['net', 'system'], ['java', 'system'],
+    ['client', 'system'], ['reflect', 'system'],
+  ].flatMap(([name, domain]) =>
+    ['en', 'zh-cn'].flatMap(locale =>
+      [`/${locale}/api/${name}`, `/${locale}/api/${name}/`].map(from => [
+        from,
+        { redirect: { to: `/${locale}/api/modules/${domain}/${name}` } },
+        ]),
+      ),
+    ),
+  )
+
 export default defineNuxtConfig({
   extends: ['docus'],
   modules: ['@nuxtjs/i18n'],
@@ -24,6 +45,7 @@ export default defineNuxtConfig({
   // them into non-routable navigation ghosts that break the header section
   // links), so the bare section roots redirect to their overview pages.
   routeRules: {
+    ...moduleRedirects,
     '/en/api': { redirect: { to: '/en/api/overview' } },
     '/en/api/': { redirect: { to: '/en/api/overview' } },
     '/en/examples': { redirect: { to: '/en/examples/overview' } },
