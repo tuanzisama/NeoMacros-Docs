@@ -5,6 +5,15 @@ description: "The action surface of the local player: attack, interact, swing, a
 
 Handle · Wraps: `net.minecraft.client.player.LocalPlayer` · Extends: [`Player`](player)
 
+## Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `blockInteractionRange` | `number` | The block interaction range in blocks. (read-only) |
+| `breakingBlock` | `boolean` | Whether the local player is currently breaking a block. (read-only) |
+| `entityInteractionRange` | `number` | The entity interaction range in blocks. (read-only) |
+| `statistics` | `Record<string, number>` | The client-side statistics as statTypeId:valueId -> value entries; only non-zero values appear. null without a world. (read-only) |
+
 ## Methods
 
 ### `attack(target: Entity)`

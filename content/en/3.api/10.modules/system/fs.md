@@ -5,6 +5,10 @@ description: "The neo.fs facade: filesystem access relative to the game director
 
 Category: System · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.fs` and `@neomacros/fs`
 
+**Classes**
+
+[`FileHandle`](../../classes/filehandle)
+
 ## Methods
 
 ### `copy(from: string, to: string)`
@@ -81,6 +85,18 @@ Moves a file or directory; fails when the target already exists.
 
 Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
+### `open(path: string)`
+
+Opens one file handle for streamed reads, attribute queries, and the java-gated raw path.
+
+**Parameters**
+
+- `path` `string`: 游戏目录相对路径
+
+**Returns** [FileHandle](../../classes/filehandle)
+
+Since: 0.2.0 · MC: * · Loader: *
+
 ### `readBytes(path: string)`
 
 Reads one file as raw bytes (each element 0-255; the engine renders the result as a Uint8Array).
@@ -128,6 +144,18 @@ Returns file metadata: size, mtimeMs, isDir, isFile.
 **Returns** `Promise<object>`
 
 Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+
+### `toRelative(path: string)`
+
+Returns the path relative to the game directory root; paths outside the root throw.
+
+**Parameters**
+
+- `path` `string`: 绝对或游戏目录相对路径
+
+**Returns** `string`
+
+Since: 0.2.0 · MC: * · Loader: *
 
 ### `writeBytes(path: string, data: unknown)`
 

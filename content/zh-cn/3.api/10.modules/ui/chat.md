@@ -17,6 +17,18 @@ Category: 界面 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 Since: 0.1.0 · MC: * · Loader: *
 
+### `getWidth(text: string)`
+
+文本在聊天字体下的渲染像素宽度。
+
+**Parameters**
+
+- `text` `string`: 文本
+
+**Returns** `number`
+
+Since: 0.2.0 · MC: * · Loader: *
+
 ### `log(message: string)`
 
 仅在本地聊天栏打印消息。
@@ -36,6 +48,31 @@ Since: 0.1.0 · MC: * · Loader: *
 - `message` `string`: 
 
 Since: 0.1.0 · MC: * · Loader: *
+
+### `title(title: string, subtitle: string, fadeIn: number, stay: number, fadeOut: number)`
+
+显示标题（与可选副标题）覆盖层；null 行跳过，非 null 时长（tick）覆盖原版渐变时间。
+
+**Parameters**
+
+- `title` `string`: 主标题（可省）
+- `subtitle` `string`: 副标题（可省）
+- `fadeIn` `number`: 淡入 tick（可省）
+- `stay` `number`: 停留 tick（可省）
+- `fadeOut` `number`: 淡出 tick（可省）
+
+Since: 0.2.0 · MC: * · Loader: *
+
+### `toast(title: string, message: string)`
+
+在屏幕角落显示系统 toast 通知。
+
+**Parameters**
+
+- `title` `string`: 标题
+- `message` `string`: 正文
+
+Since: 0.2.0 · MC: * · Loader: *
 
 
 ## Examples

@@ -70,6 +70,18 @@ Looks up one host class by its binary name, e.g. java.util.UUID. The returned cl
 
 Since: 0.1.0 · MC: * · Loader: *
 
+### `wrap(raw: unknown)`
+
+Wraps one raw host object into its registered handle (entity handles, block state data); unregistered types return null. The inverse of the handles' raw escape hatch.
+
+**Parameters**
+
+- `raw` `unknown`: 宿主原始对象
+
+**Returns** `unknown`
+
+Since: 0.2.0 · MC: * · Loader: *
+
 
 ## Examples
 

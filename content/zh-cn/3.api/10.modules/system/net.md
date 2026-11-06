@@ -1,11 +1,27 @@
 ---
 title: "net"
-description: "neo.net 门面：fetch 语义的 HTTP 客户端。请求在专用 IO 线程池执行，需 net 能力授权；Promise 以活 Response 落定，其 body 读取器（text()、json()、bytes()）均为异步。"
+description: "neo.net 门面：fetch 语义的 HTTP 客户端。请求在专用 IO 线程池执行，需 net 能力授权；Promise 以活 Response 落定，其 body 读取器（text()、json()、bytes()）均为异步。每次请求落定会经 记录到 DevTools 网络面板——预览恒记，阶段计时与 ≤ 的完整 body 仅在有监听时保留；无监听时记录近乎零开销。"
 ---
 
 Category: 系统 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.net` and `@neomacros/net`
 
+**Classes**
+
+[`Ws`](../../classes/ws)
+
 ## Methods
+
+### `connect(url: string)`
+
+打开 WebSocket 连接，握手完成后以活连接落定；握手失败 reject。需 net 能力授权。
+
+**Parameters**
+
+- `url` `string`: ws(s):// URL
+
+**Returns** `Promise<`[Ws](../../classes/ws)`>` — Promise，以 Ws 落定
+
+Since: 0.2.0 · MC: * · Loader: *
 
 ### `fetch(url: string, init: unknown)`
 

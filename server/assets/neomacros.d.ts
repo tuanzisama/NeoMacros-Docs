@@ -5,23 +5,71 @@ declare module '@neomacros/chat' {
     export interface ChatApi {
         /** Renders the message on the action bar above the hotbar. @since 0.1.0 @mc * */
         actionbar(message: string): void;
+        /** The rendered pixel width of the text in the chat font. @since 0.2.0 @mc * */
+        getWidth(text: string): number;
         /** Prints the message to the local chat HUD only. @since 0.1.0 @mc * */
         log(message: string): void;
         /** Sends the message to the connected server as if typed by the player. @since 0.1.0 @mc * */
         say(message: string): void;
+        /** Shows a title (and optional subtitle) overlay; null lines are skipped and non-null durations override the vanilla fade timings in ticks. @since 0.2.0 @mc * */
+        title(title: string, subtitle: string, fadeIn: number, stay: number, fadeOut: number): void;
+        /** Shows a system toast notification in the screen corner. @since 0.2.0 @mc * */
+        toast(title: string, message: string): void;
     }
     export const chat: ChatApi;
 }
 
 declare module '@neomacros/client' {
-    /** The neo.client facade: process-level facts about the running game client plus the controlled escape-layer entry to the raw client instance. */
+    /** The neo.client facade: process-level facts about the running game client, window and input surfaces, the connection lifecycle, and read-only registry and option slices. */
     export interface ClientApi {
+        /** The current system clipboard text. @since 0.2.0 @mc * */
+        readonly clipboard: string;
+        /** Whether the game runs in a development environment. @since 0.2.0 @mc * */
+        readonly devEnv: boolean;
         /** The current frames-per-second measurement of the client. @since 0.2.0 @mc * */
         readonly fps: number;
         /** The game version string the client runs on. @since 0.2.0 @mc * */
         readonly gameVersion: string;
         /** The raw host client instance as a JavaObject proxy. Requires the java permission; equivalent to java.type('net.minecraft.client.Minecraft').getInstance(). @since 0.2.0 @mc * @requires permission 'java' */
         minecraft: unknown;
+        /** The installed mods as [{id, name, version, authors}] in loader order. @since 0.2.0 @mc * */
+        readonly mods: Array<Record<string, unknown>>;
+        /** The cursor position in window pixels as {x, y}. @since 0.2.0 @mc * */
+        readonly mouse: Record<string, unknown>;
+        /** A small read-only slice of the game options as {fov, gamma, guiScale, renderDistance}. @since 0.2.0 @mc * */
+        readonly options: Record<string, unknown>;
+        /** The server-reported latency for the local player in milliseconds, or null without a connection. @since 0.2.0 @mc * */
+        readonly ping: number;
+        /** The connected server entry as {name, address}, or null in singleplayer. @since 0.2.0 @mc * */
+        readonly serverInfo: Record<string, unknown>;
+        /** The window metrics as {width, height, scaledWidth, scaledHeight}. @since 0.2.0 @mc * */
+        readonly window: Record<string, unknown>;
+        /** Connects to the server at the address, leaving any current world. Resolves once the connection is initiated; failures reject. @since 0.2.0 @mc * */
+        connect(address: string): Promise<void>;
+        /** Disconnects from the current server. Resolves once initiated; rejects in singleplayer. @since 0.2.0 @mc * */
+        disconnect(): Promise<void>;
+        /** Closes the game immediately, skipping save and shutdown hooks. @since 0.2.0 @mc * */
+        forceShutdown(): void;
+        /** The metadata of one loaded mod as {id, name, version, authors}, or null when not loaded. @since 0.2.0 @mc * */
+        getMod(id: string): Record<string, unknown>;
+        /** Grabs the mouse cursor back into the game window. @since 0.2.0 @mc * */
+        grabMouse(): void;
+        /** Captures the game framebuffer as an Image; the promise resolves after the next frame read. @since 0.2.0 @mc * */
+        grabScreenshot(): Promise<import('@neomacros/types').Image>;
+        /** Whether a mod with the identifier is loaded. @since 0.2.0 @mc * */
+        isModLoaded(id: string): boolean;
+        /** Loads the local save with the given name. Resolves once the load flow starts; unknown saves reject. @since 0.2.0 @mc * */
+        loadWorld(name: string): Promise<void>;
+        /** The identifiers of one registry kind (block, item, entity_type, sound_event, particle_type, mob_effect); unknown kinds throw. @since 0.2.0 @mc * */
+        registryIds(kind: string): Array<string>;
+        /** Returns the full identifier when the registry kind contains the id (missing namespace defaults to minecraft), or null. @since 0.2.0 @mc * */
+        registryLookup(kind: string, id: string): string;
+        /** Releases the mouse cursor to the operating system. @since 0.2.0 @mc * */
+        releaseMouse(): void;
+        /** Writes text to the system clipboard. @since 0.2.0 @mc * */
+        setClipboard(value: string): void;
+        /** Closes the game gracefully. @since 0.2.0 @mc * */
+        shutdown(): void;
     }
     export const client: ClientApi;
 }
@@ -300,6 +348,8 @@ declare module '@neomacros/fs' {
         mkdir(path: string): Promise<void>;
         /** Moves a file or directory; fails when the target already exists. @since 0.1.0 @mc * @requires permission 'fs' */
         move(from: string, to: string): Promise<void>;
+        /** Opens one file handle for streamed reads, attribute queries, and the java-gated raw path. @since 0.2.0 @mc * */
+        open(path: string): FileHandle;
         /** Reads one file as raw bytes (each element 0-255; the engine renders the result as a Uint8Array). @since 0.1.0 @mc * @requires permission 'fs' */
         readBytes(path: string): Promise<import('@neomacros/types').Uint8Array>;
         /** Reads a JSON file into neutral values (objects, arrays, strings, numbers, booleans). @since 0.1.0 @mc * @requires permission 'fs' */
@@ -308,6 +358,8 @@ declare module '@neomacros/fs' {
         readText(path: string): Promise<string>;
         /** Returns file metadata: size, mtimeMs, isDir, isFile. @since 0.1.0 @mc * @requires permission 'fs' */
         stat(path: string): Promise<object>;
+        /** Returns the path relative to the game directory root; paths outside the root throw. @since 0.2.0 @mc * */
+        toRelative(path: string): string;
         /** Writes raw bytes to a file (creating parent directories). The data argument is an array-like of byte values. @since 0.1.0 @mc * @requires permission 'fs' */
         writeBytes(path: string, data: unknown): Promise<void>;
         /** Writes neutral values into a JSON file (creating parent directories). @since 0.1.0 @mc * @requires permission 'fs' */
@@ -316,6 +368,16 @@ declare module '@neomacros/fs' {
         writeText(path: string, content: string): Promise<void>;
     }
     export const fs: FsApi;
+    /** Live handle over one file inside the game directory. Reads run on the IO executor; raw exposes the host path behind the java permission. */
+    export class FileHandle {
+        /** The file attributes as {size, mtimeMs, isDir, isFile}. @since 0.2.0 @mc * */
+        readonly attributes: Record<string, unknown>;
+        /** The raw host Path object. Requires the java permission. @since 0.2.0 @mc * @requires permission 'java' */
+        raw: unknown;
+        /** Reads the whole file as bytes. @since 0.2.0 @mc * */
+        readBytes(): Promise<import('@neomacros/types').Uint8Array>;
+        toString(): string;
+    }
 }
 
 declare module '@neomacros/hud' {
@@ -334,8 +396,16 @@ declare module '@neomacros/hud' {
 declare module '@neomacros/input' {
     /** The neo.input facade: keybind registration (surfaced in the vanilla controls menu), raw key press listening, mouse wheel events, and key injection (press/release/hold/set). */
     export interface InputApi {
+        /** The vanilla keybind rows as [{name, key}] in registration order; key is the friendly label of the bound key. @since 0.2.0 @mc * */
+        readonly keybinds: Array<Record<string, unknown>>;
+        /** The movement bind states as {forward, backward, left, right, jump, sneak, sprint}. @since 0.2.0 @mc * */
+        readonly movementState: Record<string, boolean>;
+        /** The vanilla keybind names currently held down. @since 0.2.0 @mc * */
+        readonly pressedKeys: Array<string>;
         /** Holds a raw key down for the given duration, then releases; the promise resolves after the release. @since 0.1.0 @mc * */
         hold(keyName: string, millis: number): Promise<void>;
+        /** Holds the given movement binds down until the returned subscription is cancelled. Recognized keys: forward, backward, left, right, jump, sneak, sprint. @since 0.2.0 @mc * */
+        movement(spec: Record<string, unknown>): import('@neomacros/types').Subscription;
         /** Subscribes to mouse wheel scroll; the value is the scroll offset (positive = wheel up). @since 0.1.0 @mc * */
         onScroll(sink: (arg: number) => void): Promise<void>;
         /** Injects one raw key press (down edge). @since 0.1.0 @mc * */
@@ -348,6 +418,8 @@ declare module '@neomacros/input' {
         release(keyName: string): void;
         /** Injects one keybind state by bind name (key.use and friends), as if the user pressed the bound input. @since 0.1.0 @mc * */
         set(bindName: string, down: boolean): void;
+        /** Rebinds one vanilla keybind to the key description (key.keyboard.w form). @since 0.2.0 @mc * */
+        setBind(bindName: string, keyName: string): void;
         /** Removes a previously registered keybind or press listener. @since 0.1.0 @mc * */
         unregister(handle: unknown): void;
     }
@@ -367,13 +439,17 @@ declare module '@neomacros/java' {
         toList(scriptArray: unknown): unknown;
         /** Looks up one host class by its binary name, e.g. java.util.UUID. The returned class proxy exposes static fields and methods directly, and new(...) constructs instances. @since 0.1.0 @mc * */
         type(className: string, alternate: string): import('@neomacros/types').JavaClass;
+        /** Wraps one raw host object into its registered handle (entity handles, block state data); unregistered types return null. The inverse of the handles' raw escape hatch. @since 0.2.0 @mc * */
+        wrap(raw: unknown): unknown;
     }
     export const java: JavaApi;
 }
 
 declare module '@neomacros/net' {
-    /** The neo.net facade: HTTP client with fetch semantics. Requests run on a dedicated IO executor and require the net capability; the promise settles with a live whose body readers (text(), json(), bytes()) are async. */
+    /** The neo.net facade: HTTP client with fetch semantics. Requests run on a dedicated IO executor and require the net capability; the promise settles with a live whose body readers (text(), json(), bytes()) are async. Each settled request is also recorded through for the DevTools network panel — previews always, phase timings, and full bodies up to only while a sink listens. Recording is free when no dispatcher listens. */
     export interface NetApi {
+        /** Opens a WebSocket connection and resolves with the live socket once the handshake completes; handshake failures reject. Requires the net capability (module-level gate). @since 0.2.0 @mc * */
+        connect(url: string): Promise<Ws>;
         /** Performs an HTTP request with fetch semantics. The init object carries method (default GET), headers (map) and body (string). @since 0.1.0 @mc * @requires permission 'net' */
         fetch(url: string, init: unknown): Promise<import('@neomacros/types').Response>;
         /** Performs an HTTP GET; convenience form of . @since 0.1.0 @mc * @requires permission 'net' */
@@ -382,6 +458,49 @@ declare module '@neomacros/net' {
         post(url: string, body: string): Promise<import('@neomacros/types').Response>;
     }
     export const net: NetApi;
+    /** Live WebSocket connection. Events surface through on with the names open, message (string payload), close, and error (message string). */
+    export class Ws {
+        /** The connected URL. @since 0.2.0 @mc * */
+        readonly url: string;
+        /** Closes the connection gracefully. @since 0.2.0 @mc * */
+        close(): void;
+        /** Subscribes one event handler (open/message/ close/error). @since 0.2.0 @mc * */
+        on(name: string, handler: (arg: unknown) => void): void;
+        /** Sends one text frame. @since 0.2.0 @mc * */
+        send(data: string): void;
+        toString(): string;
+    }
+}
+
+declare module '@neomacros/performance' {
+    /** The neo.performance facade: Web-Performance-style macro profiling — a high-resolution monotonic clock anchored at the script's session origin, plus User Timing marks and measures kept in a bounded per-script buffer. Wall-clock timestamps remain the domain of the ES-native Date.now(); this module measures durations. Each script session owns an isolated timeline, so timeOrigin and buffered entries reset when the script reloads. */
+    export interface PerformanceApi {
+        /** All kept entries in insertion order; the buffer keeps the newest 4096 and evicts older ones. (The MDN getEntries() query lands as a read-only property under the house no-argument-property rule.) @since 0.2.0 @mc * */
+        readonly entries: Array<PerformanceEntry>;
+        /** Wall-clock time, in milliseconds, at which this script's session started; performance.timeOrigin + performance.now() stays comparable to Date.now(). @since 0.2.0 @mc * */
+        readonly timeOrigin: number;
+        /** Removes recorded marks — all of them when name is omitted, otherwise only those under that name. @since 0.2.0 @mc * */
+        clearMarks(name?: string): void;
+        /** Removes recorded measures — all of them when name is omitted, otherwise only those under that name. @since 0.2.0 @mc * */
+        clearMeasures(name?: string): void;
+        /** Kept entries under name, optionally restricted to one entryType ("mark" or "measure"). @since 0.2.0 @mc * */
+        entriesByName(name: string, entryType?: string): Array<PerformanceEntry>;
+        /** Kept entries of one entryType ("mark" or "measure"); unknown types return an empty array. @since 0.2.0 @mc * */
+        entriesByType(entryType: string): Array<PerformanceEntry>;
+        /** Records a zero-duration timestamp under name and returns the stored entry; the name must be non-empty. @since 0.2.0 @mc * */
+        mark(name: string): PerformanceEntry;
+        /** Records a duration under name spanning start to end and returns the stored entry. Each bound accepts a mark name (that mark's timestamp) or a raw now() timestamp; omitted bounds default to the session origin and the current time. @since 0.2.0 @mc * */
+        measure(name: string, start?: string | number, end?: string | number): PerformanceEntry;
+        /** High-resolution monotonic timestamp in milliseconds (microsecond precision) since this script's session origin; unlike Date.now() it never steps backward with wall-clock changes. @since 0.2.0 @mc * */
+        now(): number;
+    }
+    export const performance: PerformanceApi;
+    export interface PerformanceEntry {
+        duration: number;
+        entryType: string;
+        name: string;
+        startTime: number;
+    }
 }
 
 declare module '@neomacros/player' {
@@ -426,6 +545,14 @@ declare module '@neomacros/player' {
     }
     /** The action surface of the local player: attack, interact, swing, and drop dispatch through the game on the main thread and resolve once processed. */
     export interface LocalPlayer extends Player {
+        /** The block interaction range in blocks. @since 0.2.0 @mc * */
+        readonly blockInteractionRange: number;
+        /** Whether the local player is currently breaking a block. @since 0.2.0 @mc * */
+        readonly breakingBlock: boolean;
+        /** The entity interaction range in blocks. @since 0.2.0 @mc * */
+        readonly entityInteractionRange: number;
+        /** The client-side statistics as statTypeId:valueId -> value entries; only non-zero values appear. null without a world. @since 0.2.0 @mc * */
+        readonly statistics: Record<string, number>;
         /** Attacks the entity behind the target handle. @since 0.1.0 @mc * */
         attack(target: import('@neomacros/entity').Entity): Promise<void>;
         /** Drops the held item stack (all = the whole stack). @since 0.1.0 @mc * */
@@ -551,6 +678,15 @@ declare module '@neomacros/render' {
     export const render: RenderApi;
 }
 
+declare module '@neomacros/screen' {
+    /** The neo.screen facade: metadata about the currently open screen. The script-built GUI surface stays a later-phase design. */
+    export interface ScreenApi {
+        /** The currently open screen as {title, kind}, or null when no screen is open. kind carries the container screen kind (chest, crafting, ...) for container screens and screen otherwise; the container itself is reachable through player.opened. @since 0.2.0 @mc * */
+        readonly opened: Record<string, unknown>;
+    }
+    export const screen: ScreenApi;
+}
+
 declare module '@neomacros/storage' {
     /** The neo.storage facade: persistent per-script key-value storage. Values must be JSON-serializable plain data (objects, arrays, strings, numbers, booleans); each script owns an isolated store keyed by its source file name, surviving reloads and game restarts. */
     export interface StorageApi {
@@ -596,18 +732,30 @@ declare module '@neomacros/world' {
     export interface WorldApi {
         /** The total world age in ticks. @since 0.1.0 @mc * */
         readonly age: number;
+        /** The boss bars currently displayed as [{uuid, name, progress, color}]; empty list when none. @since 0.2.0 @mc * */
+        readonly bossBars: Array<Record<string, unknown>>;
         /** The current day count. @since 0.1.0 @mc * */
         readonly day: number;
         /** The difficulty identifier, e.g. normal. @since 0.1.0 @mc * */
         readonly difficulty: string;
         /** The dimension identifier of the loaded world, e.g. minecraft:overworld. @since 0.1.0 @mc * */
         readonly dimension: string;
+        /** The loaded save or server name; an empty string without a world. @since 0.2.0 @mc * */
+        readonly levelName: string;
+        /** The current moon phase index (0 = full moon, 4 = new moon). @since 0.2.0 @mc * */
+        readonly moonPhase: number;
         /** Whether rain is currently falling. @since 0.1.0 @mc * */
         readonly raining: boolean;
+        /** The client scoreboard as {objectives, scores}; objectives carry name, displayName, criteria, renderType, scores carry objective, owner, value, or null without a world. @since 0.2.0 @mc * */
+        readonly scoreboards: Record<string, unknown>;
+        /** The client tab list as {header, footer, entries}; entries carry uuid, name, latency, gamemode, displayName, or null without a world. @since 0.2.0 @mc * */
+        readonly tabList: Record<string, unknown>;
         /** Whether thunder is currently falling. @since 0.1.0 @mc * */
         readonly thundering: boolean;
         /** The world time of day in ticks. @since 0.1.0 @mc * */
         readonly time: number;
+        /** The remote tick rate estimate sampled from time sync packets: {instant, m1, m5, m15} in ticks per second, or null before the first sample. @since 0.2.0 @mc * */
+        readonly tps: Record<string, unknown>;
         /** The biome identifier at the position. @since 0.1.0 @mc * */
         biomeAt(x: number, y: number, z: number): string;
         /** Returns the block at the coordinates, or null when outside the loaded world. @since 0.1.0 @mc * */
@@ -616,8 +764,12 @@ declare module '@neomacros/world' {
         chunkLoaded(chunk: import('@neomacros/types').ChunkPos): boolean;
         /** Whether the chunk containing the position is loaded. @since 0.1.0 @mc * */
         loaded(x: number, y: number, z: number): boolean;
+        /** Plays a sound locally. With coordinates the sound plays at the world position (requires a loaded world); otherwise it plays through the UI sound channel. Unknown identifiers throw. @since 0.2.0 @mc * */
+        playSound(soundId: string, x: number, y: number, z: number, volume: number, pitch: number): void;
         /** Casts a ray from one point toward another and returns the first hit, or null when unobstructed or no world is loaded. @since 0.1.0 @mc * */
         raycast(fromX: number, fromY: number, fromZ: number, toX: number, toY: number, toZ: number): import('@neomacros/types').RayHit;
+        /** Spawns particles locally around the position; unknown identifiers or data-carrying particle types throw. @since 0.2.0 @mc * */
+        spawnParticle(particleId: string, x: number, y: number, z: number, count: number, offsetX: number, offsetY: number, offsetZ: number, speed: number): void;
     }
     export const world: WorldApi;
 }
@@ -711,6 +863,18 @@ declare module '@neomacros/types' {
         /** Translates by chunk-space offsets. @since 0.2.0 @mc * */
         offset(dx: number, dz: number): ChunkPos;
         /** JSON form so JSON.stringify renders the chunk directly. @since 0.2.0 @mc * */
+        toJSON(): Record<string, unknown>;
+        toString(): string;
+    }
+    /** Immutable raster image: dimensions plus PNG-encoded bytes, produced by screenshots (and later by texture drawing). Instances come only from queries; there is no direct constructor. The byte content is compatible with fs.writeBytes. */
+    export class Image {
+        /** The PNG-encoded image content. @since 0.2.0 @mc * */
+        readonly bytes: unknown;
+        /** The image height in pixels. @since 0.2.0 @mc * */
+        readonly height: number;
+        /** The image width in pixels. @since 0.2.0 @mc * */
+        readonly width: number;
+        /** Plain-object rendering used by JSON.stringify. @since 0.2.0 */
         toJSON(): Record<string, unknown>;
         toString(): string;
     }
@@ -1131,9 +1295,11 @@ declare const neo: {
     input: import('@neomacros/input').InputApi;
     java: import('@neomacros/java').JavaApi;
     net: import('@neomacros/net').NetApi;
+    performance: import('@neomacros/performance').PerformanceApi;
     player: import('@neomacros/player').PlayerApi;
     reflect: import('@neomacros/reflect').ReflectApi;
     render: import('@neomacros/render').RenderApi;
+    screen: import('@neomacros/screen').ScreenApi;
     storage: import('@neomacros/storage').StorageApi;
     thread: import('@neomacros/thread').ThreadApi;
     world: import('@neomacros/world').WorldApi;

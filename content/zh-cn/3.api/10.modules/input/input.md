@@ -5,6 +5,14 @@ description: "neo.input 门面：按键绑定注册（显示在原版控制设�
 
 Category: 输入 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.input` and `@neomacros/input`
 
+## Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `keybinds` | `Array<Record<string, unknown>>` | 原版键位表 [{name, key}]，按注册顺序；key 为绑定键的友好名称。 (read-only) |
+| `movementState` | `Record<string, boolean>` | 移动键位状态 {forward, backward, left, right, jump, sneak, sprint}。 (read-only) |
+| `pressedKeys` | `Array<string>` | 当前按住的原版键位绑定名数组。 (read-only) |
+
 ## Methods
 
 ### `hold(keyName: string, millis: number)`
@@ -19,6 +27,18 @@ Category: 输入 · Since: 0.1.0 · MC availability: * · Loader availability: *
 **Returns** `Promise<void>`
 
 Since: 0.1.0 · MC: * · Loader: *
+
+### `movement(spec: Record<string, unknown>)`
+
+按住给定的移动键位，直到取消返回的订阅。识别键：forward/backward/left/right/jump/sneak/sprint。
+
+**Parameters**
+
+- `spec` `Record<string, unknown>`: 移动键位表
+
+**Returns** `Subscription`
+
+Since: 0.2.0 · MC: * · Loader: *
 
 ### `onScroll(sink: (arg: number) => void)`
 
@@ -88,6 +108,17 @@ Since: 0.1.0 · MC: * · Loader: *
 - `down` `boolean`: 
 
 Since: 0.1.0 · MC: * · Loader: *
+
+### `setBind(bindName: string, keyName: string)`
+
+重新绑定一个原版键位到按键描述（key.keyboard.w 形式）。
+
+**Parameters**
+
+- `bindName` `string`: 键位绑定名
+- `keyName` `string`: 按键描述
+
+Since: 0.2.0 · MC: * · Loader: *
 
 ### `unregister(handle: unknown)`
 

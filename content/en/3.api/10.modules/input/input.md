@@ -5,6 +5,14 @@ description: "The neo.input facade: keybind registration (surfaced in the vanill
 
 Category: Input · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.input` and `@neomacros/input`
 
+## Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `keybinds` | `Array<Record<string, unknown>>` | The vanilla keybind rows as [{name, key}] in registration order; key is the friendly label of the bound key. (read-only) |
+| `movementState` | `Record<string, boolean>` | The movement bind states as {forward, backward, left, right, jump, sneak, sprint}. (read-only) |
+| `pressedKeys` | `Array<string>` | The vanilla keybind names currently held down. (read-only) |
+
 ## Methods
 
 ### `hold(keyName: string, millis: number)`
@@ -19,6 +27,18 @@ Holds a raw key down for the given duration, then releases; the promise resolves
 **Returns** `Promise<void>`
 
 Since: 0.1.0 · MC: * · Loader: *
+
+### `movement(spec: Record<string, unknown>)`
+
+Holds the given movement binds down until the returned subscription is cancelled. Recognized keys: forward, backward, left, right, jump, sneak, sprint.
+
+**Parameters**
+
+- `spec` `Record<string, unknown>`: 移动键位表
+
+**Returns** `Subscription`
+
+Since: 0.2.0 · MC: * · Loader: *
 
 ### `onScroll(sink: (arg: number) => void)`
 
@@ -88,6 +108,17 @@ Injects one keybind state by bind name (key.use and friends), as if the user pre
 - `down` `boolean`: 
 
 Since: 0.1.0 · MC: * · Loader: *
+
+### `setBind(bindName: string, keyName: string)`
+
+Rebinds one vanilla keybind to the key description (key.keyboard.w form).
+
+**Parameters**
+
+- `bindName` `string`: 键位绑定名
+- `keyName` `string`: 按键描述
+
+Since: 0.2.0 · MC: * · Loader: *
 
 ### `unregister(handle: unknown)`
 

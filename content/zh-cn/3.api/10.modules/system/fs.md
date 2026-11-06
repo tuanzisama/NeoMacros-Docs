@@ -5,6 +5,10 @@ description: "neo.fs 门面：以游戏目录为根的文件系统访问。路�
 
 Category: 系统 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.fs` and `@neomacros/fs`
 
+**Classes**
+
+[`FileHandle`](../../classes/filehandle)
+
 ## Methods
 
 ### `copy(from: string, to: string)`
@@ -81,6 +85,18 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
 Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
+### `open(path: string)`
+
+打开一个文件句柄，用于流式读取、属性查询与 java 门控的原始路径。
+
+**Parameters**
+
+- `path` `string`: 游戏目录相对路径
+
+**Returns** [FileHandle](../../classes/filehandle)
+
+Since: 0.2.0 · MC: * · Loader: *
+
 ### `readBytes(path: string)`
 
 按字节读取文件（元素 0-255，引擎侧渲染为 Uint8Array）。
@@ -128,6 +144,18 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 **Returns** `Promise<object>`
 
 Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+
+### `toRelative(path: string)`
+
+返回相对游戏目录根的路径；越出根目录的路径抛错。
+
+**Parameters**
+
+- `path` `string`: 绝对或游戏目录相对路径
+
+**Returns** `string`
+
+Since: 0.2.0 · MC: * · Loader: *
 
 ### `writeBytes(path: string, data: unknown)`
 

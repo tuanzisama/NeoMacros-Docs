@@ -70,6 +70,18 @@ Since: 0.1.0 · MC: * · Loader: *
 
 Since: 0.1.0 · MC: * · Loader: *
 
+### `wrap(raw: unknown)`
+
+把原始宿主对象包装为已注册的句柄（实体句柄、方块状态数据等）；未注册类型返回 null。与各句柄的 raw 穿透口互逆。
+
+**Parameters**
+
+- `raw` `unknown`: 宿主原始对象
+
+**Returns** `unknown` — 包装句柄或 null
+
+Since: 0.2.0 · MC: * · Loader: *
+
 
 ## Examples
 

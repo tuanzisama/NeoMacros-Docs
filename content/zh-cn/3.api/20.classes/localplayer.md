@@ -5,6 +5,15 @@ description: "本地玩家动作面：attack/interact/swing/drop 经游戏主线
 
 Handle · Wraps: `net.minecraft.client.player.LocalPlayer` · Extends: [`Player`](player)
 
+## Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `blockInteractionRange` | `number` | 方块交互距离（格）。 (read-only) |
+| `breakingBlock` | `boolean` | 本地玩家是否正在挖掘方块。 (read-only) |
+| `entityInteractionRange` | `number` | 实体交互距离（格）。 (read-only) |
+| `statistics` | `Record<string, number>` | 客户端统计 类型id:条目id -> 数值；仅含非零值；无世界时为 null。 (read-only) |
+
 ## Methods
 
 ### `attack(target: Entity)`

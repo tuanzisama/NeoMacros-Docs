@@ -1,11 +1,27 @@
 ---
 title: "net"
-description: "The neo.net facade: HTTP client with fetch semantics. Requests run on a dedicated IO executor and require the net capability; the promise settles with a live whose body readers (text(), json(), bytes()) are async."
+description: "The neo.net facade: HTTP client with fetch semantics. Requests run on a dedicated IO executor and require the net capability; the promise settles with a live whose body readers (text(), json(), bytes()) are async. Each settled request is also recorded through for the DevTools network panel — previews always, phase timings, and full bodies up to only while a sink listens. Recording is free when no dispatcher listens."
 ---
 
 Category: System · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.net` and `@neomacros/net`
 
+**Classes**
+
+[`Ws`](../../classes/ws)
+
 ## Methods
+
+### `connect(url: string)`
+
+Opens a WebSocket connection and resolves with the live socket once the handshake completes; handshake failures reject. Requires the net capability (module-level gate).
+
+**Parameters**
+
+- `url` `string`: ws(s):// URL
+
+**Returns** `Promise<`[Ws](../../classes/ws)`>`
+
+Since: 0.2.0 · MC: * · Loader: *
 
 ### `fetch(url: string, init: unknown)`
 
