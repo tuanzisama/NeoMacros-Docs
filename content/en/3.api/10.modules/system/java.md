@@ -3,7 +3,7 @@ title: "java"
 description: "The neo.java facade: the escape layer over the host JVM. Class lookup uses binary names (Mojmap for Minecraft classes, translated at the call site by the mapping layer); every capability of this module requires the java permission — granting it hands the script full host access with no class filtering. Construction happens through the class proxy's new(...) member; results wrap as object proxies whose members reach unwrapped Java fields and methods."
 ---
 
-Category: System · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.java` and `@neomacros/java`
+:api-module-header{ category="System" global="true" neo-name="neo.java" esm-name="@neomacros/java" since="0.1.0" mc="*" loader="*"}
 
 ## Methods
 
@@ -17,7 +17,7 @@ Converts one host collection into a script array (element by element).
 
 **Returns** `unknown`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `proxy(interfaces: unknown, handlers: unknown)`
 
@@ -30,7 +30,7 @@ Builds one host object implementing the named interfaces, dispatching method cal
 
 **Returns** `unknown`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `toArray(scriptArray: unknown, componentTypeName: string)`
 
@@ -43,7 +43,7 @@ Converts one script array into a host array of the named component type (empty n
 
 **Returns** `unknown`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `toList(scriptArray: unknown)`
 
@@ -55,7 +55,7 @@ Converts one script array into a host list wrapped as an interop object, so it c
 
 **Returns** `unknown`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `type(className: string, alternate: string)`
 
@@ -68,7 +68,7 @@ Looks up one host class by its binary name, e.g. java.util.UUID. The returned cl
 
 **Returns** [JavaClass](../../classes/javaclass)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `wrap(raw: unknown)`
 
@@ -80,7 +80,7 @@ Wraps one raw host object into its registered handle (entity handles, block stat
 
 **Returns** `unknown`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 
 ## Examples

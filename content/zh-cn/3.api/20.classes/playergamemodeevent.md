@@ -3,7 +3,12 @@ title: "PlayerGamemodeEvent"
 description: "游戏模式变化事件载荷。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`player:gamemode`](../events/player/player-gamemode) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`player:gamemode`](../events/player/player-gamemode)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

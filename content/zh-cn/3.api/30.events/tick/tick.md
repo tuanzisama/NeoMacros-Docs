@@ -3,7 +3,10 @@ title: "tick"
 description: "每客户端 tick 事件载荷；高流量事件，默认不进通配分发。"
 ---
 
-Payload: [`TickEvent`](../../classes/tickevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="tick" since="0.1.0" mc="*" loader="*"}
+#payload
+[`TickEvent`](../../classes/tickevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

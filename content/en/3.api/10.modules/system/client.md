@@ -3,23 +3,23 @@ title: "client"
 description: "The neo.client facade: process-level facts about the running game client, window and input surfaces, the connection lifecycle, and read-only registry and option slices."
 ---
 
-Category: System · Since: 0.2.0 · MC availability: * · Loader availability: * · Exposed as `neo.client` and `@neomacros/client`
+:api-module-header{ category="System" global="true" neo-name="neo.client" esm-name="@neomacros/client" since="0.2.0" mc="*" loader="*"}
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `clipboard` | `string` | The current system clipboard text. (read-only) |
-| `devEnv` | `boolean` | Whether the game runs in a development environment. (read-only) |
-| `fps` | `number` | The current frames-per-second measurement of the client. (read-only) |
-| `gameVersion` | `string` | The game version string the client runs on. (read-only) |
+| `clipboard` | `string` | The current system clipboard text. :api-badge{kind="readonly"} |
+| `devEnv` | `boolean` | Whether the game runs in a development environment. :api-badge{kind="readonly"} |
+| `fps` | `number` | The current frames-per-second measurement of the client. :api-badge{kind="readonly"} |
+| `gameVersion` | `string` | The game version string the client runs on. :api-badge{kind="readonly"} |
 | `minecraft` | `unknown` | The raw host client instance as a JavaObject proxy. Requires the java permission; equivalent to java.type('net.minecraft.client.Minecraft').getInstance(). |
-| `mods` | `Array<Record<string, unknown>>` | The installed mods as [{id, name, version, authors}] in loader order. (read-only) |
-| `mouse` | `Record<string, unknown>` | The cursor position in window pixels as {x, y}. (read-only) |
-| `options` | `Record<string, unknown>` | A small read-only slice of the game options as {fov, gamma, guiScale, renderDistance}. (read-only) |
-| `ping` | `number` | The server-reported latency for the local player in milliseconds, or null without a connection. (read-only) |
-| `serverInfo` | `Record<string, unknown>` | The connected server entry as {name, address}, or null in singleplayer. (read-only) |
-| `window` | `Record<string, unknown>` | The window metrics as {width, height, scaledWidth, scaledHeight}. (read-only) |
+| `mods` | `Array<Record<string, unknown>>` | The installed mods as [{id, name, version, authors}] in loader order. :api-badge{kind="readonly"} |
+| `mouse` | `Record<string, unknown>` | The cursor position in window pixels as {x, y}. :api-badge{kind="readonly"} |
+| `options` | `Record<string, unknown>` | A small read-only slice of the game options as {fov, gamma, guiScale, renderDistance}. :api-badge{kind="readonly"} |
+| `ping` | `number` | The server-reported latency for the local player in milliseconds, or null without a connection. :api-badge{kind="readonly"} |
+| `serverInfo` | `Record<string, unknown>` | The connected server entry as {name, address}, or null in singleplayer. :api-badge{kind="readonly"} |
+| `window` | `Record<string, unknown>` | The window metrics as {width, height, scaledWidth, scaledHeight}. :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -33,7 +33,7 @@ Connects to the server at the address, leaving any current world. Resolves once 
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `disconnect()`
 
@@ -41,13 +41,13 @@ Disconnects from the current server. Resolves once initiated; rejects in singlep
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `forceShutdown()`
 
 Closes the game immediately, skipping save and shutdown hooks.
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `getMod(id: string)`
 
@@ -59,13 +59,13 @@ The metadata of one loaded mod as {id, name, version, authors}, or null when not
 
 **Returns** `Record<string, unknown>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `grabMouse()`
 
 Grabs the mouse cursor back into the game window.
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `grabScreenshot()`
 
@@ -73,7 +73,7 @@ Captures the game framebuffer as an Image; the promise resolves after the next f
 
 **Returns** `Promise<`[Image](../../classes/image)`>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `isModLoaded(id: string)`
 
@@ -85,7 +85,7 @@ Whether a mod with the identifier is loaded.
 
 **Returns** `boolean`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `loadWorld(name: string)`
 
@@ -97,7 +97,7 @@ Loads the local save with the given name. Resolves once the load flow starts; un
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `registryIds(kind: string)`
 
@@ -109,7 +109,7 @@ The identifiers of one registry kind (block, item, entity_type, sound_event, par
 
 **Returns** `Array<string>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `registryLookup(kind: string, id: string)`
 
@@ -122,13 +122,13 @@ Returns the full identifier when the registry kind contains the id (missing name
 
 **Returns** `string`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `releaseMouse()`
 
 Releases the mouse cursor to the operating system.
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `setClipboard(value: string)`
 
@@ -138,13 +138,13 @@ Writes text to the system clipboard.
 
 - `value` `string`: 剪贴板文本
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `shutdown()`
 
 Closes the game gracefully.
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 
 ## Examples

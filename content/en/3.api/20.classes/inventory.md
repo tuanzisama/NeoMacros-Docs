@@ -3,16 +3,19 @@ title: "Inventory"
 description: "Live inventory handle: slot reads re-query the inventory port on every access; actions dispatch on the main thread and resolve once processed."
 ---
 
-Handle · Extended by: [`AnvilInventory`](anvilinventory), [`BeaconInventory`](beaconinventory), [`BrewingStandInventory`](brewingstandinventory), [`CartographyInventory`](cartographyinventory), [`ContainerInventory`](containerinventory), [`CraftingInventory`](craftinginventory), [`EnchantInventory`](enchantinventory), [`FurnaceInventory`](furnaceinventory), [`GrindstoneInventory`](grindstoneinventory), [`HorseInventory`](horseinventory), [`PlayerInventory`](playerinventory), [`SmithingInventory`](smithinginventory), [`StonecutterInventory`](stonecutterinventory), [`VillagerInventory`](villagerinventory)
+::api-declaration{ kind="handle" name="Inventory"}
+#extended-by
+[`AnvilInventory`](anvilinventory), [`BeaconInventory`](beaconinventory), [`BrewingStandInventory`](brewingstandinventory), [`CartographyInventory`](cartographyinventory), [`ContainerInventory`](containerinventory), [`CraftingInventory`](craftinginventory), [`EnchantInventory`](enchantinventory), [`FurnaceInventory`](furnaceinventory), [`GrindstoneInventory`](grindstoneinventory), [`HorseInventory`](horseinventory), [`PlayerInventory`](playerinventory), [`SmithingInventory`](smithinginventory), [`StonecutterInventory`](stonecutterinventory), [`VillagerInventory`](villagerinventory)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
 | `items` | `Array<Record<string, unknown>>` | All non-empty stacks with their slot indices. |
-| `kind` | `string` | The inventory kind (player, chest, crafting, ...). (read-only) |
-| `size` | `number` | The inventory slot count. (read-only) |
-| `title` | `string` | The inventory display title. (read-only) |
+| `kind` | `string` | The inventory kind (player, chest, crafting, ...). :api-badge{kind="readonly"} |
+| `size` | `number` | The inventory slot count. :api-badge{kind="readonly"} |
+| `title` | `string` | The inventory display title. :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -28,7 +31,7 @@ Clicks a slot (button 0 = left, 1 = right; shift = quick move).
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `close()`
 
@@ -36,7 +39,7 @@ Closes the inventory screen.
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `contains(itemId: string)`
 
@@ -48,7 +51,7 @@ Whether the inventory holds the given item id (namespace optional).
 
 **Returns** `boolean`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `countOf(item: string)`
 
@@ -60,7 +63,7 @@ Counts occurrences of one item id.
 
 **Returns** `number`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `drop(slot: number, all: boolean)`
 
@@ -73,7 +76,7 @@ Drops the stack from a slot.
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `findAll(itemId: string)`
 
@@ -85,7 +88,7 @@ Slot indices holding the given item id, in order.
 
 **Returns** `Array<number>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `findId(itemId: string)`
 
@@ -97,7 +100,7 @@ First slot holding the given item id, or undefined.
 
 **Returns** `number`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `quickMove(slot: number)`
 
@@ -109,7 +112,7 @@ Quick-moves a slot to the other inventory.
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `slot(index: number)`
 
@@ -121,7 +124,7 @@ Reads the stack at a slot, or undefined when out of range or empty.
 
 **Returns** [ItemStack](itemstack)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `swapHotbar(slot: number, hotbarIndex: number)`
 
@@ -134,5 +137,5 @@ Swaps a container slot with a hotbar slot (0..8).
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 

@@ -3,12 +3,15 @@ title: "Cat"
 description: "A cat: collar color and coat variant."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.animal.feline.Cat` · Extends: [`TamableAnimal`](tamableanimal)
+::api-declaration{ kind="handle" name="Cat" wraps="net.minecraft.world.entity.animal.feline.Cat"}
+#extends
+[`TamableAnimal`](tamableanimal)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `collarColor` | `string` | The collar color identifier, e.g. minecraft:red. (read-only) |
-| `variant` | `string` | The coat variant identifier, e.g. minecraft:black. (read-only) |
+| `collarColor` | `string` | The collar color identifier, e.g. minecraft:red. :api-badge{kind="readonly"} |
+| `variant` | `string` | The coat variant identifier, e.g. minecraft:black. :api-badge{kind="readonly"} |
 

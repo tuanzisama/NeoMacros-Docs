@@ -3,11 +3,14 @@ title: "Ghast"
 description: "A ghast: fire charging state."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.monster.Ghast` · Extends: [`Mob`](mob)
+::api-declaration{ kind="handle" name="Ghast" wraps="net.minecraft.world.entity.monster.Ghast"}
+#extends
+[`Mob`](mob)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `charging` | `boolean` | Whether the ghast is charging a fireball. (read-only) |
+| `charging` | `boolean` | Whether the ghast is charging a fireball. :api-badge{kind="readonly"} |
 

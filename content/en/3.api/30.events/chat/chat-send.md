@@ -3,7 +3,10 @@ title: "chat:send"
 description: "Payload of the outgoing chat message event; synchronous subscribers may cancel the send."
 ---
 
-Payload: [`ChatSendEvent`](../../classes/chatsendevent) · Cancellable · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="chat:send" cancellable="true" since="0.1.0" mc="*" loader="*"}
+#payload
+[`ChatSendEvent`](../../classes/chatsendevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

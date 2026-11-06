@@ -3,7 +3,10 @@ title: "world:chunkLoad"
 description: "客户端区块加载时触发。"
 ---
 
-Payload: [`WorldChunkLoadEvent`](../../classes/worldchunkloadevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="world:chunkLoad" since="0.1.0" mc="*" loader="*"}
+#payload
+[`WorldChunkLoadEvent`](../../classes/worldchunkloadevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

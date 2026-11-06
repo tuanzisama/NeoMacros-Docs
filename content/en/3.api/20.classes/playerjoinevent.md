@@ -3,7 +3,12 @@ title: "PlayerJoinEvent"
 description: "Payload of the local player joining a world event."
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`player:join`](../events/player/player-join) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`player:join`](../events/player/player-join)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

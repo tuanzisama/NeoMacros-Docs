@@ -3,7 +3,12 @@ title: "ScreenOpenEvent"
 description: "屏幕打开事件载荷。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`screen:open`](../events/screen/screen-open) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`screen:open`](../events/screen/screen-open)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

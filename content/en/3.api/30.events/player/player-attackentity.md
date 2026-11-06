@@ -3,7 +3,10 @@ title: "player:attackEntity"
 description: "Payload of the entity attack event; synchronous subscribers may cancel the attack."
 ---
 
-Payload: [`PlayerAttackEntityEvent`](../../classes/playerattackentityevent) · Cancellable · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="player:attackEntity" cancellable="true" since="0.1.0" mc="*" loader="*"}
+#payload
+[`PlayerAttackEntityEvent`](../../classes/playerattackentityevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

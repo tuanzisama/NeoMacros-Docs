@@ -3,7 +3,10 @@ title: "entity:damage"
 description: "实体受伤时触发。"
 ---
 
-Payload: [`EntityDamageEvent`](../../classes/entitydamageevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="entity:damage" since="0.1.0" mc="*" loader="*"}
+#payload
+[`EntityDamageEvent`](../../classes/entitydamageevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

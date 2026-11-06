@@ -3,7 +3,12 @@ title: "WorldSoundEvent"
 description: "Payload of the sound event; fires when the client plays a sound. High-traffic, so wildcard dispatch skips it by default."
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`world:sound`](../events/world/world-sound) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`world:sound`](../events/world/world-sound)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

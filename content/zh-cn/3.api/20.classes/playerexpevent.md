@@ -3,7 +3,12 @@ title: "PlayerExpEvent"
 description: "经验值变化事件载荷。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`player:exp`](../events/player/player-exp) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`player:exp`](../events/player/player-exp)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

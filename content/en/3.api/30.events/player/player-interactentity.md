@@ -3,7 +3,10 @@ title: "player:interactEntity"
 description: "Payload of the entity interaction event; synchronous subscribers may cancel the interaction."
 ---
 
-Payload: [`PlayerInteractEntityEvent`](../../classes/playerinteractentityevent) · Cancellable · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="player:interactEntity" cancellable="true" since="0.1.0" mc="*" loader="*"}
+#payload
+[`PlayerInteractEntityEvent`](../../classes/playerinteractentityevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

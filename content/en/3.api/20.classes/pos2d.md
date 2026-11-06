@@ -3,7 +3,8 @@ title: "Pos2D"
 description: "Immutable two-dimensional point: rotations (yaw, pitch) and screen coordinates. Every operation returns a new instance."
 ---
 
-Data
+::api-declaration{ kind="data" name="Pos2D"}
+::
 
 ## Properties
 
@@ -24,7 +25,7 @@ Adds another point.
 
 **Returns** [Pos2D](pos2d)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `compare(other: Pos2D)`
 
@@ -36,7 +37,7 @@ Component-wise lexicographic compare (x first, then y).
 
 **Returns** `number`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `construct(args: unknown)`
 
@@ -48,7 +49,7 @@ Since: 0.2.0
 
 **Returns** `unknown`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `equals(other: unknown)`
 
@@ -60,7 +61,7 @@ Since: 0.2.0
 
 **Returns** `boolean`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `hashCode()`
 
@@ -68,7 +69,7 @@ Since: 0.2.0
 
 **Returns** `number`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `mul(other: Pos2D)`
 
@@ -80,7 +81,7 @@ Multiplies component-wise by another point.
 
 **Returns** [Pos2D](pos2d)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `scale(factor: number)`
 
@@ -92,7 +93,7 @@ Scales by a factor.
 
 **Returns** [Pos2D](pos2d)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `sub(other: Pos2D)`
 
@@ -104,7 +105,7 @@ Subtracts another point.
 
 **Returns** [Pos2D](pos2d)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toJSON()`
 
@@ -112,7 +113,7 @@ JSON form so JSON.stringify renders the point directly.
 
 **Returns** `Record<string, unknown>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toString()`
 
@@ -120,5 +121,5 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `string`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 

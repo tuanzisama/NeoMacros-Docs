@@ -3,7 +3,7 @@ title: "fs"
 description: "neo.fs 门面：以游戏目录为根的文件系统访问。路径相对游戏目录解析；绝对路径与向上越界抛 SecurityException。全部函数异步返回 Promise，且需 fs 能力授权。"
 ---
 
-Category: 系统 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.fs` and `@neomacros/fs`
+:api-module-header{ category="系统" global="true" neo-name="neo.fs" esm-name="@neomacros/fs" since="0.1.0" mc="*" loader="*"}
 
 **Classes**
 
@@ -22,7 +22,7 @@ Category: 系统 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `delete(path: string)`
 
@@ -34,7 +34,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `exists(path: string)`
 
@@ -46,7 +46,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
 **Returns** `Promise<boolean>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `list(path: string)`
 
@@ -58,7 +58,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
 **Returns** `Promise<Array<string>>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `mkdir(path: string)`
 
@@ -70,7 +70,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `move(from: string, to: string)`
 
@@ -83,7 +83,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `open(path: string)`
 
@@ -95,7 +95,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
 **Returns** [FileHandle](../../classes/filehandle)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `readBytes(path: string)`
 
@@ -107,7 +107,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<Uint8Array>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `readJSON(path: string)`
 
@@ -119,7 +119,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
 **Returns** `Promise<any>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `readText(path: string)`
 
@@ -131,7 +131,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
 **Returns** `Promise<string>` — promise of the file content
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `stat(path: string)`
 
@@ -143,7 +143,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
 **Returns** `Promise<object>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `toRelative(path: string)`
 
@@ -155,7 +155,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
 **Returns** `string`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `writeBytes(path: string, data: unknown)`
 
@@ -168,7 +168,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `writeJSON(path: string, value: unknown)`
 
@@ -181,7 +181,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `writeText(path: string, content: string)`
 
@@ -194,7 +194,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 
 ## Examples

@@ -3,11 +3,14 @@ title: "Pillager"
 description: "A pillager: crossbow charging state."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.monster.illager.Pillager` · Extends: [`Mob`](mob)
+::api-declaration{ kind="handle" name="Pillager" wraps="net.minecraft.world.entity.monster.illager.Pillager"}
+#extends
+[`Mob`](mob)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `chargingCrossbow` | `boolean` | Whether the pillager is charging its crossbow. (read-only) |
+| `chargingCrossbow` | `boolean` | Whether the pillager is charging its crossbow. :api-badge{kind="readonly"} |
 

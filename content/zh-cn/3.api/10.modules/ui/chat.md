@@ -3,7 +3,7 @@ title: "chat"
 description: "neo.chat 门面：聊天输出服务。say 发往所连服务器；log 与 actionbar 仅本地渲染。"
 ---
 
-Category: 界面 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.chat` and `@neomacros/chat`
+:api-module-header{ category="界面" global="true" neo-name="neo.chat" esm-name="@neomacros/chat" since="0.1.0" mc="*" loader="*"}
 
 ## Methods
 
@@ -15,7 +15,7 @@ Category: 界面 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 - `message` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `actionbarText(text: Text)`
 
@@ -25,7 +25,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 - `text` [Text](../../classes/text): 富文本
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `getPlain(text: Text)`
 
@@ -37,7 +37,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `string`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `getWidth(text: string)`
 
@@ -49,7 +49,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `number`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `log(message: string)`
 
@@ -59,7 +59,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 - `message` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `logText(text: Text)`
 
@@ -69,7 +69,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 - `text` [Text](../../classes/text): 富文本
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `say(message: string)`
 
@@ -79,7 +79,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 - `message` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `text(text: string, style: Record<string, unknown>)`
 
@@ -92,7 +92,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [TextBuilder](../../classes/textbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `title(title: string, subtitle: string, fadeIn: number, stay: number, fadeOut: number)`
 
@@ -106,7 +106,7 @@ Since: 0.2.0 · MC: * · Loader: *
 - `stay` `number`: 停留 tick（可省）
 - `fadeOut` `number`: 淡出 tick（可省）
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toast(title: string, message: string)`
 
@@ -117,7 +117,7 @@ Since: 0.2.0 · MC: * · Loader: *
 - `title` `string`: 标题
 - `message` `string`: 正文
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 
 ## Examples

@@ -3,7 +3,8 @@ title: "ItemStackBuilder"
 description: "本地 的构建器；脚本造物的唯一构造路径。产物是本地数据——进入世界只能靠特权写（创造物品栏）或仅作比较/展示——生存模式没有\"凭空给物品\"的路径（服务器权威）。"
 ---
 
-Data
+::api-declaration{ kind="data" name="ItemStackBuilder"}
+::
 
 ## Methods
 
@@ -13,7 +14,7 @@ Data
 
 **Returns** [ItemStack](itemstack)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `construct(args: unknown)`
 
@@ -25,7 +26,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `unknown`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `copyFrom(stack: ItemStack)`
 
@@ -37,7 +38,7 @@ Since: 0.2.0
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `count(size: number)`
 
@@ -49,7 +50,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `damage(value: number)`
 
@@ -61,7 +62,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `enchant(enchantId: string, level: number)`
 
@@ -74,7 +75,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `lore(lines: unknown)`
 
@@ -86,7 +87,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `loreLines(lines: Array<string>)`
 
@@ -98,7 +99,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `maxDamage(value: number)`
 
@@ -110,7 +111,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `name(value: string)`
 
@@ -122,7 +123,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toString()`
 
@@ -130,7 +131,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `string`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `unbreakable()`
 
@@ -138,7 +139,7 @@ Since: 0.2.0
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `unbreakable(on: boolean)`
 
@@ -150,5 +151,5 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 

@@ -3,7 +3,8 @@ title: "JavaClass"
 description: "宿主类的代理：静态字段按值读取，静态方法按可调用分发，new 成员构造实例。"
 ---
 
-Handle
+::api-declaration{ kind="handle" name="JavaClass"}
+::
 
 ## Methods
 

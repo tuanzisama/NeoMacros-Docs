@@ -3,15 +3,15 @@ title: "input"
 description: "The neo.input facade: keybind registration (surfaced in the vanilla controls menu), raw key press listening, mouse wheel events, and key injection (press/release/hold/set)."
 ---
 
-Category: Input · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.input` and `@neomacros/input`
+:api-module-header{ category="Input" global="true" neo-name="neo.input" esm-name="@neomacros/input" since="0.1.0" mc="*" loader="*"}
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `keybinds` | `Array<Record<string, unknown>>` | The vanilla keybind rows as [{name, key}] in registration order; key is the friendly label of the bound key. (read-only) |
-| `movementState` | `Record<string, boolean>` | The movement bind states as {forward, backward, left, right, jump, sneak, sprint}. (read-only) |
-| `pressedKeys` | `Array<string>` | The vanilla keybind names currently held down. (read-only) |
+| `keybinds` | `Array<Record<string, unknown>>` | The vanilla keybind rows as [{name, key}] in registration order; key is the friendly label of the bound key. :api-badge{kind="readonly"} |
+| `movementState` | `Record<string, boolean>` | The movement bind states as {forward, backward, left, right, jump, sneak, sprint}. :api-badge{kind="readonly"} |
+| `pressedKeys` | `Array<string>` | The vanilla keybind names currently held down. :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -26,7 +26,7 @@ Holds a raw key down for the given duration, then releases; the promise resolves
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `movement(spec: Record<string, unknown>)`
 
@@ -38,7 +38,7 @@ Holds the given movement binds down until the returned subscription is cancelled
 
 **Returns** `Subscription`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `onScroll(sink: (arg: number) => void)`
 
@@ -50,7 +50,7 @@ Subscribes to mouse wheel scroll; the value is the scroll offset (positive = whe
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `press(keyName: string)`
 
@@ -60,7 +60,7 @@ Injects one raw key press (down edge).
 
 - `keyName` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `registerKeyPress(keyName: string, sink: () => void)`
 
@@ -73,7 +73,7 @@ Registers a one-shot press listener for a raw key.
 
 **Returns** `Subscription`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `registerKeybind(keyName: string, sink: () => void)`
 
@@ -86,7 +86,7 @@ Registers a persistent keybind; the sink fires on every press (repeats while hel
 
 **Returns** `Subscription` — a subscription; cancel unbinds
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `release(keyName: string)`
 
@@ -96,7 +96,7 @@ Injects one raw key release (up edge).
 
 - `keyName` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `set(bindName: string, down: boolean)`
 
@@ -107,7 +107,7 @@ Injects one keybind state by bind name (key.use and friends), as if the user pre
 - `bindName` `string`: 
 - `down` `boolean`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `setBind(bindName: string, keyName: string)`
 
@@ -118,7 +118,7 @@ Rebinds one vanilla keybind to the key description (key.keyboard.w form).
 - `bindName` `string`: 键位绑定名
 - `keyName` `string`: 按键描述
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `unregister(handle: unknown)`
 
@@ -128,7 +128,7 @@ Removes a previously registered keybind or press listener.
 
 - `handle` `unknown`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

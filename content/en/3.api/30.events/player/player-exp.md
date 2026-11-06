@@ -3,7 +3,10 @@ title: "player:exp"
 description: "Payload of the experience change event."
 ---
 
-Payload: [`PlayerExpEvent`](../../classes/playerexpevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="player:exp" since="0.1.0" mc="*" loader="*"}
+#payload
+[`PlayerExpEvent`](../../classes/playerexpevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

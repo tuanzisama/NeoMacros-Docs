@@ -3,7 +3,12 @@ title: "PlayerEffectEvent"
 description: "玩家状态效果变更时触发。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`player:effect`](../events/player/player-effect) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`player:effect`](../events/player/player-effect)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

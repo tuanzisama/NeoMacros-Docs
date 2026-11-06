@@ -3,7 +3,10 @@ title: "player:air"
 description: "本地玩家氧气值变化事件载荷。"
 ---
 
-Payload: [`PlayerAirEvent`](../../classes/playerairevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="player:air" since="0.1.0" mc="*" loader="*"}
+#payload
+[`PlayerAirEvent`](../../classes/playerairevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

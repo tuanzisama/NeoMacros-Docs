@@ -3,7 +3,7 @@ title: "thread"
 description: "The neo.thread facade: thread introspection, time-based and main-thread asynchronous primitives, and timers, each bound to the calling script's context event loop. Every scheduling function returns a promise or a cancellable timer handle."
 ---
 
-Category: Core · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.thread` and `@neomacros/thread`
+:api-module-header{ category="Core" global="true" neo-name="neo.thread" esm-name="@neomacros/thread" since="0.1.0" mc="*" loader="*"}
 
 ## Properties
 
@@ -24,7 +24,7 @@ Runs the function once on the script loop after millis of real time; the returne
 
 **Returns** `TimerHandle`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `afterTick(count: number, task: () => void)`
 
@@ -37,7 +37,7 @@ Runs the function once on the script loop after count client tick boundaries; th
 
 **Returns** `TimerHandle`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `every(millis: number, task: () => void)`
 
@@ -50,7 +50,7 @@ Runs the function on the script loop every millis of real time until the returne
 
 **Returns** `TimerHandle`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `everyTick(count: number, task: () => void)`
 
@@ -63,7 +63,7 @@ Runs the function on the script loop every count client tick boundaries until th
 
 **Returns** `TimerHandle`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `nextTick()`
 
@@ -71,7 +71,7 @@ Resolves at the end of the current client tick (or the next one when called betw
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `runOnMain(task: () => unknown)`
 
@@ -83,7 +83,7 @@ Runs the function on the game main thread; the promise settles with its return v
 
 **Returns** `Promise<object>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `sleep(millis: number)`
 
@@ -95,7 +95,7 @@ Resolves after the given delay in milliseconds; the delay is real time, independ
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `ticks(count: number)`
 
@@ -107,7 +107,7 @@ Resolves after count client ticks have passed.
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

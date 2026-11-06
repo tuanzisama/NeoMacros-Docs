@@ -3,15 +3,16 @@ title: "Image"
 description: "Immutable raster image: dimensions plus PNG-encoded bytes, produced by screenshots (and later by texture drawing). Instances come only from queries; there is no direct constructor. The byte content is compatible with fs.writeBytes."
 ---
 
-Data
+::api-declaration{ kind="data" name="Image"}
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `bytes` | `unknown` | The PNG-encoded image content. (read-only) |
-| `height` | `number` | The image height in pixels. (read-only) |
-| `width` | `number` | The image width in pixels. (read-only) |
+| `bytes` | `unknown` | The PNG-encoded image content. :api-badge{kind="readonly"} |
+| `height` | `number` | The image height in pixels. :api-badge{kind="readonly"} |
+| `width` | `number` | The image width in pixels. :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -21,7 +22,7 @@ Plain-object rendering used by JSON.stringify.
 
 **Returns** `Record<string, unknown>`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `toString()`
 
@@ -29,5 +30,5 @@ Since: 0.2.0
 
 **Returns** `string`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 

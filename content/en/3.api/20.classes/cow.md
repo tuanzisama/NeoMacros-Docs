@@ -3,11 +3,14 @@ title: "Cow"
 description: "A cow: coat variant."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.animal.cow.Cow` · Extends: [`Animal`](animal)
+::api-declaration{ kind="handle" name="Cow" wraps="net.minecraft.world.entity.animal.cow.Cow"}
+#extends
+[`Animal`](animal)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `variant` | `string` | The coat variant identifier, e.g. minecraft:temperate. (read-only) |
+| `variant` | `string` | The coat variant identifier, e.g. minecraft:temperate. :api-badge{kind="readonly"} |
 

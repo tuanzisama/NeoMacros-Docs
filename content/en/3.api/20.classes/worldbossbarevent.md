@@ -3,7 +3,12 @@ title: "WorldBossbarEvent"
 description: "Payload of the boss bar event; fires for each boss bar operation the client receives: add, remove, updateProgress, updateName, updateStyle, updateProperties. Fields the operation does not carry are null."
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`world:bossbar`](../events/world/world-bossbar) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`world:bossbar`](../events/world/world-bossbar)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

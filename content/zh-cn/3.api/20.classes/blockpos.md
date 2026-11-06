@@ -3,7 +3,10 @@ title: "BlockPos"
 description: "不可变的方块网格坐标：整数化的 ，带六个方向的偏移方法。new BlockPos(10.7, 64.2, 200.9) 会向下取整到网格。"
 ---
 
-Data · Extends: [`Pos3D`](pos3d)
+::api-declaration{ kind="data" name="BlockPos"}
+#extends
+[`Pos3D`](pos3d)
+::
 
 ## Methods
 
@@ -13,7 +16,7 @@ Data · Extends: [`Pos3D`](pos3d)
 
 **Returns** [Pos3D](pos3d)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `construct(args: unknown)`
 
@@ -25,7 +28,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `unknown`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `down()`
 
@@ -33,7 +36,7 @@ Since: 0.2.0
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `down(n: number)`
 
@@ -45,7 +48,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `east()`
 
@@ -53,7 +56,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `east(n: number)`
 
@@ -65,7 +68,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `north()`
 
@@ -73,7 +76,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `north(n: number)`
 
@@ -85,7 +88,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `offset(direction: string, n: number)`
 
@@ -98,7 +101,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `south()`
 
@@ -106,7 +109,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `south(n: number)`
 
@@ -118,7 +121,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toString()`
 
@@ -126,7 +129,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `string`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `up()`
 
@@ -134,7 +137,7 @@ Since: 0.2.0
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `up(n: number)`
 
@@ -146,7 +149,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `west()`
 
@@ -154,7 +157,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `west(n: number)`
 
@@ -166,5 +169,5 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 

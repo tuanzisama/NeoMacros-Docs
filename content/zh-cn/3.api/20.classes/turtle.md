@@ -3,7 +3,10 @@ title: "Turtle"
 description: "海龟：产卵状态。"
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.animal.turtle.Turtle` · Extends: [`Animal`](animal)
+::api-declaration{ kind="handle" name="Turtle" wraps="net.minecraft.world.entity.animal.turtle.Turtle"}
+#extends
+[`Animal`](animal)
+::
 
 ## Methods
 
@@ -13,5 +16,5 @@ Handle · Wraps: `net.minecraft.world.entity.animal.turtle.Turtle` · Extends: [
 
 **Returns** `boolean`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 

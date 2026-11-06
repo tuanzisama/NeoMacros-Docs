@@ -3,7 +3,10 @@ title: "player:heldItem"
 description: "手持物品变化事件载荷。"
 ---
 
-Payload: [`PlayerHeldItemEvent`](../../classes/playerhelditemevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="player:heldItem" since="0.1.0" mc="*" loader="*"}
+#payload
+[`PlayerHeldItemEvent`](../../classes/playerhelditemevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

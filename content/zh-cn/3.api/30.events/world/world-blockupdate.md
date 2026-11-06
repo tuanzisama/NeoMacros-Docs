@@ -3,7 +3,10 @@ title: "world:blockUpdate"
 description: "方块更新时触发（高流量事件）。"
 ---
 
-Payload: [`WorldBlockUpdateEvent`](../../classes/worldblockupdateevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="world:blockUpdate" since="0.1.0" mc="*" loader="*"}
+#payload
+[`WorldBlockUpdateEvent`](../../classes/worldblockupdateevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

@@ -3,7 +3,10 @@ title: "world:bossbar"
 description: "Boss 血条更新时触发。"
 ---
 
-Payload: [`WorldBossbarEvent`](../../classes/worldbossbarevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="world:bossbar" since="0.1.0" mc="*" loader="*"}
+#payload
+[`WorldBossbarEvent`](../../classes/worldbossbarevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

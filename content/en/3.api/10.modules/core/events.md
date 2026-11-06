@@ -3,7 +3,7 @@ title: "events"
 description: "The neo.events facade: EventEmitter-style subscription over the event bus. Subscriptions created while a module is loading are attributed to that module and auto-unsubscribed when the module unloads."
 ---
 
-Category: Core · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.events` and `@neomacros/events`
+:api-module-header{ category="Core" global="true" neo-name="neo.events" esm-name="@neomacros/events" since="0.1.0" mc="*" loader="*"}
 
 ## Methods
 
@@ -16,7 +16,7 @@ Emits one custom event; the payload is a plain object (or undefined) and deliver
 - `name` `string`: 
 - `payload` `unknown`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `off(handleOrName: unknown)`
 
@@ -26,7 +26,7 @@ Unsubscribes by the handle returned from / , or by event name when a string is g
 
 - `handleOrName` `unknown`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `on(name: string, handler: (arg: unknown) => void)`
 
@@ -39,7 +39,7 @@ Subscribes asynchronously; the handler runs on the script context's event loop. 
 
 **Returns** `unknown` — an opaque subscription handle passed back to
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `onSync(name: string, handler: (arg: unknown) => boolean)`
 
@@ -50,7 +50,7 @@ Subscribes synchronously on the dispatch thread; only cancellable events accept 
 - `name` `string`: 事件名（仅可取消事件）
 - `handler` `(arg: unknown) => boolean`: 判定回调：返回 truthy 取消事件；须短小
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `once(name: string, handler: (arg: unknown) => void)`
 
@@ -63,7 +63,7 @@ Subscribes for exactly one firing; the subscription auto-unsubscribes.
 
 **Returns** `unknown` — an opaque subscription handle
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `register(name: string)`
 
@@ -73,7 +73,7 @@ Registers one custom event name owned by scripts. Names must be namespaced (doma
 
 - `name` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `waitFor(name: string)`
 
@@ -85,7 +85,7 @@ Waits for one occurrence of the event; the promise settles with the event payloa
 
 **Returns** `Promise<object>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `waitForUntil(name: string, filter: (arg: unknown) => boolean, timeoutMillis: number)`
 
@@ -99,7 +99,7 @@ Waits for an occurrence matching filter; rejects (promise completes exceptionall
 
 **Returns** `Promise<object>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

@@ -3,7 +3,8 @@ title: "JavaObject"
 description: "Proxy over one host object: public fields read and write as values, methods dispatch as callables bound to the instance."
 ---
 
-Handle
+::api-declaration{ kind="handle" name="JavaObject"}
+::
 
 ## Methods
 

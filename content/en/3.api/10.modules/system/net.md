@@ -3,7 +3,7 @@ title: "net"
 description: "The neo.net facade: HTTP client with fetch semantics. Requests run on a dedicated IO executor and require the net capability; the promise settles with a live whose body readers (text(), json(), bytes()) are async. Each settled request is also recorded through for the DevTools network panel — previews always, phase timings, and full bodies up to only while a sink listens. Recording is free when no dispatcher listens."
 ---
 
-Category: System · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.net` and `@neomacros/net`
+:api-module-header{ category="System" global="true" neo-name="neo.net" esm-name="@neomacros/net" since="0.1.0" mc="*" loader="*"}
 
 **Classes**
 
@@ -21,7 +21,7 @@ Opens a WebSocket connection and resolves with the live socket once the handshak
 
 **Returns** `Promise<`[Ws](../../classes/ws)`>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `fetch(url: string, init: unknown)`
 
@@ -34,7 +34,7 @@ Performs an HTTP request with fetch semantics. The init object carries method (d
 
 **Returns** `Promise<Response>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `net`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="net"}
 
 ### `get(url: string)`
 
@@ -46,7 +46,7 @@ Performs an HTTP GET; convenience form of .
 
 **Returns** `Promise<Response>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `net`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="net"}
 
 ### `post(url: string, body: string)`
 
@@ -59,7 +59,7 @@ Performs an HTTP POST with a string body; convenience form of .
 
 **Returns** `Promise<Response>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `net`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="net"}
 
 
 ## Examples

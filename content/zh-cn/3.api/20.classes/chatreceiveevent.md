@@ -3,7 +3,12 @@ title: "ChatReceiveEvent"
 description: "收到聊天消息事件载荷；消息以中立聊天组件承载。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`chat:receive`](../events/chat/chat-receive) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`chat:receive`](../events/chat/chat-receive)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

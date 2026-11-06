@@ -3,5 +3,8 @@ title: "Strider"
 description: "A strider: saddle and shivering state."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.monster.strider.Strider` · Extends: [`Mob`](mob)
+::api-declaration{ kind="handle" name="Strider" wraps="net.minecraft.world.entity.monster.strider.Strider"}
+#extends
+[`Mob`](mob)
+::
 

@@ -3,11 +3,14 @@ title: "Witch"
 description: "A witch: potion-drinking state."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.monster.Witch` · Extends: [`Mob`](mob)
+::api-declaration{ kind="handle" name="Witch" wraps="net.minecraft.world.entity.monster.Witch"}
+#extends
+[`Mob`](mob)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `drinkingPotion` | `boolean` | Whether the witch is drinking a potion. (read-only) |
+| `drinkingPotion` | `boolean` | Whether the witch is drinking a potion. :api-badge{kind="readonly"} |
 

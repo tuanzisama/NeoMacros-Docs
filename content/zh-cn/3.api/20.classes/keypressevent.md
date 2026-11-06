@@ -3,7 +3,12 @@ title: "KeyPressEvent"
 description: "原始键盘事件载荷；同步订阅可在游戏处理前取消按键。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`key:press`](../events/key/key-press) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`key:press`](../events/key/key-press)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

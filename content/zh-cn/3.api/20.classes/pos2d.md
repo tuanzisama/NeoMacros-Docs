@@ -3,7 +3,8 @@ title: "Pos2D"
 description: "不可变二维点：旋转（yaw, pitch）与屏幕坐标。所有运算都返回新实例。"
 ---
 
-Data
+::api-declaration{ kind="data" name="Pos2D"}
+::
 
 ## Properties
 
@@ -24,7 +25,7 @@ Data
 
 **Returns** [Pos2D](pos2d)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `compare(other: Pos2D)`
 
@@ -36,7 +37,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `number`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `construct(args: unknown)`
 
@@ -48,7 +49,7 @@ Since: 0.2.0
 
 **Returns** `unknown`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `equals(other: unknown)`
 
@@ -60,7 +61,7 @@ Since: 0.2.0
 
 **Returns** `boolean`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `hashCode()`
 
@@ -68,7 +69,7 @@ Since: 0.2.0
 
 **Returns** `number`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `mul(other: Pos2D)`
 
@@ -80,7 +81,7 @@ Since: 0.2.0
 
 **Returns** [Pos2D](pos2d)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `scale(factor: number)`
 
@@ -92,7 +93,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [Pos2D](pos2d)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `sub(other: Pos2D)`
 
@@ -104,7 +105,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [Pos2D](pos2d)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toJSON()`
 
@@ -112,7 +113,7 @@ JSON 形式，使 JSON.stringify 直接输出坐标。
 
 **Returns** `Record<string, unknown>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toString()`
 
@@ -120,5 +121,5 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `string`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 

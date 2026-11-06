@@ -3,11 +3,14 @@ title: "Ghast"
 description: "恶魂：喷火蓄力状态。"
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.monster.Ghast` · Extends: [`Mob`](mob)
+::api-declaration{ kind="handle" name="Ghast" wraps="net.minecraft.world.entity.monster.Ghast"}
+#extends
+[`Mob`](mob)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `charging` | `boolean` | 恶魂是否正在蓄力火球。 (read-only) |
+| `charging` | `boolean` | 恶魂是否正在蓄力火球。 :api-badge{kind="readonly"} |
 

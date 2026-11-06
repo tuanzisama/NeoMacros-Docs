@@ -3,7 +3,10 @@ title: "input:wheel"
 description: "鼠标滚轮事件载荷；正值表示向上滚动。"
 ---
 
-Payload: [`InputWheelEvent`](../../classes/inputwheelevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="input:wheel" since="0.1.0" mc="*" loader="*"}
+#payload
+[`InputWheelEvent`](../../classes/inputwheelevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

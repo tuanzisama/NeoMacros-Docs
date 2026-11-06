@@ -3,7 +3,12 @@ title: "PlayerGlidingEvent"
 description: "鞘翅滑翔状态变化时触发。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`player:gliding`](../events/player/player-gliding) · Since: 0.2.0 · MC: * · Loader: *
+::api-type-header{ since="0.2.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`player:gliding`](../events/player/player-gliding)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

@@ -3,7 +3,10 @@ title: "key:press"
 description: "原始键盘事件载荷；同步订阅可在游戏处理前取消按键。"
 ---
 
-Payload: [`KeyPressEvent`](../../classes/keypressevent) · Cancellable · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="key:press" cancellable="true" since="0.1.0" mc="*" loader="*"}
+#payload
+[`KeyPressEvent`](../../classes/keypressevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

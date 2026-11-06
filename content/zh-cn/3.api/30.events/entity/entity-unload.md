@@ -3,7 +3,10 @@ title: "entity:unload"
 description: "实体离开跟踪范围时触发。"
 ---
 
-Payload: [`EntityUnloadEvent`](../../classes/entityunloadevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="entity:unload" since="0.1.0" mc="*" loader="*"}
+#payload
+[`EntityUnloadEvent`](../../classes/entityunloadevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

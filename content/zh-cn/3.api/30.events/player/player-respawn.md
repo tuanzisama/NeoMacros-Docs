@@ -3,7 +3,10 @@ title: "player:respawn"
 description: "本地玩家重生事件载荷。"
 ---
 
-Payload: [`PlayerRespawnEvent`](../../classes/playerrespawnevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="player:respawn" since="0.1.0" mc="*" loader="*"}
+#payload
+[`PlayerRespawnEvent`](../../classes/playerrespawnevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

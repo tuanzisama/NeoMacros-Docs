@@ -3,7 +3,10 @@ title: "player:exp"
 description: "经验值变化事件载荷。"
 ---
 
-Payload: [`PlayerExpEvent`](../../classes/playerexpevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="player:exp" since="0.1.0" mc="*" loader="*"}
+#payload
+[`PlayerExpEvent`](../../classes/playerexpevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

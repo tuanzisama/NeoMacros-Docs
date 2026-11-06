@@ -3,7 +3,12 @@ title: "PlayerDamageEvent"
 description: "本地玩家受伤事件载荷；携带损失量与受伤后的生命值。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`player:damage`](../events/player/player-damage) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`player:damage`](../events/player/player-damage)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

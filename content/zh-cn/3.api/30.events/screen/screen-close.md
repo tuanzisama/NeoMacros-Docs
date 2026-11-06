@@ -3,7 +3,10 @@ title: "screen:close"
 description: "屏幕关闭事件载荷。"
 ---
 
-Payload: [`ScreenCloseEvent`](../../classes/screencloseevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="screen:close" since="0.1.0" mc="*" loader="*"}
+#payload
+[`ScreenCloseEvent`](../../classes/screencloseevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

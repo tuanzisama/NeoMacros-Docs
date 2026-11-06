@@ -3,7 +3,10 @@ title: "player:sprint"
 description: "疾跑状态变化时触发。"
 ---
 
-Payload: [`PlayerSprintEvent`](../../classes/playersprintevent) · Since: 0.2.0 · MC: * · Loader: *
+::api-event-header{ event="player:sprint" since="0.2.0" mc="*" loader="*"}
+#payload
+[`PlayerSprintEvent`](../../classes/playersprintevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

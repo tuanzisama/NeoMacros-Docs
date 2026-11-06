@@ -3,7 +3,8 @@ title: "JavaClass"
 description: "Proxy over one host class: static fields read as values, static methods dispatch as callables, and the new member constructs instances."
 ---
 
-Handle
+::api-declaration{ kind="handle" name="JavaClass"}
+::
 
 ## Methods
 

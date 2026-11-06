@@ -3,7 +3,7 @@ title: "storage"
 description: "The neo.storage facade: persistent per-script key-value storage. Values must be JSON-serializable plain data (objects, arrays, strings, numbers, booleans); each script owns an isolated store keyed by its source file name, surviving reloads and game restarts."
 ---
 
-Category: Core · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.storage` and `@neomacros/storage`
+:api-module-header{ category="Core" global="true" neo-name="neo.storage" esm-name="@neomacros/storage" since="0.1.0" mc="*" loader="*"}
 
 ## Methods
 
@@ -17,7 +17,7 @@ Reads one value, or null when absent.
 
 **Returns** `unknown`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `has(key: string)`
 
@@ -29,7 +29,7 @@ Returns whether the key exists.
 
 **Returns** `boolean`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `put(key: string, value: unknown)`
 
@@ -40,7 +40,7 @@ Writes one value (JSON-serializable plain data); null deletes the key.
 - `key` `string`: 
 - `value` `unknown`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `remove(key: string)`
 
@@ -50,7 +50,7 @@ Removes one key.
 
 - `key` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

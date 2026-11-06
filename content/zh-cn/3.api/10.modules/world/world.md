@@ -3,25 +3,25 @@ title: "world"
 description: "neo.world 门面：对已加载客户端世界的查询。位置使用普通世界坐标；结果为纯时点对象。"
 ---
 
-Category: 世界 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.world` and `@neomacros/world`
+:api-module-header{ category="世界" global="true" neo-name="neo.world" esm-name="@neomacros/world" since="0.1.0" mc="*" loader="*"}
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `age` | `number` | 世界总龄（tick）。 (read-only) |
-| `bossBars` | `Array<Record<string, unknown>>` | 当前显示的 Boss 条数组 [{uuid, name, progress, color}]；无 Boss 条时为空数组。 (read-only) |
-| `day` | `number` | 当前天数。 (read-only) |
-| `difficulty` | `string` | 难度标识，如 normal。 (read-only) |
-| `dimension` | `string` | 当前维度标识，如 minecraft:overworld。 (read-only) |
-| `levelName` | `string` | 当前存档或服务器名称；未加载世界时为空字符串。 (read-only) |
-| `moonPhase` | `number` | 当前月相序号（0 为满月，4 为新月）。 (read-only) |
-| `raining` | `boolean` | 当前是否在下雨。 (read-only) |
-| `scoreboards` | `Record<string, unknown>` | 客户端记分板 {objectives, scores}；objectives 条目含 name, displayName, criteria, renderType，scores 条目含 objective, owner, value；无世界时为 null。 (read-only) |
-| `tabList` | `Record<string, unknown>` | 客户端 Tab 列表 {header, footer, entries}；条目含 uuid, name, latency, gamemode, displayName；无世界时为 null。 (read-only) |
-| `thundering` | `boolean` | 当前是否在打雷。 (read-only) |
-| `time` | `number` | 当前世界时间（tick）。 (read-only) |
-| `tps` | `Record<string, unknown>` | 由时间同步包采样得到的远端 tick 速率估计 {instant, m1, m5, m15}（每秒 tick 数）；尚无采样时为 null。 (read-only) |
+| `age` | `number` | 世界总龄（tick）。 :api-badge{kind="readonly"} |
+| `bossBars` | `Array<Record<string, unknown>>` | 当前显示的 Boss 条数组 [{uuid, name, progress, color}]；无 Boss 条时为空数组。 :api-badge{kind="readonly"} |
+| `day` | `number` | 当前天数。 :api-badge{kind="readonly"} |
+| `difficulty` | `string` | 难度标识，如 normal。 :api-badge{kind="readonly"} |
+| `dimension` | `string` | 当前维度标识，如 minecraft:overworld。 :api-badge{kind="readonly"} |
+| `levelName` | `string` | 当前存档或服务器名称；未加载世界时为空字符串。 :api-badge{kind="readonly"} |
+| `moonPhase` | `number` | 当前月相序号（0 为满月，4 为新月）。 :api-badge{kind="readonly"} |
+| `raining` | `boolean` | 当前是否在下雨。 :api-badge{kind="readonly"} |
+| `scoreboards` | `Record<string, unknown>` | 客户端记分板 {objectives, scores}；objectives 条目含 name, displayName, criteria, renderType，scores 条目含 objective, owner, value；无世界时为 null。 :api-badge{kind="readonly"} |
+| `tabList` | `Record<string, unknown>` | 客户端 Tab 列表 {header, footer, entries}；条目含 uuid, name, latency, gamemode, displayName；无世界时为 null。 :api-badge{kind="readonly"} |
+| `thundering` | `boolean` | 当前是否在打雷。 :api-badge{kind="readonly"} |
+| `time` | `number` | 当前世界时间（tick）。 :api-badge{kind="readonly"} |
+| `tps` | `Record<string, unknown>` | 由时间同步包采样得到的远端 tick 速率估计 {instant, m1, m5, m15}（每秒 tick 数）；尚无采样时为 null。 :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -37,7 +37,7 @@ Category: 世界 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 **Returns** `string`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `blockAt(x: number, y: number, z: number)`
 
@@ -51,7 +51,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [Block](../../classes/block) — {id, pos:{x,y,z}} 或 null
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `chunkAt(x: number, y: number, z: number)`
 
@@ -65,7 +65,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [Chunk](../../classes/chunk)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `chunkLoaded(chunk: ChunkPos)`
 
@@ -77,7 +77,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `boolean`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `findBlocks(options: Record<string, unknown>)`
 
@@ -89,7 +89,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Array<`[Block](../../classes/block)`>` — Block[] 数组
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `loaded(x: number, y: number, z: number)`
 
@@ -103,7 +103,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `boolean`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `playSound(soundId: string, x: number, y: number, z: number, volume: number, pitch: number)`
 
@@ -118,7 +118,7 @@ Since: 0.1.0 · MC: * · Loader: *
 - `volume` `number`: 音量，默认 1
 - `pitch` `number`: 音调，默认 1
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `raycast(fromX: number, fromY: number, fromZ: number, toX: number, toY: number, toZ: number)`
 
@@ -135,7 +135,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [RayHit](../../classes/rayhit) — {block|entity, pos, distance} 或 null
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `spawnParticle(particleId: string, x: number, y: number, z: number, count: number, offsetX: number, offsetY: number, offsetZ: number, speed: number)`
 
@@ -153,7 +153,7 @@ Since: 0.1.0 · MC: * · Loader: *
 - `offsetZ` `number`: 粒子散布半径 Z
 - `speed` `number`: 粒子初速
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 
 ## Examples

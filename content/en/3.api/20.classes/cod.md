@@ -3,5 +3,8 @@ title: "Cod"
 description: "A cod."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.animal.fish.Cod` · Extends: [`AbstractSchoolingFish`](abstractschoolingfish)
+::api-declaration{ kind="handle" name="Cod" wraps="net.minecraft.world.entity.animal.fish.Cod"}
+#extends
+[`AbstractSchoolingFish`](abstractschoolingfish)
+::
 

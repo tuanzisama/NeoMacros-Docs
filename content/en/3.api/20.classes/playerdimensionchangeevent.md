@@ -3,7 +3,12 @@ title: "PlayerDimensionChangeEvent"
 description: "Payload of the local player changing dimension event."
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`player:dimensionChange`](../events/player/player-dimensionchange) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`player:dimensionChange`](../events/player/player-dimensionchange)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

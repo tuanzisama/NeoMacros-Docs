@@ -3,7 +3,7 @@ title: "render"
 description: "The neo.render facade: world-space shape drawing on top of the vanilla gizmo pipeline. Shapes persist across frames until cleared or the module unloads; coordinates are world coordinates."
 ---
 
-Category: UI · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.render` and `@neomacros/render`
+:api-module-header{ category="UI" global="true" neo-name="neo.render" esm-name="@neomacros/render" since="0.1.0" mc="*" loader="*"}
 
 ## Methods
 
@@ -15,7 +15,7 @@ Removes all shapes on one layer.
 
 - `layerId` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `drawBox(layerId: string, min: Pos3D, max: Pos3D, argbColor: number)`
 
@@ -28,7 +28,7 @@ Draws a wireframe box between two world positions on one layer.
 - `max` [Pos3D](../../classes/pos3d): opposite corner (world coordinates)
 - `argbColor` `number`: ARGB color (e.g. 0xFF00FF00 for opaque green)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `drawLine(layerId: string, from: Pos3D, to: Pos3D, argbColor: number)`
 
@@ -41,7 +41,7 @@ Draws a line between two world positions on one layer.
 - `to` [Pos3D](../../classes/pos3d): 
 - `argbColor` `number`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `layerIds()`
 
@@ -49,7 +49,7 @@ Lists all layers that currently hold shapes.
 
 **Returns** `Array<string>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

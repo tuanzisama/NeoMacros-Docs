@@ -3,13 +3,13 @@ title: "command"
 description: "neo.command 门面：客户端命令注册与派发。命令以声明式注册，经 command.arg 构建带类型的参数槽（int() float() bool() word() string() greedy() player() pos()，另有 optional() 与 default(v)）；处理器收到的上下文 args 携带解析值，raw 保留剩余字符串。"
 ---
 
-Category: 界面 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.command` and `@neomacros/command`
+:api-module-header{ category="界面" global="true" neo-name="neo.command" esm-name="@neomacros/command" since="0.1.0" mc="*" loader="*"}
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `arg` | `CommandArgFactory` | 带类型的参数槽工厂（command.arg）。 (read-only) |
+| `arg` | `CommandArgFactory` | 带类型的参数槽工厂（command.arg）。 :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -19,7 +19,7 @@ Category: 界面 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 **Returns** `Array<string>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `execute(commandLine: string)`
 
@@ -31,7 +31,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<boolean>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `command`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="command"}
 
 ### `register(spec: Record<string, unknown>)`
 
@@ -43,7 +43,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `command`
 
 **Returns** `unknown` — 注销用的不透明句柄
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `command`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="command"}
 
 ### `unregister(handleOrName: unknown)`
 
@@ -53,7 +53,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `command`
 
 - `handleOrName` `unknown`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

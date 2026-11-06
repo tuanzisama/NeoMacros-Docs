@@ -3,7 +3,10 @@ title: "ContainerInventory"
 description: "箱子容器界面：容器行先于玩家行。"
 ---
 
-Handle · Wraps: `net.minecraft.world.inventory.ChestMenu` · Extends: [`Inventory`](inventory)
+::api-declaration{ kind="handle" name="ContainerInventory" wraps="net.minecraft.world.inventory.ChestMenu"}
+#extends
+[`Inventory`](inventory)
+::
 
 ## Methods
 
@@ -13,5 +16,5 @@ Handle · Wraps: `net.minecraft.world.inventory.ChestMenu` · Extends: [`Invento
 
 **Returns** `number`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 

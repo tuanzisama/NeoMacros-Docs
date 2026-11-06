@@ -3,15 +3,15 @@ title: "input"
 description: "neo.input 门面：按键绑定注册（显示在原版控制设置中）、原始按键监听、鼠标滚轮事件与按键注入（press/release/hold/set）。"
 ---
 
-Category: 输入 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.input` and `@neomacros/input`
+:api-module-header{ category="输入" global="true" neo-name="neo.input" esm-name="@neomacros/input" since="0.1.0" mc="*" loader="*"}
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `keybinds` | `Array<Record<string, unknown>>` | 原版键位表 [{name, key}]，按注册顺序；key 为绑定键的友好名称。 (read-only) |
-| `movementState` | `Record<string, boolean>` | 移动键位状态 {forward, backward, left, right, jump, sneak, sprint}。 (read-only) |
-| `pressedKeys` | `Array<string>` | 当前按住的原版键位绑定名数组。 (read-only) |
+| `keybinds` | `Array<Record<string, unknown>>` | 原版键位表 [{name, key}]，按注册顺序；key 为绑定键的友好名称。 :api-badge{kind="readonly"} |
+| `movementState` | `Record<string, boolean>` | 移动键位状态 {forward, backward, left, right, jump, sneak, sprint}。 :api-badge{kind="readonly"} |
+| `pressedKeys` | `Array<string>` | 当前按住的原版键位绑定名数组。 :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -26,7 +26,7 @@ Category: 输入 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `movement(spec: Record<string, unknown>)`
 
@@ -38,7 +38,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Subscription`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `onScroll(sink: (arg: number) => void)`
 
@@ -50,7 +50,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `press(keyName: string)`
 
@@ -60,7 +60,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 - `keyName` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `registerKeyPress(keyName: string, sink: () => void)`
 
@@ -73,7 +73,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Subscription` — 订阅句柄，cancel 注销
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `registerKeybind(keyName: string, sink: () => void)`
 
@@ -86,7 +86,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Subscription` — 订阅句柄，cancel 解绑
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `release(keyName: string)`
 
@@ -96,7 +96,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 - `keyName` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `set(bindName: string, down: boolean)`
 
@@ -107,7 +107,7 @@ Since: 0.1.0 · MC: * · Loader: *
 - `bindName` `string`: 
 - `down` `boolean`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `setBind(bindName: string, keyName: string)`
 
@@ -118,7 +118,7 @@ Since: 0.1.0 · MC: * · Loader: *
 - `bindName` `string`: 键位绑定名
 - `keyName` `string`: 按键描述
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `unregister(handle: unknown)`
 
@@ -128,7 +128,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 - `handle` `unknown`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

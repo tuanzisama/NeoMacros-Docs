@@ -3,7 +3,10 @@ title: "player:sneak"
 description: "潜行状态变化时触发。"
 ---
 
-Payload: [`PlayerSneakEvent`](../../classes/playersneakevent) · Since: 0.2.0 · MC: * · Loader: *
+::api-event-header{ event="player:sneak" since="0.2.0" mc="*" loader="*"}
+#payload
+[`PlayerSneakEvent`](../../classes/playersneakevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

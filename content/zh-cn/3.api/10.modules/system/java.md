@@ -3,7 +3,7 @@ title: "java"
 description: "neo.java 门面：宿主 JVM 的穿透层。类查找使用二进制名（Minecraft 类为 Mojmap 名，调用点经映射层翻译）；本模块全部能力需 java 权限——授予权限即交给脚本完整宿主访问，无类过滤。构造经类代理的 new(...) 成员完成，结果包装为对象代理，其成员直达未包装的 Java 字段与方法。"
 ---
 
-Category: 系统 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.java` and `@neomacros/java`
+:api-module-header{ category="系统" global="true" neo-name="neo.java" esm-name="@neomacros/java" since="0.1.0" mc="*" loader="*"}
 
 ## Methods
 
@@ -17,7 +17,7 @@ Category: 系统 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 **Returns** `unknown`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `proxy(interfaces: unknown, handlers: unknown)`
 
@@ -30,7 +30,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `unknown` — 宿主代理对象
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `toArray(scriptArray: unknown, componentTypeName: string)`
 
@@ -43,7 +43,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `unknown`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `toList(scriptArray: unknown)`
 
@@ -55,7 +55,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `unknown`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `type(className: string, alternate: string)`
 
@@ -68,7 +68,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [JavaClass](../../classes/javaclass) — 类代理
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `wrap(raw: unknown)`
 
@@ -80,7 +80,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `unknown` — 包装句柄或 null
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 
 ## Examples

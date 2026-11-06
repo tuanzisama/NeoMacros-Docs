@@ -3,13 +3,14 @@ title: "TextBuilder"
 description: "可变构建器，产出不可变 。由 chat.text(str, style?) 创建；链式设置样式后 build()。样式作用于最近一次追加的分段。"
 ---
 
-Handle
+::api-declaration{ kind="handle" name="TextBuilder"}
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `segments` | `Array<TextSegmentData>` | 目前已追加的分段（兼容读取面）。 (read-only) |
+| `segments` | `Array<TextSegmentData>` | 目前已追加的分段（兼容读取面）。 :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -24,7 +25,7 @@ Handle
 
 **Returns** [TextBuilder](textbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `append(text: string)`
 
@@ -36,7 +37,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [TextBuilder](textbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `bold()`
 
@@ -44,7 +45,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [TextBuilder](textbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `build()`
 
@@ -52,7 +53,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [Text](text)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `clickCommand(command: string)`
 
@@ -64,7 +65,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [TextBuilder](textbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `clickUrl(url: string)`
 
@@ -76,7 +77,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [TextBuilder](textbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `color(color: string)`
 
@@ -88,7 +89,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [TextBuilder](textbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `hover(hoverText: string)`
 
@@ -100,7 +101,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [TextBuilder](textbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `italic()`
 
@@ -108,7 +109,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [TextBuilder](textbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `obfuscated()`
 
@@ -116,7 +117,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [TextBuilder](textbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `strikethrough()`
 
@@ -124,7 +125,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [TextBuilder](textbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `underlined()`
 
@@ -132,5 +133,5 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [TextBuilder](textbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 

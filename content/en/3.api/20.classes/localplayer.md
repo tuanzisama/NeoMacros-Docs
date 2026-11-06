@@ -3,17 +3,20 @@ title: "LocalPlayer"
 description: "Local player action face: attack/interact/swing/drop dispatch through the game on the main thread and resolve once processed."
 ---
 
-Handle · Wraps: `net.minecraft.client.player.LocalPlayer` · Extends: [`Player`](player)
+::api-declaration{ kind="handle" name="LocalPlayer" wraps="net.minecraft.client.player.LocalPlayer"}
+#extends
+[`Player`](player)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `abilities` | [Abilities](abilities) | The live abilities handle: flags and speed multipliers, readable and writable client-side. (read-only) |
-| `blockInteractionRange` | `number` | The block interaction range in blocks. (read-only) |
-| `breakingBlock` | `boolean` | Whether the local player is currently breaking a block. (read-only) |
-| `entityInteractionRange` | `number` | The entity interaction range in blocks. (read-only) |
-| `statistics` | `Record<string, number>` | The client-side statistics as statTypeId:valueId -> value entries; only non-zero values appear. null without a world. (read-only) |
+| `abilities` | [Abilities](abilities) | The live abilities handle: flags and speed multipliers, readable and writable client-side. :api-badge{kind="readonly"} |
+| `blockInteractionRange` | `number` | The block interaction range in blocks. :api-badge{kind="readonly"} |
+| `breakingBlock` | `boolean` | Whether the local player is currently breaking a block. :api-badge{kind="readonly"} |
+| `entityInteractionRange` | `number` | The entity interaction range in blocks. :api-badge{kind="readonly"} |
+| `statistics` | `Record<string, number>` | The client-side statistics as statTypeId:valueId -> value entries; only non-zero values appear. null without a world. :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -27,7 +30,7 @@ Attacks the entity behind the target handle.
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `dropHeld(all: boolean)`
 
@@ -39,7 +42,7 @@ Drops the held item stack (all = the whole stack).
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `interactBlock(pos: BlockPos)`
 
@@ -51,7 +54,7 @@ Uses (right-clicks) the block behind the position handle.
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `interactEntity(target: Entity)`
 
@@ -63,7 +66,7 @@ Uses (right-clicks) the entity behind the target handle.
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `itemCooldown(itemId: string)`
 
@@ -75,7 +78,7 @@ The item cooldown progress for the item id, 0 when not on cooldown (or the item 
 
 **Returns** `number`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `look(yaw: number, pitch: number)`
 
@@ -88,7 +91,7 @@ Turns the camera to the yaw (horizontal) and pitch (vertical) angles in degrees.
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `lookAt(target: Entity)`
 
@@ -100,7 +103,7 @@ Turns the camera to look at the entity behind the target handle.
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `setVelocity(x: number, y: number, z: number)`
 
@@ -114,7 +117,7 @@ Sets the movement velocity vector (client-side write).
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `swingHand(offhand: boolean)`
 
@@ -126,7 +129,7 @@ Swings the main hand (offhand = the off hand).
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `teleport(x: number, y: number, z: number)`
 
@@ -140,7 +143,7 @@ Moves the local player to the position (client-side write; multiplayer servers c
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toString()`
 

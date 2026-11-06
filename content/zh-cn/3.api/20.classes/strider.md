@@ -3,5 +3,8 @@ title: "Strider"
 description: "炽足兽：鞍与颤抖状态。"
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.monster.strider.Strider` · Extends: [`Mob`](mob)
+::api-declaration{ kind="handle" name="Strider" wraps="net.minecraft.world.entity.monster.strider.Strider"}
+#extends
+[`Mob`](mob)
+::
 

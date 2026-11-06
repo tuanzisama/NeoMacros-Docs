@@ -3,7 +3,10 @@ title: "key:press"
 description: "Payload of the raw keyboard event; synchronous subscribers may cancel the key press before the game processes it."
 ---
 
-Payload: [`KeyPressEvent`](../../classes/keypressevent) · Cancellable · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="key:press" cancellable="true" since="0.1.0" mc="*" loader="*"}
+#payload
+[`KeyPressEvent`](../../classes/keypressevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

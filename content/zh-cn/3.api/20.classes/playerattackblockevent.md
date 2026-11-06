@@ -3,7 +3,12 @@ title: "PlayerAttackBlockEvent"
 description: "玩家开始破坏方块事件载荷；同步订阅可取消破坏。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`player:attackBlock`](../events/player/player-attackblock) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`player:attackBlock`](../events/player/player-attackblock)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

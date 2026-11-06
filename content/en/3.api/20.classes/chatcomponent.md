@@ -3,6 +3,9 @@ title: "ChatComponent"
 description: "Record type referenced in API signatures."
 ---
 
+::api-declaration{ kind="record" name="ChatComponent"}
+::
+
 | Field | Type |
 | --- | --- |
 | `bold` | `boolean` |

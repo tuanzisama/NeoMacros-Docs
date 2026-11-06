@@ -3,7 +3,8 @@ title: "JavaObject"
 description: "宿主对象的代理：公共字段按值读写，方法按绑定到实例的可调用分发。"
 ---
 
-Handle
+::api-declaration{ kind="handle" name="JavaObject"}
+::
 
 ## Methods
 

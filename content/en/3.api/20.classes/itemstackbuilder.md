@@ -3,7 +3,8 @@ title: "ItemStackBuilder"
 description: "Builder for local values; the single construction path for script-made stacks. The product is local data: it enters the world only through privileged writes (creative inventory) or stays comparison/display data — survival mode has no \"materialize items\" path (server authority)."
 ---
 
-Data
+::api-declaration{ kind="data" name="ItemStackBuilder"}
+::
 
 ## Methods
 
@@ -13,7 +14,7 @@ Validates and produces the immutable stack.
 
 **Returns** [ItemStack](itemstack)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `construct(args: unknown)`
 
@@ -25,7 +26,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `unknown`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `copyFrom(stack: ItemStack)`
 
@@ -37,7 +38,7 @@ Copies all fields from an existing stack as the base draft, then lets chained ca
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `count(size: number)`
 
@@ -49,7 +50,7 @@ Sets the stack size.
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `damage(value: number)`
 
@@ -61,7 +62,7 @@ Sets the current durability damage.
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `enchant(enchantId: string, level: number)`
 
@@ -74,7 +75,7 @@ Adds one enchantment (chainable, repeats allowed).
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `lore(lines: unknown)`
 
@@ -86,7 +87,7 @@ Appends lore lines (varargs form).
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `loreLines(lines: Array<string>)`
 
@@ -98,7 +99,7 @@ Replaces lore lines from an array form.
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `maxDamage(value: number)`
 
@@ -110,7 +111,7 @@ Sets the maximum durability.
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `name(value: string)`
 
@@ -122,7 +123,7 @@ Sets a custom display name.
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toString()`
 
@@ -130,7 +131,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `string`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `unbreakable()`
 
@@ -138,7 +139,7 @@ Marks the stack unbreakable (default true when called without arguments).
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `unbreakable(on: boolean)`
 
@@ -150,5 +151,5 @@ Marks the stack unbreakable on or off.
 
 **Returns** [ItemStackBuilder](itemstackbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 

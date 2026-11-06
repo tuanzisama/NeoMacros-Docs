@@ -3,7 +3,7 @@ title: "thread"
 description: "neo.thread 门面：线程自省、基于时间与主线程的异步原语与定时器，各自绑定调用脚本的上下文事件循环；调度函数返回 Promise 或可取消的定时器句柄。"
 ---
 
-Category: 核心 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.thread` and `@neomacros/thread`
+:api-module-header{ category="核心" global="true" neo-name="neo.thread" esm-name="@neomacros/thread" since="0.1.0" mc="*" loader="*"}
 
 ## Properties
 
@@ -24,7 +24,7 @@ Category: 核心 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 **Returns** `TimerHandle`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `afterTick(count: number, task: () => void)`
 
@@ -37,7 +37,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `TimerHandle`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `every(millis: number, task: () => void)`
 
@@ -50,7 +50,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `TimerHandle`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `everyTick(count: number, task: () => void)`
 
@@ -63,7 +63,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `TimerHandle`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `nextTick()`
 
@@ -71,7 +71,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `runOnMain(task: () => unknown)`
 
@@ -83,7 +83,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<object>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `sleep(millis: number)`
 
@@ -95,7 +95,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `ticks(count: number)`
 
@@ -107,7 +107,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

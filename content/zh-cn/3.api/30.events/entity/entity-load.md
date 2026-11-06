@@ -3,7 +3,10 @@ title: "entity:load"
 description: "实体进入跟踪范围时触发。"
 ---
 
-Payload: [`EntityLoadEvent`](../../classes/entityloadevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="entity:load" since="0.1.0" mc="*" loader="*"}
+#payload
+[`EntityLoadEvent`](../../classes/entityloadevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

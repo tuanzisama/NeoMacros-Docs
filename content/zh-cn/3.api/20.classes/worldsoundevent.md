@@ -3,7 +3,12 @@ title: "WorldSoundEvent"
 description: "声音播放事件；高流量事件，默认不进通配分发。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`world:sound`](../events/world/world-sound) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`world:sound`](../events/world/world-sound)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

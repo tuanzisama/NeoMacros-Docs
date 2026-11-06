@@ -3,5 +3,8 @@ title: "Ocelot"
 description: "An ocelot: trusting state."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.animal.feline.Ocelot` · Extends: [`Animal`](animal)
+::api-declaration{ kind="handle" name="Ocelot" wraps="net.minecraft.world.entity.animal.feline.Ocelot"}
+#extends
+[`Animal`](animal)
+::
 

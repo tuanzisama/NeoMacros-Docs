@@ -3,7 +3,7 @@ title: "hud"
 description: "The neo.hud facade: HUD overlay text rendered on top of the vanilla HUD. Text entries persist across frames until removed or the module unloads."
 ---
 
-Category: UI · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.hud` and `@neomacros/hud`
+:api-module-header{ category="UI" global="true" neo-name="neo.hud" esm-name="@neomacros/hud" since="0.1.0" mc="*" loader="*"}
 
 ## Methods
 
@@ -21,7 +21,7 @@ Adds a persistent text entry on the HUD overlay.
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `removeText(id: string)`
 
@@ -33,7 +33,7 @@ Removes a previously added text entry.
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `textIds()`
 
@@ -41,7 +41,7 @@ Lists all registered text entry identifiers.
 
 **Returns** `Array<string>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

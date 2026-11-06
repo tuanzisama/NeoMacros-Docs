@@ -3,7 +3,10 @@ title: "SnowGolem"
 description: "雪傀儡：南瓜头状态。"
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.animal.golem.SnowGolem` · Extends: [`Mob`](mob)
+::api-declaration{ kind="handle" name="SnowGolem" wraps="net.minecraft.world.entity.animal.golem.SnowGolem"}
+#extends
+[`Mob`](mob)
+::
 
 ## Methods
 
@@ -13,5 +16,5 @@ Handle · Wraps: `net.minecraft.world.entity.animal.golem.SnowGolem` · Extends:
 
 **Returns** `boolean`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 

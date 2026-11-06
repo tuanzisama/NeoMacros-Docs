@@ -3,7 +3,7 @@ title: "events"
 description: "neo.events 门面：事件总线上的 EventEmitter 风格订阅。模块装载期创建的订阅归属该模块，模块卸载时自动退订。"
 ---
 
-Category: 核心 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.events` and `@neomacros/events`
+:api-module-header{ category="核心" global="true" neo-name="neo.events" esm-name="@neomacros/events" since="0.1.0" mc="*" loader="*"}
 
 ## Methods
 
@@ -16,7 +16,7 @@ Category: 核心 · Since: 0.1.0 · MC availability: * · Loader availability: *
 - `name` `string`: 
 - `payload` `unknown`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `off(handleOrName: unknown)`
 
@@ -26,7 +26,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 - `handleOrName` `unknown`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `on(name: string, handler: (arg: unknown) => void)`
 
@@ -39,7 +39,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `unknown` — 传回 的不透明订阅句柄
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `onSync(name: string, handler: (arg: unknown) => boolean)`
 
@@ -50,7 +50,7 @@ Since: 0.1.0 · MC: * · Loader: *
 - `name` `string`: 事件名（仅可取消事件）
 - `handler` `(arg: unknown) => boolean`: 判定回调：返回 truthy 取消事件；须短小
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `once(name: string, handler: (arg: unknown) => void)`
 
@@ -63,7 +63,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `unknown` — an opaque subscription handle
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `register(name: string)`
 
@@ -73,7 +73,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 - `name` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `waitFor(name: string)`
 
@@ -85,7 +85,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<object>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `waitForUntil(name: string, filter: (arg: unknown) => boolean, timeoutMillis: number)`
 
@@ -99,7 +99,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<object>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

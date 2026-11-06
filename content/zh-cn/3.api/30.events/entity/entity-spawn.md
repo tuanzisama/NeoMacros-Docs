@@ -3,7 +3,10 @@ title: "entity:spawn"
 description: "实体进入/离开跟踪范围时触发。"
 ---
 
-Payload: [`EntitySpawnEvent`](../../classes/entityspawnevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="entity:spawn" since="0.1.0" mc="*" loader="*"}
+#payload
+[`EntitySpawnEvent`](../../classes/entityspawnevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

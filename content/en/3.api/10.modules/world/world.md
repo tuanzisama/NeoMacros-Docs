@@ -3,25 +3,25 @@ title: "world"
 description: "The neo.world facade: world queries over the loaded client world. Positions use plain world coordinates; results are plain point-in-time objects."
 ---
 
-Category: World · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.world` and `@neomacros/world`
+:api-module-header{ category="World" global="true" neo-name="neo.world" esm-name="@neomacros/world" since="0.1.0" mc="*" loader="*"}
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `age` | `number` | The total world age in ticks. (read-only) |
-| `bossBars` | `Array<Record<string, unknown>>` | The boss bars currently displayed as [{uuid, name, progress, color}]; empty list when none. (read-only) |
-| `day` | `number` | The current day count. (read-only) |
-| `difficulty` | `string` | The difficulty identifier, e.g. normal. (read-only) |
-| `dimension` | `string` | The dimension identifier of the loaded world, e.g. minecraft:overworld. (read-only) |
-| `levelName` | `string` | The loaded save or server name; an empty string without a world. (read-only) |
-| `moonPhase` | `number` | The current moon phase index (0 = full moon, 4 = new moon). (read-only) |
-| `raining` | `boolean` | Whether rain is currently falling. (read-only) |
-| `scoreboards` | `Record<string, unknown>` | The client scoreboard as {objectives, scores}; objectives carry name, displayName, criteria, renderType, scores carry objective, owner, value, or null without a world. (read-only) |
-| `tabList` | `Record<string, unknown>` | The client tab list as {header, footer, entries}; entries carry uuid, name, latency, gamemode, displayName, or null without a world. (read-only) |
-| `thundering` | `boolean` | Whether thunder is currently falling. (read-only) |
-| `time` | `number` | The world time of day in ticks. (read-only) |
-| `tps` | `Record<string, unknown>` | The remote tick rate estimate sampled from time sync packets: {instant, m1, m5, m15} in ticks per second, or null before the first sample. (read-only) |
+| `age` | `number` | The total world age in ticks. :api-badge{kind="readonly"} |
+| `bossBars` | `Array<Record<string, unknown>>` | The boss bars currently displayed as [{uuid, name, progress, color}]; empty list when none. :api-badge{kind="readonly"} |
+| `day` | `number` | The current day count. :api-badge{kind="readonly"} |
+| `difficulty` | `string` | The difficulty identifier, e.g. normal. :api-badge{kind="readonly"} |
+| `dimension` | `string` | The dimension identifier of the loaded world, e.g. minecraft:overworld. :api-badge{kind="readonly"} |
+| `levelName` | `string` | The loaded save or server name; an empty string without a world. :api-badge{kind="readonly"} |
+| `moonPhase` | `number` | The current moon phase index (0 = full moon, 4 = new moon). :api-badge{kind="readonly"} |
+| `raining` | `boolean` | Whether rain is currently falling. :api-badge{kind="readonly"} |
+| `scoreboards` | `Record<string, unknown>` | The client scoreboard as {objectives, scores}; objectives carry name, displayName, criteria, renderType, scores carry objective, owner, value, or null without a world. :api-badge{kind="readonly"} |
+| `tabList` | `Record<string, unknown>` | The client tab list as {header, footer, entries}; entries carry uuid, name, latency, gamemode, displayName, or null without a world. :api-badge{kind="readonly"} |
+| `thundering` | `boolean` | Whether thunder is currently falling. :api-badge{kind="readonly"} |
+| `time` | `number` | The world time of day in ticks. :api-badge{kind="readonly"} |
+| `tps` | `Record<string, unknown>` | The remote tick rate estimate sampled from time sync packets: {instant, m1, m5, m15} in ticks per second, or null before the first sample. :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -37,7 +37,7 @@ The biome identifier at the position.
 
 **Returns** `string`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `blockAt(x: number, y: number, z: number)`
 
@@ -51,7 +51,7 @@ Returns the block at the coordinates, or null when outside the loaded world.
 
 **Returns** [Block](../../classes/block)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `chunkAt(x: number, y: number, z: number)`
 
@@ -65,7 +65,7 @@ The loaded chunk containing the coordinates as a Chunk handle, or null when unlo
 
 **Returns** [Chunk](../../classes/chunk)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `chunkLoaded(chunk: ChunkPos)`
 
@@ -77,7 +77,7 @@ Whether the chunk is loaded.
 
 **Returns** `boolean`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `findBlocks(options: Record<string, unknown>)`
 
@@ -89,7 +89,7 @@ Scans the cube around the center for blocks matching one of the given block ids 
 
 **Returns** `Array<`[Block](../../classes/block)`>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `loaded(x: number, y: number, z: number)`
 
@@ -103,7 +103,7 @@ Whether the chunk containing the position is loaded.
 
 **Returns** `boolean`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `playSound(soundId: string, x: number, y: number, z: number, volume: number, pitch: number)`
 
@@ -118,7 +118,7 @@ Plays a sound locally. With coordinates the sound plays at the world position (r
 - `volume` `number`: 音量，默认 1
 - `pitch` `number`: 音调，默认 1
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `raycast(fromX: number, fromY: number, fromZ: number, toX: number, toY: number, toZ: number)`
 
@@ -135,7 +135,7 @@ Casts a ray from one point toward another and returns the first hit, or null whe
 
 **Returns** [RayHit](../../classes/rayhit)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `spawnParticle(particleId: string, x: number, y: number, z: number, count: number, offsetX: number, offsetY: number, offsetZ: number, speed: number)`
 
@@ -153,7 +153,7 @@ Spawns particles locally around the position; unknown identifiers or data-carryi
 - `offsetZ` `number`: 粒子散布半径 Z
 - `speed` `number`: 粒子初速
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 
 ## Examples

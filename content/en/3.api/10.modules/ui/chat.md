@@ -3,7 +3,7 @@ title: "chat"
 description: "The neo.chat facade: chat output services. Sending targets the connected server; log and actionbar render locally only."
 ---
 
-Category: UI · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.chat` and `@neomacros/chat`
+:api-module-header{ category="UI" global="true" neo-name="neo.chat" esm-name="@neomacros/chat" since="0.1.0" mc="*" loader="*"}
 
 ## Methods
 
@@ -15,7 +15,7 @@ Renders the message on the action bar above the hotbar.
 
 - `message` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `actionbarText(text: Text)`
 
@@ -25,7 +25,7 @@ Renders one styled text on the action bar.
 
 - `text` [Text](../../classes/text): 富文本
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `getPlain(text: Text)`
 
@@ -37,7 +37,7 @@ The plain concatenation of a styled text value.
 
 **Returns** `string`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `getWidth(text: string)`
 
@@ -49,7 +49,7 @@ The rendered pixel width of the text in the chat font.
 
 **Returns** `number`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `log(message: string)`
 
@@ -59,7 +59,7 @@ Prints the message to the local chat HUD only.
 
 - `message` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `logText(text: Text)`
 
@@ -69,7 +69,7 @@ Logs one styled text locally with full color/decoration/hover/click rendering.
 
 - `text` [Text](../../classes/text): 富文本
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `say(message: string)`
 
@@ -79,7 +79,7 @@ Sends the message to the connected server as if typed by the player.
 
 - `message` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `text(text: string, style: Record<string, unknown>)`
 
@@ -92,7 +92,7 @@ Starts a styled text builder from one literal segment, optionally styled ({color
 
 **Returns** [TextBuilder](../../classes/textbuilder)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `title(title: string, subtitle: string, fadeIn: number, stay: number, fadeOut: number)`
 
@@ -106,7 +106,7 @@ Shows a title (and optional subtitle) overlay; null lines are skipped and non-nu
 - `stay` `number`: 停留 tick（可省）
 - `fadeOut` `number`: 淡出 tick（可省）
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toast(title: string, message: string)`
 
@@ -117,7 +117,7 @@ Shows a system toast notification in the screen corner.
 - `title` `string`: 标题
 - `message` `string`: 正文
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 
 ## Examples

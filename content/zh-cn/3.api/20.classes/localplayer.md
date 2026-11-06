@@ -3,17 +3,20 @@ title: "LocalPlayer"
 description: "本地玩家动作面：attack/interact/swing/drop 经游戏主线程派发，处理完成后落定。"
 ---
 
-Handle · Wraps: `net.minecraft.client.player.LocalPlayer` · Extends: [`Player`](player)
+::api-declaration{ kind="handle" name="LocalPlayer" wraps="net.minecraft.client.player.LocalPlayer"}
+#extends
+[`Player`](player)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `abilities` | [Abilities](abilities) | 实时能力句柄：旗标与速度倍率，可读且客户端可写。 (read-only) |
-| `blockInteractionRange` | `number` | 方块交互距离（格）。 (read-only) |
-| `breakingBlock` | `boolean` | 本地玩家是否正在挖掘方块。 (read-only) |
-| `entityInteractionRange` | `number` | 实体交互距离（格）。 (read-only) |
-| `statistics` | `Record<string, number>` | 客户端统计 类型id:条目id -> 数值；仅含非零值；无世界时为 null。 (read-only) |
+| `abilities` | [Abilities](abilities) | 实时能力句柄：旗标与速度倍率，可读且客户端可写。 :api-badge{kind="readonly"} |
+| `blockInteractionRange` | `number` | 方块交互距离（格）。 :api-badge{kind="readonly"} |
+| `breakingBlock` | `boolean` | 本地玩家是否正在挖掘方块。 :api-badge{kind="readonly"} |
+| `entityInteractionRange` | `number` | 实体交互距离（格）。 :api-badge{kind="readonly"} |
+| `statistics` | `Record<string, number>` | 客户端统计 类型id:条目id -> 数值；仅含非零值；无世界时为 null。 :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -27,7 +30,7 @@ Handle · Wraps: `net.minecraft.client.player.LocalPlayer` · Extends: [`Player`
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `dropHeld(all: boolean)`
 
@@ -39,7 +42,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `interactBlock(pos: BlockPos)`
 
@@ -51,7 +54,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `interactEntity(target: Entity)`
 
@@ -63,7 +66,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `itemCooldown(itemId: string)`
 
@@ -75,7 +78,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `number`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `look(yaw: number, pitch: number)`
 
@@ -88,7 +91,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `lookAt(target: Entity)`
 
@@ -100,7 +103,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `setVelocity(x: number, y: number, z: number)`
 
@@ -114,7 +117,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `swingHand(offhand: boolean)`
 
@@ -126,7 +129,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `teleport(x: number, y: number, z: number)`
 
@@ -140,7 +143,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toString()`
 

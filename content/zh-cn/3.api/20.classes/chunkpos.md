@@ -3,7 +3,8 @@ title: "ChunkPos"
 description: "不可变区块坐标。刻意不与 发生继承关系：区块坐标与方块坐标分属两套坐标系，相互换算必须显式（x = blockX >> 4）。"
 ---
 
-Data
+::api-declaration{ kind="data" name="ChunkPos"}
+::
 
 ## Properties
 
@@ -26,7 +27,7 @@ Data
 
 **Returns** `unknown`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `contains(pos: Pos3D)`
 
@@ -38,7 +39,7 @@ Since: 0.2.0
 
 **Returns** `boolean`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `equals(other: unknown)`
 
@@ -50,7 +51,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `boolean`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `hashCode()`
 
@@ -58,7 +59,7 @@ Since: 0.2.0
 
 **Returns** `number`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `minBlock()`
 
@@ -66,7 +67,7 @@ Since: 0.2.0
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `offset(dx: number, dz: number)`
 
@@ -79,7 +80,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [ChunkPos](chunkpos)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toJSON()`
 
@@ -87,7 +88,7 @@ JSON 形式，使 JSON.stringify 直接输出区块坐标。
 
 **Returns** `Record<string, unknown>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toString()`
 
@@ -95,5 +96,5 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `string`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 

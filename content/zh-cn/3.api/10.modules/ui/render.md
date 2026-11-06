@@ -3,7 +3,7 @@ title: "render"
 description: "neo.render 门面：基于原版 gizmo 管线的世界坐标图形绘制。图形跨帧保留，直到清空或模块卸载；坐标为世界坐标。"
 ---
 
-Category: 界面 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.render` and `@neomacros/render`
+:api-module-header{ category="界面" global="true" neo-name="neo.render" esm-name="@neomacros/render" since="0.1.0" mc="*" loader="*"}
 
 ## Methods
 
@@ -15,7 +15,7 @@ Category: 界面 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 - `layerId` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `drawBox(layerId: string, min: Pos3D, max: Pos3D, argbColor: number)`
 
@@ -28,7 +28,7 @@ Since: 0.1.0 · MC: * · Loader: *
 - `max` [Pos3D](../../classes/pos3d): opposite corner (world coordinates)
 - `argbColor` `number`: ARGB color (e.g. 0xFF00FF00 for opaque green)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `drawLine(layerId: string, from: Pos3D, to: Pos3D, argbColor: number)`
 
@@ -41,7 +41,7 @@ Since: 0.1.0 · MC: * · Loader: *
 - `to` [Pos3D](../../classes/pos3d): 
 - `argbColor` `number`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `layerIds()`
 
@@ -49,7 +49,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Array<string>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

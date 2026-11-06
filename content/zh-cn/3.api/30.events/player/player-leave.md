@@ -3,7 +3,10 @@ title: "player:leave"
 description: "本地玩家离开世界事件载荷。"
 ---
 
-Payload: [`PlayerLeaveEvent`](../../classes/playerleaveevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="player:leave" since="0.1.0" mc="*" loader="*"}
+#payload
+[`PlayerLeaveEvent`](../../classes/playerleaveevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

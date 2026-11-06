@@ -3,14 +3,14 @@ title: "performance"
 description: "neo.performance 门面：Web Performance 风格的宏性能分析——锚定脚本会话起点的高精度单调时钟，外加保存在每脚本有界缓冲中的 User Timing 标记与测量。墙钟时间仍用 ES 原生 Date.now()；本模块负责耗时测量。每脚本会话持有独立时间线，脚本重载后 timeOrigin 与缓冲随之重置。"
 ---
 
-Category: 核心 · Since: 0.2.0 · MC availability: * · Loader availability: * · Exposed as `neo.performance` and `@neomacros/performance`
+:api-module-header{ category="核心" global="true" neo-name="neo.performance" esm-name="@neomacros/performance" since="0.2.0" mc="*" loader="*"}
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `entries` | `Array<`[PerformanceEntry](../../classes/performanceentry)`>` | 按录入顺序返回全部保留条目；缓冲保留最新 4096 条，更早的已被挤出。（MDN 的 getEntries() 按无参状态属性化铁律落地为只读属性。） (read-only) |
-| `timeOrigin` | `number` | 本脚本会话启动的墙钟毫秒时刻；performance.timeOrigin + performance.now() 与 Date.now() 可比。 (read-only) |
+| `entries` | `Array<`[PerformanceEntry](../../classes/performanceentry)`>` | 按录入顺序返回全部保留条目；缓冲保留最新 4096 条，更早的已被挤出。（MDN 的 getEntries() 按无参状态属性化铁律落地为只读属性。） :api-badge{kind="readonly"} |
+| `timeOrigin` | `number` | 本脚本会话启动的墙钟毫秒时刻；performance.timeOrigin + performance.now() 与 Date.now() 可比。 :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -22,7 +22,7 @@ Category: 核心 · Since: 0.2.0 · MC availability: * · Loader availability: *
 
 - `name` `string`: （可选，缺省按方法说明取默认值）
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `clearMeasures(name?: string)`
 
@@ -32,7 +32,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 - `name` `string`: （可选，缺省按方法说明取默认值）
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `entriesByName(name: string, entryType?: string)`
 
@@ -45,7 +45,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Array<`[PerformanceEntry](../../classes/performanceentry)`>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `entriesByType(entryType: string)`
 
@@ -57,7 +57,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Array<`[PerformanceEntry](../../classes/performanceentry)`>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `mark(name: string)`
 
@@ -69,7 +69,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [PerformanceEntry](../../classes/performanceentry)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `measure(name: string, start?: string | number, end?: string | number)`
 
@@ -83,7 +83,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** [PerformanceEntry](../../classes/performanceentry)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `now()`
 
@@ -91,7 +91,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `number`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 
 ## Examples

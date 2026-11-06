@@ -3,23 +3,23 @@ title: "client"
 description: "neo.client 门面：运行中游戏客户端的进程级事实、窗口与输入面、连接生命周期，以及只读的注册表与设置切片。"
 ---
 
-Category: 系统 · Since: 0.2.0 · MC availability: * · Loader availability: * · Exposed as `neo.client` and `@neomacros/client`
+:api-module-header{ category="系统" global="true" neo-name="neo.client" esm-name="@neomacros/client" since="0.2.0" mc="*" loader="*"}
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `clipboard` | `string` | 当前系统剪贴板文本。 (read-only) |
-| `devEnv` | `boolean` | 游戏是否运行在开发环境。 (read-only) |
-| `fps` | `number` | 客户端当前帧率。 (read-only) |
-| `gameVersion` | `string` | 客户端运行的游戏版本串。 (read-only) |
+| `clipboard` | `string` | 当前系统剪贴板文本。 :api-badge{kind="readonly"} |
+| `devEnv` | `boolean` | 游戏是否运行在开发环境。 :api-badge{kind="readonly"} |
+| `fps` | `number` | 客户端当前帧率。 :api-badge{kind="readonly"} |
+| `gameVersion` | `string` | 客户端运行的游戏版本串。 :api-badge{kind="readonly"} |
 | `minecraft` | `unknown` | 原始宿主客户端实例（JavaObject 代理）。需 java 权限；等价于 java.type('net.minecraft.client.Minecraft').getInstance()。 |
-| `mods` | `Array<Record<string, unknown>>` | 已安装模组数组 [{id, name, version, authors}]，按加载器顺序。 (read-only) |
-| `mouse` | `Record<string, unknown>` | 鼠标位置（窗口像素）{x, y}。 (read-only) |
-| `options` | `Record<string, unknown>` | 游戏设置只读切片 {fov, gamma, guiScale, renderDistance}。 (read-only) |
-| `ping` | `number` | 服务器报告的本地玩家延迟（毫秒）；未连接时为 null。 (read-only) |
-| `serverInfo` | `Record<string, unknown>` | 当前服务器条目 {name, address}；单人世界为 null。 (read-only) |
-| `window` | `Record<string, unknown>` | 窗口度量 {width, height, scaledWidth, scaledHeight}。 (read-only) |
+| `mods` | `Array<Record<string, unknown>>` | 已安装模组数组 [{id, name, version, authors}]，按加载器顺序。 :api-badge{kind="readonly"} |
+| `mouse` | `Record<string, unknown>` | 鼠标位置（窗口像素）{x, y}。 :api-badge{kind="readonly"} |
+| `options` | `Record<string, unknown>` | 游戏设置只读切片 {fov, gamma, guiScale, renderDistance}。 :api-badge{kind="readonly"} |
+| `ping` | `number` | 服务器报告的本地玩家延迟（毫秒）；未连接时为 null。 :api-badge{kind="readonly"} |
+| `serverInfo` | `Record<string, unknown>` | 当前服务器条目 {name, address}；单人世界为 null。 :api-badge{kind="readonly"} |
+| `window` | `Record<string, unknown>` | 窗口度量 {width, height, scaledWidth, scaledHeight}。 :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -33,7 +33,7 @@ Category: 系统 · Since: 0.2.0 · MC availability: * · Loader availability: *
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `disconnect()`
 
@@ -41,13 +41,13 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `forceShutdown()`
 
 立即关闭游戏，跳过保存与关闭钩子。
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `getMod(id: string)`
 
@@ -59,13 +59,13 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Record<string, unknown>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `grabMouse()`
 
 把鼠标收回游戏窗口（重新捕获）。
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `grabScreenshot()`
 
@@ -73,7 +73,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<`[Image](../../classes/image)`>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `isModLoaded(id: string)`
 
@@ -85,7 +85,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `boolean`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `loadWorld(name: string)`
 
@@ -97,7 +97,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `registryIds(kind: string)`
 
@@ -109,7 +109,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Array<string>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `registryLookup(kind: string, id: string)`
 
@@ -122,13 +122,13 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `string`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `releaseMouse()`
 
 把鼠标释放给操作系统。
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `setClipboard(value: string)`
 
@@ -138,13 +138,13 @@ Since: 0.2.0 · MC: * · Loader: *
 
 - `value` `string`: 剪贴板文本
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `shutdown()`
 
 优雅地关闭游戏。
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 
 ## Examples

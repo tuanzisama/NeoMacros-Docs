@@ -3,7 +3,7 @@ title: "storage"
 description: "neo.storage 门面：按脚本隔离的持久键值存储。值必须是可 JSON 序列化的纯数据（对象/数组/字符串/数字/布尔）；每个脚本按源文件名拥有独立存储，跨重载与游戏重启保留。"
 ---
 
-Category: 核心 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.storage` and `@neomacros/storage`
+:api-module-header{ category="核心" global="true" neo-name="neo.storage" esm-name="@neomacros/storage" since="0.1.0" mc="*" loader="*"}
 
 ## Methods
 
@@ -17,7 +17,7 @@ Category: 核心 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 **Returns** `unknown`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `has(key: string)`
 
@@ -29,7 +29,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `boolean`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `put(key: string, value: unknown)`
 
@@ -40,7 +40,7 @@ Since: 0.1.0 · MC: * · Loader: *
 - `key` `string`: 
 - `value` `unknown`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `remove(key: string)`
 
@@ -50,7 +50,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 - `key` `string`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

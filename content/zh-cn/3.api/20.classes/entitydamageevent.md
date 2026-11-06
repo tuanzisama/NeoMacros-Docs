@@ -3,7 +3,12 @@ title: "EntityDamageEvent"
 description: "实体受伤时触发。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`entity:damage`](../events/entity/entity-damage) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`entity:damage`](../events/entity/entity-damage)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

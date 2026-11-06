@@ -3,17 +3,18 @@ title: "Abilities"
 description: "本地玩家能力句柄：创造模式旗标与速度倍率，实时可读、客户端可写。联机服务器保有飞行决定权，写入可能被纠正。"
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.player.Abilities`
+::api-declaration{ kind="handle" name="Abilities" wraps="net.minecraft.world.entity.player.Abilities"}
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `flySpeed` | `number` | 飞行速度倍率。 (read-only) |
-| `flying` | `boolean` | 玩家当前是否飞行中。 (read-only) |
-| `instabuild` | `boolean` | 玩家是否瞬间破坏方块。 (read-only) |
-| `invulnerable` | `boolean` | 玩家是否免受伤害。 (read-only) |
-| `walkingSpeed` | `number` | 行走速度倍率。 (read-only) |
+| `flySpeed` | `number` | 飞行速度倍率。 :api-badge{kind="readonly"} |
+| `flying` | `boolean` | 玩家当前是否飞行中。 :api-badge{kind="readonly"} |
+| `instabuild` | `boolean` | 玩家是否瞬间破坏方块。 :api-badge{kind="readonly"} |
+| `invulnerable` | `boolean` | 玩家是否免受伤害。 :api-badge{kind="readonly"} |
+| `walkingSpeed` | `number` | 行走速度倍率。 :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -23,7 +24,7 @@ Handle · Wraps: `net.minecraft.world.entity.player.Abilities`
 
 **Returns** `boolean`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `mayFly()`
 
@@ -31,7 +32,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `boolean`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `setFlySpeed(value: number)`
 
@@ -43,7 +44,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `setFlying(value: boolean)`
 
@@ -55,7 +56,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `setWalkingSpeed(value: number)`
 
@@ -67,5 +68,5 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 

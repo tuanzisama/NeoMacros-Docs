@@ -3,13 +3,18 @@ title: "AbstractSchoolingFish"
 description: "群游鱼类基类：鱼群成员关系。"
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.animal.fish.AbstractSchoolingFish` · Extends: [`AbstractFish`](abstractfish) · Extended by: [`Cod`](cod), [`Salmon`](salmon)
+::api-declaration{ kind="handle" name="AbstractSchoolingFish" wraps="net.minecraft.world.entity.animal.fish.AbstractSchoolingFish"}
+#extends
+[`AbstractFish`](abstractfish)
+#extended-by
+[`Cod`](cod), [`Salmon`](salmon)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `follower` | `boolean` | 该鱼是否跟随某个鱼群首领。 (read-only) |
+| `follower` | `boolean` | 该鱼是否跟随某个鱼群首领。 :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -19,7 +24,7 @@ Handle · Wraps: `net.minecraft.world.entity.animal.fish.AbstractSchoolingFish` 
 
 **Returns** `boolean`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `hasFollowers()`
 
@@ -27,5 +32,5 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `boolean`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 

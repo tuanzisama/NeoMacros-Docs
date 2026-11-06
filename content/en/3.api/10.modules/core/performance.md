@@ -3,14 +3,14 @@ title: "performance"
 description: "The neo.performance facade: Web-Performance-style macro profiling — a high-resolution monotonic clock anchored at the script's session origin, plus User Timing marks and measures kept in a bounded per-script buffer. Wall-clock timestamps remain the domain of the ES-native Date.now(); this module measures durations. Each script session owns an isolated timeline, so timeOrigin and buffered entries reset when the script reloads."
 ---
 
-Category: Core · Since: 0.2.0 · MC availability: * · Loader availability: * · Exposed as `neo.performance` and `@neomacros/performance`
+:api-module-header{ category="Core" global="true" neo-name="neo.performance" esm-name="@neomacros/performance" since="0.2.0" mc="*" loader="*"}
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `entries` | `Array<`[PerformanceEntry](../../classes/performanceentry)`>` | All kept entries in insertion order; the buffer keeps the newest 4096 and evicts older ones. (The MDN getEntries() query lands as a read-only property under the house no-argument-property rule.) (read-only) |
-| `timeOrigin` | `number` | Wall-clock time, in milliseconds, at which this script's session started; performance.timeOrigin + performance.now() stays comparable to Date.now(). (read-only) |
+| `entries` | `Array<`[PerformanceEntry](../../classes/performanceentry)`>` | All kept entries in insertion order; the buffer keeps the newest 4096 and evicts older ones. (The MDN getEntries() query lands as a read-only property under the house no-argument-property rule.) :api-badge{kind="readonly"} |
+| `timeOrigin` | `number` | Wall-clock time, in milliseconds, at which this script's session started; performance.timeOrigin + performance.now() stays comparable to Date.now(). :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -22,7 +22,7 @@ Removes recorded marks — all of them when name is omitted, otherwise only thos
 
 - `name` `string`:  (optional, defaults per the method description)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `clearMeasures(name?: string)`
 
@@ -32,7 +32,7 @@ Removes recorded measures — all of them when name is omitted, otherwise only t
 
 - `name` `string`:  (optional, defaults per the method description)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `entriesByName(name: string, entryType?: string)`
 
@@ -45,7 +45,7 @@ Kept entries under name, optionally restricted to one entryType ("mark" or "meas
 
 **Returns** `Array<`[PerformanceEntry](../../classes/performanceentry)`>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `entriesByType(entryType: string)`
 
@@ -57,7 +57,7 @@ Kept entries of one entryType ("mark" or "measure"); unknown types return an emp
 
 **Returns** `Array<`[PerformanceEntry](../../classes/performanceentry)`>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `mark(name: string)`
 
@@ -69,7 +69,7 @@ Records a zero-duration timestamp under name and returns the stored entry; the n
 
 **Returns** [PerformanceEntry](../../classes/performanceentry)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `measure(name: string, start?: string | number, end?: string | number)`
 
@@ -83,7 +83,7 @@ Records a duration under name spanning start to end and returns the stored entry
 
 **Returns** [PerformanceEntry](../../classes/performanceentry)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `now()`
 
@@ -91,7 +91,7 @@ High-resolution monotonic timestamp in milliseconds (microsecond precision) sinc
 
 **Returns** `number`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 
 ## Examples

@@ -3,7 +3,12 @@ title: "WorldBossbarEvent"
 description: "Boss 血条更新时触发。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`world:bossbar`](../events/world/world-bossbar) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`world:bossbar`](../events/world/world-bossbar)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

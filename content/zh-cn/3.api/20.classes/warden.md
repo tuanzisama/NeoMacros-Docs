@@ -3,11 +3,14 @@ title: "Warden"
 description: "监守者：愤怒等级。"
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.monster.warden.Warden` · Extends: [`Mob`](mob)
+::api-declaration{ kind="handle" name="Warden" wraps="net.minecraft.world.entity.monster.warden.Warden"}
+#extends
+[`Mob`](mob)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `angerLevel` | `string` | 愤怒等级标识（calmed/agitated/angry/furious）。 (read-only) |
+| `angerLevel` | `string` | 愤怒等级标识（calmed/agitated/angry/furious）。 :api-badge{kind="readonly"} |
 

@@ -3,7 +3,8 @@ title: "ChunkPos"
 description: "Immutable chunk-grid coordinate. Deliberately unrelated to : chunk coordinates and block coordinates are different spaces and every conversion between them is explicit (x = blockX >> 4)."
 ---
 
-Data
+::api-declaration{ kind="data" name="ChunkPos"}
+::
 
 ## Properties
 
@@ -26,7 +27,7 @@ Data
 
 **Returns** `unknown`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `contains(pos: Pos3D)`
 
@@ -38,7 +39,7 @@ Whether the block position falls inside this chunk.
 
 **Returns** `boolean`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `equals(other: unknown)`
 
@@ -50,7 +51,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `boolean`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `hashCode()`
 
@@ -58,7 +59,7 @@ Since: 0.2.0
 
 **Returns** `number`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 
 ### `minBlock()`
 
@@ -66,7 +67,7 @@ The northwest corner block position on the world floor.
 
 **Returns** [BlockPos](blockpos)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `offset(dx: number, dz: number)`
 
@@ -79,7 +80,7 @@ Translates by chunk-space offsets.
 
 **Returns** [ChunkPos](chunkpos)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toJSON()`
 
@@ -87,7 +88,7 @@ JSON form so JSON.stringify renders the chunk directly.
 
 **Returns** `Record<string, unknown>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toString()`
 
@@ -95,5 +96,5 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `string`
 
-Since: 0.2.0
+:api-badges{ since="0.2.0"}
 

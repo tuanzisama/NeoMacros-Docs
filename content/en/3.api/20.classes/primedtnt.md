@@ -3,11 +3,14 @@ title: "PrimedTnt"
 description: "A primed TNT block entity: fuse countdown."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.item.PrimedTnt` · Extends: [`Entity`](entity)
+::api-declaration{ kind="handle" name="PrimedTnt" wraps="net.minecraft.world.entity.item.PrimedTnt"}
+#extends
+[`Entity`](entity)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `fuse` | `number` | The remaining fuse ticks before the explosion. (read-only) |
+| `fuse` | `number` | The remaining fuse ticks before the explosion. :api-badge{kind="readonly"} |
 

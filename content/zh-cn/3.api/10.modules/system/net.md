@@ -3,7 +3,7 @@ title: "net"
 description: "neo.net 门面：fetch 语义的 HTTP 客户端。请求在专用 IO 线程池执行，需 net 能力授权；Promise 以活 Response 落定，其 body 读取器（text()、json()、bytes()）均为异步。每次请求落定会经 记录到 DevTools 网络面板——预览恒记，阶段计时与 ≤ 的完整 body 仅在有监听时保留；无监听时记录近乎零开销。"
 ---
 
-Category: 系统 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.net` and `@neomacros/net`
+:api-module-header{ category="系统" global="true" neo-name="neo.net" esm-name="@neomacros/net" since="0.1.0" mc="*" loader="*"}
 
 **Classes**
 
@@ -21,7 +21,7 @@ Category: 系统 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 **Returns** `Promise<`[Ws](../../classes/ws)`>` — Promise，以 Ws 落定
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `fetch(url: string, init: unknown)`
 
@@ -34,7 +34,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `Promise<Response>` — Promise，以 Response 落定
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `net`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="net"}
 
 ### `get(url: string)`
 
@@ -46,7 +46,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `net`
 
 **Returns** `Promise<Response>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `net`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="net"}
 
 ### `post(url: string, body: string)`
 
@@ -59,7 +59,7 @@ Since: 0.1.0 · MC: * · Loader: * · Permission: `net`
 
 **Returns** `Promise<Response>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `net`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="net"}
 
 
 ## Examples

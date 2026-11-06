@@ -3,7 +3,12 @@ title: "PlayerHeldItemEvent"
 description: "Payload of the held item change event."
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`player:heldItem`](../events/player/player-helditem) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`player:heldItem`](../events/player/player-helditem)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

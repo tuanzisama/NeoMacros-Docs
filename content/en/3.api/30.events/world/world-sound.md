@@ -3,7 +3,10 @@ title: "world:sound"
 description: "Payload of the sound event; fires when the client plays a sound. High-traffic, so wildcard dispatch skips it by default."
 ---
 
-Payload: [`WorldSoundEvent`](../../classes/worldsoundevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="world:sound" since="0.1.0" mc="*" loader="*"}
+#payload
+[`WorldSoundEvent`](../../classes/worldsoundevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

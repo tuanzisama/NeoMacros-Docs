@@ -3,13 +3,13 @@ title: "command"
 description: "The neo.command facade: client command registration and dispatch. Commands register declaratively with typed argument slots built through command.arg (int() float() bool() word() string() greedy() player() pos() plus optional() and default(v)); the handler receives a context whose args carry parsed values and whose raw keeps the remainder string."
 ---
 
-Category: UI · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.command` and `@neomacros/command`
+:api-module-header{ category="UI" global="true" neo-name="neo.command" esm-name="@neomacros/command" since="0.1.0" mc="*" loader="*"}
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `arg` | `CommandArgFactory` | The typed argument-slot factory (command.arg). (read-only) |
+| `arg` | `CommandArgFactory` | The typed argument-slot factory (command.arg). :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -19,7 +19,7 @@ Kind names the slot factory answers to (kept for tests and docs).
 
 **Returns** `Array<string>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `execute(commandLine: string)`
 
@@ -31,7 +31,7 @@ Executes a client command as if typed by the player; dispatches through the vani
 
 **Returns** `Promise<boolean>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `command`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="command"}
 
 ### `register(spec: Record<string, unknown>)`
 
@@ -43,7 +43,7 @@ Registers a client command. The spec map carries name, description, optional arg
 
 **Returns** `unknown` — an opaque registration handle (unregister via )
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `command`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="command"}
 
 ### `unregister(handleOrName: unknown)`
 
@@ -53,7 +53,7 @@ Unregisters by the handle returned from , or by command name when a string is gi
 
 - `handleOrName` `unknown`: 
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

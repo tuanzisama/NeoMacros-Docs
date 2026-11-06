@@ -3,7 +3,10 @@ title: "player:heal"
 description: "本地玩家治疗事件载荷；携带恢复量与治疗后的生命值。"
 ---
 
-Payload: [`PlayerHealEvent`](../../classes/playerhealevent) · Since: 0.1.0 · MC: * · Loader: *
+::api-event-header{ event="player:heal" since="0.1.0" mc="*" loader="*"}
+#payload
+[`PlayerHealEvent`](../../classes/playerhealevent)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

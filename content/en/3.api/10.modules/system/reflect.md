@@ -3,7 +3,7 @@ title: "reflect"
 description: "The neo.reflect facade: meta-level tools for the escape layer. Where neo.java proxies objects, this facade resolves exact signatures (including private members), invokes reflectively, and constructs instances. The whole module rides the java permission gate."
 ---
 
-Category: System · Since: 0.2.0 · MC availability: * · Loader availability: * · Exposed as `neo.reflect` and `@neomacros/reflect`
+:api-module-header{ category="System" global="true" neo-name="neo.reflect" esm-name="@neomacros/reflect" since="0.2.0" mc="*" loader="*"}
 
 ## Methods
 
@@ -17,7 +17,7 @@ The fully-qualified class name of any Java value (works on non-proxied values to
 
 **Returns** `string`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `field(target: unknown, name: string)`
 
@@ -30,7 +30,7 @@ Resolves one declared field, including private fields. Returns the java.lang.ref
 
 **Returns** `unknown`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `invoke(method: unknown, target: unknown, args: unknown)`
 
@@ -44,7 +44,7 @@ Invokes one resolved reflect method. Omitting the target invokes a static method
 
 **Returns** `unknown`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `method(target: unknown, name: string, paramTypes: unknown)`
 
@@ -58,7 +58,7 @@ Resolves one declared method with an exact parameter signature, including privat
 
 **Returns** `unknown`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `newInstance(cls: unknown, args: unknown)`
 
@@ -71,7 +71,7 @@ Reflectively constructs one instance of the class with the matching constructor.
 
 **Returns** `unknown`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 
 ## Examples

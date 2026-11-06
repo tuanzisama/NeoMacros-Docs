@@ -3,7 +3,12 @@ title: "EntityHealEvent"
 description: "Payload of the entity heal event."
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`entity:heal`](../events/entity/entity-heal) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`entity:heal`](../events/entity/entity-heal)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

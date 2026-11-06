@@ -3,16 +3,19 @@ title: "Inventory"
 description: "物品栏句柄：槽位读取每次都重新查询物品栏端口；操作在主线程派发，处理完成后落定。"
 ---
 
-Handle · Extended by: [`AnvilInventory`](anvilinventory), [`BeaconInventory`](beaconinventory), [`BrewingStandInventory`](brewingstandinventory), [`CartographyInventory`](cartographyinventory), [`ContainerInventory`](containerinventory), [`CraftingInventory`](craftinginventory), [`EnchantInventory`](enchantinventory), [`FurnaceInventory`](furnaceinventory), [`GrindstoneInventory`](grindstoneinventory), [`HorseInventory`](horseinventory), [`PlayerInventory`](playerinventory), [`SmithingInventory`](smithinginventory), [`StonecutterInventory`](stonecutterinventory), [`VillagerInventory`](villagerinventory)
+::api-declaration{ kind="handle" name="Inventory"}
+#extended-by
+[`AnvilInventory`](anvilinventory), [`BeaconInventory`](beaconinventory), [`BrewingStandInventory`](brewingstandinventory), [`CartographyInventory`](cartographyinventory), [`ContainerInventory`](containerinventory), [`CraftingInventory`](craftinginventory), [`EnchantInventory`](enchantinventory), [`FurnaceInventory`](furnaceinventory), [`GrindstoneInventory`](grindstoneinventory), [`HorseInventory`](horseinventory), [`PlayerInventory`](playerinventory), [`SmithingInventory`](smithinginventory), [`StonecutterInventory`](stonecutterinventory), [`VillagerInventory`](villagerinventory)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
 | `items` | `Array<Record<string, unknown>>` | 全部非空物品及其槽位号。 |
-| `kind` | `string` | 物品栏种类（player、chest、crafting 等）。 (read-only) |
-| `size` | `number` | 物品栏槽位总数。 (read-only) |
-| `title` | `string` | 物品栏显示标题。 (read-only) |
+| `kind` | `string` | 物品栏种类（player、chest、crafting 等）。 :api-badge{kind="readonly"} |
+| `size` | `number` | 物品栏槽位总数。 :api-badge{kind="readonly"} |
+| `title` | `string` | 物品栏显示标题。 :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -28,7 +31,7 @@ Handle · Extended by: [`AnvilInventory`](anvilinventory), [`BeaconInventory`](b
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `close()`
 
@@ -36,7 +39,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `contains(itemId: string)`
 
@@ -48,7 +51,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `boolean`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `countOf(item: string)`
 
@@ -60,7 +63,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `number`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `drop(slot: number, all: boolean)`
 
@@ -73,7 +76,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `findAll(itemId: string)`
 
@@ -85,7 +88,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Array<number>`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `findId(itemId: string)`
 
@@ -97,7 +100,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `number`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `quickMove(slot: number)`
 
@@ -109,7 +112,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `slot(index: number)`
 
@@ -121,7 +124,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [ItemStack](itemstack)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `swapHotbar(slot: number, hotbarIndex: number)`
 
@@ -134,5 +137,5 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 

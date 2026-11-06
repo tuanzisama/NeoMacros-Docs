@@ -3,6 +3,9 @@ title: "EntitySnapshot"
 description: "Record type referenced in API signatures."
 ---
 
+::api-declaration{ kind="record" name="EntitySnapshot"}
+::
+
 | Field | Type |
 | --- | --- |
 | `boundingBox` | `AabbData` |

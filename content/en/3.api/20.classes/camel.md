@@ -3,14 +3,17 @@ title: "Camel"
 description: "A camel: dash and sit pose, over the horse inventory base."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.animal.camel.Camel` · Extends: [`AbstractHorse`](abstracthorse)
+::api-declaration{ kind="handle" name="Camel" wraps="net.minecraft.world.entity.animal.camel.Camel"}
+#extends
+[`AbstractHorse`](abstracthorse)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `dashing` | `boolean` | Whether the camel is dashing. (read-only) |
-| `inPoseTransition` | `boolean` | Whether the camel is transitioning between sit poses. (read-only) |
-| `poseTime` | `number` | The tick timestamp of the last pose change. (read-only) |
-| `sitting` | `boolean` | Whether the camel is sitting. (read-only) |
+| `dashing` | `boolean` | Whether the camel is dashing. :api-badge{kind="readonly"} |
+| `inPoseTransition` | `boolean` | Whether the camel is transitioning between sit poses. :api-badge{kind="readonly"} |
+| `poseTime` | `number` | The tick timestamp of the last pose change. :api-badge{kind="readonly"} |
+| `sitting` | `boolean` | Whether the camel is sitting. :api-badge{kind="readonly"} |
 

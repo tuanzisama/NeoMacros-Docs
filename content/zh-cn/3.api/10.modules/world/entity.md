@@ -3,7 +3,7 @@ title: "entity"
 description: "neo.entity 门面：对已加载世界的实体查询。查询返回活句柄，属性实时回读当前状态；实体消失后属性回读为 undefined 而不报错。"
 ---
 
-Category: 世界 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.entity` and `@neomacros/entity`
+:api-module-header{ category="世界" global="true" neo-name="neo.entity" esm-name="@neomacros/entity" since="0.1.0" mc="*" loader="*"}
 
 **Classes**
 
@@ -24,7 +24,7 @@ Category: 世界 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 **Returns** `Array<`[Entity](../../classes/entity)`>` — 实体句柄数组
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `lookup(uuid: string)`
 
@@ -36,7 +36,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [Entity](../../classes/entity) — 实体句柄，或 undefined
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `nearest(x: number, y: number, z: number, range: number)`
 
@@ -51,7 +51,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** [Entity](../../classes/entity) — 最近实体句柄或 undefined
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `players()`
 
@@ -59,7 +59,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Array<`[Entity](../../classes/entity)`>` — 玩家句柄数组
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

@@ -3,7 +3,12 @@ title: "WorldBlockUpdateEvent"
 description: "方块更新时触发（高流量事件）。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`world:blockUpdate`](../events/world/world-blockupdate) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`world:blockUpdate`](../events/world/world-blockupdate)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

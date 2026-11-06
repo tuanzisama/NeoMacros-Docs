@@ -3,7 +3,12 @@ title: "WorldJoinEvent"
 description: "Raised when the player joins a world."
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`world:join`](../events/world/world-join) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`world:join`](../events/world/world-join)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

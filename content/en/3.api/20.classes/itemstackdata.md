@@ -3,6 +3,9 @@ title: "ItemStackData"
 description: "Record type referenced in API signatures."
 ---
 
+::api-declaration{ kind="record" name="ItemStackData"}
+::
+
 | Field | Type |
 | --- | --- |
 | `count` | `number` |

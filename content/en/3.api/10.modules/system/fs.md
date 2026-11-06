@@ -3,7 +3,7 @@ title: "fs"
 description: "The neo.fs facade: filesystem access relative to the game directory. Paths are resolved against the game directory; absolute paths and traversal above it raise . Every function is async (promise-returning) and requires the fs capability."
 ---
 
-Category: System · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.fs` and `@neomacros/fs`
+:api-module-header{ category="System" global="true" neo-name="neo.fs" esm-name="@neomacros/fs" since="0.1.0" mc="*" loader="*"}
 
 **Classes**
 
@@ -22,7 +22,7 @@ Copies a file; fails when the target already exists.
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `delete(path: string)`
 
@@ -34,7 +34,7 @@ Deletes a file or empty directory.
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `exists(path: string)`
 
@@ -46,7 +46,7 @@ Returns whether a file or directory exists.
 
 **Returns** `Promise<boolean>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `list(path: string)`
 
@@ -58,7 +58,7 @@ Lists one directory level as a sorted list of entry names.
 
 **Returns** `Promise<Array<string>>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `mkdir(path: string)`
 
@@ -70,7 +70,7 @@ Creates a directory (including parents).
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `move(from: string, to: string)`
 
@@ -83,7 +83,7 @@ Moves a file or directory; fails when the target already exists.
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `open(path: string)`
 
@@ -95,7 +95,7 @@ Opens one file handle for streamed reads, attribute queries, and the java-gated 
 
 **Returns** [FileHandle](../../classes/filehandle)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `readBytes(path: string)`
 
@@ -107,7 +107,7 @@ Reads one file as raw bytes (each element 0-255; the engine renders the result a
 
 **Returns** `Promise<Uint8Array>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `readJSON(path: string)`
 
@@ -119,7 +119,7 @@ Reads a JSON file into neutral values (objects, arrays, strings, numbers, boolea
 
 **Returns** `Promise<any>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `readText(path: string)`
 
@@ -131,7 +131,7 @@ Reads a UTF-8 text file.
 
 **Returns** `Promise<string>` — promise of the file content
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `stat(path: string)`
 
@@ -143,7 +143,7 @@ Returns file metadata: size, mtimeMs, isDir, isFile.
 
 **Returns** `Promise<object>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `toRelative(path: string)`
 
@@ -155,7 +155,7 @@ Returns the path relative to the game directory root; paths outside the root thr
 
 **Returns** `string`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `writeBytes(path: string, data: unknown)`
 
@@ -168,7 +168,7 @@ Writes raw bytes to a file (creating parent directories). The data argument is a
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `writeJSON(path: string, value: unknown)`
 
@@ -181,7 +181,7 @@ Writes neutral values into a JSON file (creating parent directories).
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 ### `writeText(path: string, content: string)`
 
@@ -194,7 +194,7 @@ Writes a UTF-8 text file (creating parent directories).
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: * · Permission: `fs`
+:api-badges{ since="0.1.0" mc="*" loader="*" permission="fs"}
 
 
 ## Examples

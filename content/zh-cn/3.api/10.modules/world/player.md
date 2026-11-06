@@ -3,7 +3,7 @@ title: "player"
 description: "neo.player 门面：本地玩家与当前打开的容器屏幕。self 是经玩家端口回读当前状态的活句柄；不在世界内时回读为 undefined。"
 ---
 
-Category: 世界 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.player` and `@neomacros/player`
+:api-module-header{ category="世界" global="true" neo-name="neo.player" esm-name="@neomacros/player" since="0.1.0" mc="*" loader="*"}
 
 **Classes**
 
@@ -13,8 +13,8 @@ Category: 世界 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `opened` | [Inventory](../../classes/inventory) | 当前打开的容器屏幕句柄；无屏幕时为 undefined。 (read-only) |
-| `self` | [LocalPlayer](../../classes/localplayer) | 本地玩家句柄；不在世界内时为 undefined。 (read-only) |
+| `opened` | [Inventory](../../classes/inventory) | 当前打开的容器屏幕句柄；无屏幕时为 undefined。 :api-badge{kind="readonly"} |
+| `self` | [LocalPlayer](../../classes/localplayer) | 本地玩家句柄；不在世界内时为 undefined。 :api-badge{kind="readonly"} |
 
 
 ## Examples

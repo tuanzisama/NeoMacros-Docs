@@ -3,7 +3,12 @@ title: "WorldWeatherEvent"
 description: "天气变化事件载荷。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`world:weather`](../events/world/world-weather) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`world:weather`](../events/world/world-weather)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

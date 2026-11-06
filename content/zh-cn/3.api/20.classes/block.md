@@ -3,17 +3,18 @@ title: "Block"
 description: "活方块句柄：状态读取每次都重新查询世界；未加载世界的方块读取返回 undefined 而不是抛错。"
 ---
 
-Handle
+::api-declaration{ kind="handle" name="Block"}
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `biome` | `string` | 方块位置的群系标识。 (read-only) |
-| `chunk` | [ChunkPos](chunkpos) | 方块所在区块坐标。 (read-only) |
-| `pos` | [BlockPos](blockpos) | 方块坐标。 (read-only) |
+| `biome` | `string` | 方块位置的群系标识。 :api-badge{kind="readonly"} |
+| `chunk` | [ChunkPos](chunkpos) | 方块所在区块坐标。 :api-badge{kind="readonly"} |
+| `pos` | [BlockPos](blockpos) | 方块坐标。 :api-badge{kind="readonly"} |
 | `raw` | `unknown` | 穿透口：原始宿主方块状态对象（需 java 权限）。 |
-| `state` | [BlockState](blockstate) | 当前方块状态；未加载世界内为 undefined。 (read-only) |
+| `state` | [BlockState](blockstate) | 当前方块状态；未加载世界内为 undefined。 :api-badge{kind="readonly"} |
 | `valid` | `boolean` | 方块是否仍在世界中加载。 |
 
 ## Methods
@@ -29,7 +30,7 @@ Handle
 
 **Returns** [Block](block)
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `toString()`
 

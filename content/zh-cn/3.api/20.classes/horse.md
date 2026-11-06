@@ -3,11 +3,14 @@ title: "Horse"
 description: "马：毛色变体。"
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.animal.equine.Horse` · Extends: [`AbstractHorse`](abstracthorse)
+::api-declaration{ kind="handle" name="Horse" wraps="net.minecraft.world.entity.animal.equine.Horse"}
+#extends
+[`AbstractHorse`](abstracthorse)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `variant` | `string` | 毛色变体标识。 (read-only) |
+| `variant` | `string` | 毛色变体标识。 :api-badge{kind="readonly"} |
 

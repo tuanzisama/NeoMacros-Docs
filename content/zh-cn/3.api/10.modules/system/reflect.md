@@ -3,7 +3,7 @@ title: "reflect"
 description: "neo.reflect 门面：穿透层的元级工具箱。neo.java 代理对象，本门面解析精确签名（含私有成员）、反射调用与构造实例。整模块走 java 权限闸。"
 ---
 
-Category: 系统 · Since: 0.2.0 · MC availability: * · Loader availability: * · Exposed as `neo.reflect` and `@neomacros/reflect`
+:api-module-header{ category="系统" global="true" neo-name="neo.reflect" esm-name="@neomacros/reflect" since="0.2.0" mc="*" loader="*"}
 
 ## Methods
 
@@ -17,7 +17,7 @@ Category: 系统 · Since: 0.2.0 · MC availability: * · Loader availability: *
 
 **Returns** `string`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `field(target: unknown, name: string)`
 
@@ -30,7 +30,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `unknown`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `invoke(method: unknown, target: unknown, args: unknown)`
 
@@ -44,7 +44,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `unknown`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `method(target: unknown, name: string, paramTypes: unknown)`
 
@@ -58,7 +58,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `unknown`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 ### `newInstance(cls: unknown, args: unknown)`
 
@@ -71,7 +71,7 @@ Since: 0.2.0 · MC: * · Loader: *
 
 **Returns** `unknown`
 
-Since: 0.2.0 · MC: * · Loader: *
+:api-badges{ since="0.2.0" mc="*" loader="*"}
 
 
 ## Examples

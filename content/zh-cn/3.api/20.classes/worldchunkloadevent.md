@@ -3,7 +3,12 @@ title: "WorldChunkLoadEvent"
 description: "客户端区块加载时触发。"
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`world:chunkLoad`](../events/world/world-chunkload) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`world:chunkLoad`](../events/world/world-chunkload)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

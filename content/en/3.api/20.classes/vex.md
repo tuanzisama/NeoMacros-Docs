@@ -3,11 +3,14 @@ title: "Vex"
 description: "A vex: charging attack state."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.monster.Vex` · Extends: [`Mob`](mob)
+::api-declaration{ kind="handle" name="Vex" wraps="net.minecraft.world.entity.monster.Vex"}
+#extends
+[`Mob`](mob)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `charging` | `boolean` | Whether the vex is charging its attack. (read-only) |
+| `charging` | `boolean` | Whether the vex is charging its attack. :api-badge{kind="readonly"} |
 

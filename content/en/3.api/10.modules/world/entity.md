@@ -3,7 +3,7 @@ title: "entity"
 description: "The neo.entity facade: entity queries over the loaded world. Queries return live handles whose getters read current state in real time; a vanished entity reads back as undefined instead of raising."
 ---
 
-Category: World · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.entity` and `@neomacros/entity`
+:api-module-header{ category="World" global="true" neo-name="neo.entity" esm-name="@neomacros/entity" since="0.1.0" mc="*" loader="*"}
 
 **Classes**
 
@@ -24,7 +24,7 @@ Returns handles of every entity within range blocks of the center point.
 
 **Returns** `Array<`[Entity](../../classes/entity)`>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `lookup(uuid: string)`
 
@@ -36,7 +36,7 @@ Looks up a live entity handle by its UUID; undefined when absent or unloaded.
 
 **Returns** [Entity](../../classes/entity)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `nearest(x: number, y: number, z: number, range: number)`
 
@@ -51,7 +51,7 @@ Returns the nearest entity, or undefined when none matches.
 
 **Returns** [Entity](../../classes/entity)
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `players()`
 
@@ -59,7 +59,7 @@ Returns handles of every loaded player in the world.
 
 **Returns** `Array<`[Entity](../../classes/entity)`>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

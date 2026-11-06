@@ -3,7 +3,7 @@ title: "hud"
 description: "neo.hud 门面：叠加在原版 HUD 之上的文本层。文本条目跨帧保留，直到移除或模块卸载。"
 ---
 
-Category: 界面 · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.hud` and `@neomacros/hud`
+:api-module-header{ category="界面" global="true" neo-name="neo.hud" esm-name="@neomacros/hud" since="0.1.0" mc="*" loader="*"}
 
 ## Methods
 
@@ -21,7 +21,7 @@ Category: 界面 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `removeText(id: string)`
 
@@ -33,7 +33,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Promise<void>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 ### `textIds()`
 
@@ -41,7 +41,7 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `Array<string>`
 
-Since: 0.1.0 · MC: * · Loader: *
+:api-badges{ since="0.1.0" mc="*" loader="*"}
 
 
 ## Examples

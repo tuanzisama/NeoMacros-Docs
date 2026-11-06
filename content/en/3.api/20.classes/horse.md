@@ -3,11 +3,14 @@ title: "Horse"
 description: "A horse: coat variant."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.animal.equine.Horse` · Extends: [`AbstractHorse`](abstracthorse)
+::api-declaration{ kind="handle" name="Horse" wraps="net.minecraft.world.entity.animal.equine.Horse"}
+#extends
+[`AbstractHorse`](abstracthorse)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `variant` | `string` | The coat variant identifier. (read-only) |
+| `variant` | `string` | The coat variant identifier. :api-badge{kind="readonly"} |
 

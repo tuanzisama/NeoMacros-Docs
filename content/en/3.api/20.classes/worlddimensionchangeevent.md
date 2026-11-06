@@ -3,7 +3,12 @@ title: "WorldDimensionChangeEvent"
 description: "Payload of the client world changing dimension event."
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`world:dimensionChange`](../events/world/world-dimensionchange) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`world:dimensionChange`](../events/world/world-dimensionchange)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

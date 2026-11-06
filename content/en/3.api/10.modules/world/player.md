@@ -3,7 +3,7 @@ title: "player"
 description: "The neo.player facade: the local player plus the currently open container screen. self is a live handle reading current state through the player port; outside a world it reads back as undefined."
 ---
 
-Category: World · Since: 0.1.0 · MC availability: * · Loader availability: * · Exposed as `neo.player` and `@neomacros/player`
+:api-module-header{ category="World" global="true" neo-name="neo.player" esm-name="@neomacros/player" since="0.1.0" mc="*" loader="*"}
 
 **Classes**
 
@@ -13,8 +13,8 @@ Category: World · Since: 0.1.0 · MC availability: * · Loader availability: * 
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `opened` | [Inventory](../../classes/inventory) | The currently open container screen as an Inventory handle, or undefined when no container screen is open. (read-only) |
-| `self` | [LocalPlayer](../../classes/localplayer) | The local player handle, or undefined when not in a world. (read-only) |
+| `opened` | [Inventory](../../classes/inventory) | The currently open container screen as an Inventory handle, or undefined when no container screen is open. :api-badge{kind="readonly"} |
+| `self` | [LocalPlayer](../../classes/localplayer) | The local player handle, or undefined when not in a world. :api-badge{kind="readonly"} |
 
 
 ## Examples

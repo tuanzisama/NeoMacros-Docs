@@ -3,7 +3,12 @@ title: "TickEvent"
 description: "Payload of the per-client-tick event; high-traffic, so wildcard dispatch skips it by default (see the wildcard ignore list)."
 ---
 
-Extends: [`BaseEvent`](baseevent) · Raised by: [`tick`](../events/tick/tick) · Since: 0.1.0 · MC: * · Loader: *
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`BaseEvent`](baseevent)
+#raised-by
+[`tick`](../events/tick/tick)
+::
 
 | Field | Type | Description |
 | --- | --- | --- |

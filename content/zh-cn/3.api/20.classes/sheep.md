@@ -3,12 +3,15 @@ title: "Sheep"
 description: "绵羊：羊毛颜色与剪毛状态。"
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.animal.sheep.Sheep` · Extends: [`Animal`](animal)
+::api-declaration{ kind="handle" name="Sheep" wraps="net.minecraft.world.entity.animal.sheep.Sheep"}
+#extends
+[`Animal`](animal)
+::
 
 ## Properties
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `color` | `string` | 羊毛颜色标识，如 minecraft:white。 (read-only) |
-| `sheared` | `boolean` | 羊毛是否已被剪掉。 (read-only) |
+| `color` | `string` | 羊毛颜色标识，如 minecraft:white。 :api-badge{kind="readonly"} |
+| `sheared` | `boolean` | 羊毛是否已被剪掉。 :api-badge{kind="readonly"} |
 
