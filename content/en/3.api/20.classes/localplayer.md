@@ -9,6 +9,7 @@ Handle · Wraps: `net.minecraft.client.player.LocalPlayer` · Extends: [`Player`
 
 | Property | Type | Description |
 | --- | --- | --- |
+| `abilities` | `Record<string, unknown>` | The player abilities snapshot: {invulnerable, flying, mayFly, instabuild, mayBuild, flySpeed, walkingSpeed}, or null when unloaded. (read-only) |
 | `blockInteractionRange` | `number` | The block interaction range in blocks. (read-only) |
 | `breakingBlock` | `boolean` | Whether the local player is currently breaking a block. (read-only) |
 | `entityInteractionRange` | `number` | The entity interaction range in blocks. (read-only) |

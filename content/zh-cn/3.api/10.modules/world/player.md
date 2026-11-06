@@ -7,7 +7,7 @@ Category: 世界 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 **Classes**
 
-[`Inventory`](../../classes/inventory) · [`LocalPlayer`](../../classes/localplayer) · [`Player`](../../classes/player) · [`PlayerInventory`](../../classes/playerinventory)
+[`FurnaceInventory`](../../classes/furnaceinventory) · [`Inventory`](../../classes/inventory) · [`LocalPlayer`](../../classes/localplayer) · [`Player`](../../classes/player) · [`PlayerInventory`](../../classes/playerinventory)
 
 ## Properties
 

@@ -9,6 +9,7 @@ Handle · Wraps: `net.minecraft.client.player.LocalPlayer` · Extends: [`Player`
 
 | Property | Type | Description |
 | --- | --- | --- |
+| `abilities` | `Record<string, unknown>` | 玩家能力快照 {invulnerable, flying, mayFly, instabuild, mayBuild, flySpeed, walkingSpeed}；未加载为 null。 (read-only) |
 | `blockInteractionRange` | `number` | 方块交互距离（格）。 (read-only) |
 | `breakingBlock` | `boolean` | 本地玩家是否正在挖掘方块。 (read-only) |
 | `entityInteractionRange` | `number` | 实体交互距离（格）。 (read-only) |

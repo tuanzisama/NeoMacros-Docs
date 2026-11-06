@@ -26,6 +26,18 @@ Adds another point.
 
 Since: 0.2.0 · MC: * · Loader: *
 
+### `compare(other: Pos2D)`
+
+Component-wise lexicographic compare (x first, then y).
+
+**Parameters**
+
+- `other` [Pos2D](pos2d): 
+
+**Returns** `number`
+
+Since: 0.2.0
+
 ### `construct(args: unknown)`
 
 

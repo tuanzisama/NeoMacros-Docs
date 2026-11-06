@@ -53,6 +53,20 @@ Since: 0.1.0 · MC: * · Loader: *
 
 Since: 0.1.0 · MC: * · Loader: *
 
+### `chunkAt(x: number, y: number, z: number)`
+
+坐标所在已加载区块的 Chunk 句柄；未加载时为 null。
+
+**Parameters**
+
+- `x` `number`: 世界坐标 X
+- `y` `number`: 世界坐标 Y（决定所在子区块高度，通常取 64）
+- `z` `number`: 世界坐标 Z
+
+**Returns** [Chunk](../../classes/chunk)
+
+Since: 0.2.0 · MC: * · Loader: *
+
 ### `chunkLoaded(chunk: ChunkPos)`
 
 判断区块是否已加载。
@@ -62,6 +76,18 @@ Since: 0.1.0 · MC: * · Loader: *
 - `chunk` [ChunkPos](../../classes/chunkpos): 区块坐标
 
 **Returns** `boolean`
+
+Since: 0.2.0 · MC: * · Loader: *
+
+### `findBlocks(options: Record<string, unknown>)`
+
+在中心周围立方体范围内扫描匹配方块 id 的方块，返回 Block 句柄数组。扫描半径上限 32、结果上限 512 以保持主线程响应；未知 id 忽略。
+
+**Parameters**
+
+- `options` `Record<string, unknown>`: 扫描选项：{types: string|string[], center: {x,y,z}, range?: number, limit?: number}
+
+**Returns** `Array<`[Block](../../classes/block)`>` — Block[] 数组
 
 Since: 0.2.0 · MC: * · Loader: *
 

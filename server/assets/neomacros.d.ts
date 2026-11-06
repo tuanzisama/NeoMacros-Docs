@@ -182,12 +182,22 @@ declare module '@neomacros/entity' {
     }
     /** Living entity handle: adds the health and equipment read face on top of the entity base. */
     export class LivingEntity extends Entity {
+        /** The absorption hearts from golden apples and effects. @since 0.2.0 @mc * */
+        readonly absorption: number;
+        /** The armor points from worn gear (0-20 scale). @since 0.2.0 @mc * */
+        readonly armorValue: number;
+        /** Whether the entity is currently glowing (outline). @since 0.2.0 @mc * */
+        readonly glowing: boolean;
         /** The health value; undefined once the entity is gone. @since 0.1.0 @mc * */
         readonly health: number;
         /** The item in the main hand; undefined for an empty hand or a gone entity. @since 0.2.0 @mc * */
         readonly heldItem: import('@neomacros/types').ItemStack;
+        /** Whether the entity is hostile (implements the Enemy marker). @since 0.2.0 @mc * */
+        readonly hostile: boolean;
         /** The maximum health value; undefined once the entity is gone. @since 0.2.0 @mc * */
         readonly maxHealth: number;
+        /** Whether gravity is disabled for the entity. @since 0.2.0 @mc * */
+        readonly noGravity: boolean;
         /** The item in the off hand; undefined for an empty hand or a gone entity. @since 0.2.0 @mc * */
         readonly offhandItem: import('@neomacros/types').ItemStack;
         /** Whether the entity is sleeping in a bed. @since 0.2.0 @mc * */
@@ -512,6 +522,21 @@ declare module '@neomacros/player' {
         readonly self: LocalPlayer;
     }
     export const player: PlayerApi;
+    /** A furnace-family container screen: input/fuel/output slots plus the live burn state read from the open menu. */
+    export class FurnaceInventory extends Inventory {
+        /** The fuel burn progress (0-1), or undefined. @since 0.2.0 @mc * */
+        readonly burnProgress: number;
+        /** The fuel stack, or undefined. @since 0.2.0 @mc * */
+        readonly fuel: import('@neomacros/types').ItemStack;
+        /** The smelting input stack, or undefined. @since 0.2.0 @mc * */
+        readonly input: import('@neomacros/types').ItemStack;
+        /** Whether the furnace is currently burning. @since 0.2.0 @mc * */
+        readonly lit: boolean;
+        /** The smelting arrow progress (0-1), or undefined. @since 0.2.0 @mc * */
+        readonly litProgress: number;
+        /** The smelted output stack, or undefined. @since 0.2.0 @mc * */
+        readonly output: import('@neomacros/types').ItemStack;
+    }
     /** Live inventory handle: slot reads re-query the inventory port on every access; actions dispatch on the main thread and resolve once processed. */
     export class Inventory {
         /** All non-empty stacks with their slot indices. @since 0.1.0 @mc * */
@@ -545,6 +570,8 @@ declare module '@neomacros/player' {
     }
     /** The action surface of the local player: attack, interact, swing, and drop dispatch through the game on the main thread and resolve once processed. */
     export interface LocalPlayer extends Player {
+        /** The player abilities snapshot: {invulnerable, flying, mayFly, instabuild, mayBuild, flySpeed, walkingSpeed}, or null when unloaded. @since 0.2.0 @mc * */
+        readonly abilities: Record<string, unknown>;
         /** The block interaction range in blocks. @since 0.2.0 @mc * */
         readonly blockInteractionRange: number;
         /** Whether the local player is currently breaking a block. @since 0.2.0 @mc * */
@@ -760,8 +787,12 @@ declare module '@neomacros/world' {
         biomeAt(x: number, y: number, z: number): string;
         /** Returns the block at the coordinates, or null when outside the loaded world. @since 0.1.0 @mc * */
         blockAt(x: number, y: number, z: number): import('@neomacros/types').Block;
+        /** The loaded chunk containing the coordinates as a Chunk handle, or null when unloaded. @since 0.2.0 @mc * */
+        chunkAt(x: number, y: number, z: number): import('@neomacros/types').Chunk;
         /** Whether the chunk is loaded. @since 0.2.0 @mc * */
         chunkLoaded(chunk: import('@neomacros/types').ChunkPos): boolean;
+        /** Scans the cube around the center for blocks matching one of the given block ids and returns their positions as Block handles. The scan range is capped at 32 blocks and the result at 512 entries to keep the main thread responsive; unknown ids are ignored. @since 0.2.0 @mc * */
+        findBlocks(options: Record<string, unknown>): Array<import('@neomacros/types').Block>;
         /** Whether the chunk containing the position is loaded. @since 0.1.0 @mc * */
         loaded(x: number, y: number, z: number): boolean;
         /** Plays a sound locally. With coordinates the sound plays at the world position (requires a loaded world); otherwise it plays through the UI sound channel. Unknown identifiers throw. @since 0.2.0 @mc * */
@@ -775,6 +806,28 @@ declare module '@neomacros/world' {
 }
 
 declare module '@neomacros/types' {
+    /** The chested-horse base (donkeys, mules, llamas); the chest state accessor is not public and rides the follow-up batch. */
+    export interface AbstractChestedHorse extends AbstractHorse {
+    }
+    /** The horse base: taming, eating and breeding states plus the saddle inventory size. */
+    export interface AbstractHorse extends Animal {
+        /** Whether the horse has bred after taming. @since 0.2.0 @mc * */
+        readonly bred: boolean;
+        /** Whether the horse is currently eating. @since 0.2.0 @mc * */
+        readonly eating: boolean;
+        /** The saddle inventory slot count. @since 0.2.0 @mc * */
+        readonly inventorySize: number;
+        /** Whether the horse is tamed. @since 0.2.0 @mc * */
+        readonly tamed: boolean;
+    }
+    /** Breedable animal base (cows, sheep, cats, wolves, ...). */
+    export interface Animal extends Mob {
+    }
+    /** A bat: roosting state. */
+    export interface Bat extends Mob {
+        /** Whether the bat is hanging upside down. @since 0.2.0 @mc * */
+        readonly resting: boolean;
+    }
     /** Live block handle: state reads re-query the world on every access; a block outside the loaded world reads back as undefined instead of raising. */
     export class Block {
         /** The biome identifier at the block position. @since 0.2.0 @mc * */
@@ -829,18 +882,71 @@ declare module '@neomacros/types' {
     }
     /** Immutable block state: the namespaced block identifier plus the vanilla state properties (facing, open, ...). */
     export class BlockState {
+        /** Whether lava can ignite the block. @since 0.2.0 @mc * */
+        readonly burnable: boolean;
+        /** The destroy hardness, or undefined for unbreakable blocks. @since 0.2.0 @mc * */
+        readonly hardness: number;
         /** The namespaced block identifier, e.g. minecraft:chest. @since 0.1.0 @mc * */
         readonly id: string;
         /** Whether the state is one of the air blocks. @since 0.2.0 @mc * */
         isAir: boolean;
         /** Whether the state is a liquid (water or lava family). @since 0.2.0 @mc * */
         liquid: boolean;
+        /** The block light emission level (0-15). @since 0.2.0 @mc * */
+        readonly luminance: number;
+        /** Whether the state visually occludes the sky and neighbors. @since 0.2.0 @mc * */
+        readonly opaque: boolean;
         /** The vanilla state properties. @since 0.1.0 @mc * */
         readonly props: Record<string, string>;
+        /** Whether the block can be replaced by placing into it. @since 0.2.0 @mc * */
+        readonly replaceable: boolean;
+        /** Whether the correct tool is required for drops. @since 0.2.0 @mc * */
+        readonly toolRequired: boolean;
+        /** Whether the state emits redstone power. @since 0.2.0 @mc * */
+        emitsRedstonePower(): boolean;
+        /** Whether the state carries a block entity. @since 0.2.0 @mc * */
+        hasBlockEntity(): boolean;
+        /** Whether the state receives random ticks. @since 0.2.0 @mc * */
+        hasRandomTicks(): boolean;
         /** Whether the state's block matches the identifier (namespace optional). @since 0.1.0 @mc * */
         is(idOrPredicate: string): boolean;
-        /** Whether the state matches an exact property map (every entry equals; an id key also compares the identifier). @since 0.2.0 @mc * */
         isProps(props: Record<string, string>): boolean;
+        toString(): string;
+    }
+    /** A cat: collar color and coat variant. */
+    export interface Cat extends TamableAnimal {
+        /** The collar color identifier, e.g. minecraft:red. @since 0.2.0 @mc * */
+        readonly collarColor: string;
+        /** The coat variant identifier, e.g. minecraft:black. @since 0.2.0 @mc * */
+        readonly variant: string;
+    }
+    /** A chicken. */
+    export interface Chicken extends Animal {
+    }
+    /** Live chunk handle: coordinates, height bounds, primed heightmaps, block entity positions, and biome reads over the loaded chunk. Getters re-query the world on every access; an unloaded chunk reads back as undefined instead of raising. */
+    export class Chunk {
+        /** The block entity positions inside the chunk, empty list when unloaded or without block entities. @since 0.2.0 @mc * */
+        readonly blockEntities: Array<BlockPos>;
+        /** The chunk x coordinate. @since 0.2.0 @mc * */
+        readonly chunkX: number;
+        /** The chunk z coordinate. @since 0.2.0 @mc * */
+        readonly chunkZ: number;
+        /** The primed heightmaps as {type: number[256]} indexed by localX + localZ * 16, or null when unloaded. @since 0.2.0 @mc * */
+        readonly heightmaps: Record<string, unknown>;
+        /** The inhabited ticks reported by the chunk, or null when unloaded. @since 0.2.0 @mc * */
+        readonly inhabitedTime: number;
+        /** The highest buildable y of the chunk, or null when unloaded. @since 0.2.0 @mc * */
+        readonly maxY: number;
+        /** The lowest buildable y of the chunk, or null when unloaded. @since 0.2.0 @mc * */
+        readonly minY: number;
+        /** The biome identifier at the position inside this chunk, or null when unloaded. @since 0.2.0 @mc * */
+        biomeAt(x: number, y: number, z: number): string;
+        /** Whether the world position lies inside this chunk. @since 0.2.0 @mc * */
+        contains(x: number, y: number, z: number): boolean;
+        /** The surface height (world surface) at the world coordinates inside this chunk, or null when unloaded. @since 0.2.0 @mc * */
+        heightAt(x: number, z: number): number;
+        /** Plain-object rendering used by JSON.stringify. @since 0.2.0 */
+        toJSON(): Record<string, unknown>;
         toString(): string;
     }
     /** Immutable chunk-grid coordinate. Deliberately unrelated to : chunk coordinates and block coordinates are different spaces and every conversion between them is explicit (x = blockX >> 4). */
@@ -866,6 +972,31 @@ declare module '@neomacros/types' {
         toJSON(): Record<string, unknown>;
         toString(): string;
     }
+    /** A creeper: charge and ignition state. The fuse countdown accessor is not exposed by the vanilla client classes; it rides the species gap follow-up. */
+    export interface Creeper extends Mob {
+        /** Whether the fuse has been lit by a flint and steel. @since 0.2.0 @mc * */
+        readonly ignited: boolean;
+        /** Whether the creeper is charged by a lightning strike. @since 0.2.0 @mc * */
+        readonly powered: boolean;
+    }
+    /** A donkey. */
+    export interface Donkey extends AbstractChestedHorse {
+    }
+    /** An enderman: the block it currently carries as an id string, or undefined. */
+    export interface Enderman extends Mob {
+        /** The carried block id, or undefined when carrying nothing. @since 0.2.0 @mc * */
+        readonly carriedBlock: string;
+    }
+    /** A ghast: fire charging state. */
+    export interface Ghast extends Mob {
+        /** Whether the ghast is charging a fireball. @since 0.2.0 @mc * */
+        readonly charging: boolean;
+    }
+    /** A horse: coat variant. */
+    export interface Horse extends AbstractHorse {
+        /** The coat variant identifier. @since 0.2.0 @mc * */
+        readonly variant: string;
+    }
     /** Immutable raster image: dimensions plus PNG-encoded bytes, produced by screenshots (and later by texture drawing). Instances come only from queries; there is no direct constructor. The byte content is compatible with fs.writeBytes. */
     export class Image {
         /** The PNG-encoded image content. @since 0.2.0 @mc * */
@@ -877,6 +1008,11 @@ declare module '@neomacros/types' {
         /** Plain-object rendering used by JSON.stringify. @since 0.2.0 */
         toJSON(): Record<string, unknown>;
         toString(): string;
+    }
+    /** An iron golem: whether a player built it. */
+    export interface IronGolem extends Animal {
+        /** Whether the golem was created by a player. @since 0.2.0 @mc * */
+        readonly playerCreated: boolean;
     }
     /** Immutable copy of one item stack. Instances come only from queries (inventory slots, event payloads) or the ; there is no direct constructor. JSON.stringify renders the plain fields. */
     export class ItemStack {
@@ -961,6 +1097,34 @@ declare module '@neomacros/types' {
         readValue(name: string): unknown;
         write(name: string, value: unknown): void;
     }
+    /** A llama: strength tier and variant. */
+    export interface Llama extends AbstractChestedHorse {
+        /** The strength tier (1-5). @since 0.2.0 @mc * */
+        readonly strength: number;
+        /** The variant identifier. @since 0.2.0 @mc * */
+        readonly variant: string;
+    }
+    type MobBase = import('@neomacros/entity').LivingEntity;
+    /** The mob base: artificial-intelligence toggle and current attack target, shared by every hostile and tameable species. */
+    export interface Mob extends MobBase {
+        /** Whether the mob has no AI (spawned with the NoAI tag). @since 0.2.0 @mc * */
+        readonly noAi: boolean;
+        /** The current attack target, or undefined when idle. @since 0.2.0 @mc * */
+        readonly target: import('@neomacros/entity').Entity;
+    }
+    /** A mushroom cow (mooshroom): brown or red variant. */
+    export interface MushroomCow extends Animal {
+        /** The variant identifier (minecraft:red or minecraft:brown). @since 0.2.0 @mc * */
+        readonly variant: string;
+    }
+    /** An ocelot: trusting state. */
+    export interface Ocelot extends Animal {
+    }
+    /** A phantom: its size tier. */
+    export interface Phantom extends Mob {
+        /** The phantom size tier (0 by default). @since 0.2.0 @mc * */
+        readonly size: number;
+    }
     /** Immutable two-dimensional point: rotations (yaw, pitch) and screen coordinates. Every operation returns a new instance. */
     export class Pos2D {
         /** The X coordinate. @since 0.2.0 @mc * */
@@ -969,6 +1133,8 @@ declare module '@neomacros/types' {
         y: number;
         /** Adds another point. @since 0.2.0 @mc * */
         add(other: Pos2D): Pos2D;
+        /** Component-wise lexicographic compare (x first, then y). @since 0.2.0 */
+        compare(other: Pos2D): number;
         construct(args: unknown): unknown;
         equals(other: unknown): boolean;
         hashCode(): number;
@@ -1031,6 +1197,17 @@ declare module '@neomacros/types' {
         /** Returns a copy with the Z coordinate replaced. @since 0.1.0 @mc * */
         withZ(value: number): Pos3D;
     }
+    type PrimedTntBase = import('@neomacros/entity').Entity;
+    /** A primed TNT block entity: fuse countdown. */
+    export interface PrimedTnt extends PrimedTntBase {
+        /** The remaining fuse ticks before the explosion. @since 0.2.0 @mc * */
+        readonly fuse: number;
+    }
+    /** A rabbit: its variant id. */
+    export interface Rabbit extends Animal {
+        /** The variant identifier (e.g. minecraft:brown, minecraft:killer_bunny). @since 0.2.0 @mc * */
+        readonly variant: string;
+    }
     /** Live raycast result: the first hit along the ray. block and entity are mutually exclusive; both are live handles. */
     export class RayHit {
         /** The hit block handle, or undefined on entity hits / misses. @since 0.1.0 @mc * */
@@ -1043,6 +1220,48 @@ declare module '@neomacros/types' {
         hit: boolean;
         /** The exact hit position. @since 0.1.0 @mc * */
         readonly pos: Pos3D;
+    }
+    /** A sheep: wool color and sheared state. */
+    export interface Sheep extends Animal {
+        /** The wool color identifier, e.g. minecraft:white. @since 0.2.0 @mc * */
+        readonly color: string;
+        /** Whether the wool has been sheared off. @since 0.2.0 @mc * */
+        readonly sheared: boolean;
+    }
+    /** A spider: wall-climbing state. */
+    export interface Spider extends Mob {
+        /** Whether the spider is currently climbing a wall. @since 0.2.0 @mc * */
+        readonly climbing: boolean;
+    }
+    /** A strider: saddle and shivering state. */
+    export interface Strider extends Mob {
+    }
+    /** The tameable base (wolves, cats): ownership and sitting state land here with the tameable gap batch. */
+    export interface TamableAnimal extends Animal {
+    }
+    /** A villager: profession, trade level, and biome variant. */
+    export interface Villager extends Mob {
+        /** The trade level (1-5); undefined for nitwits. @since 0.2.0 @mc * */
+        readonly level: number;
+        /** The profession identifier, e.g. minecraft:farmer. @since 0.2.0 @mc * */
+        readonly profession: string;
+        /** The biome variant identifier, e.g. minecraft:plains. @since 0.2.0 @mc * */
+        readonly variant: string;
+    }
+    /** A wither boss: invulnerable armor phase state. */
+    export interface WitherBoss extends Mob {
+        /** The remaining invulnerability armor ticks (0 after the entry phase). @since 0.2.0 @mc * */
+        readonly invulnerableTicks: number;
+    }
+    /** A wolf: collar color. Anger and begging state ride the tameable gap batch (the vanilla accessors moved behind the wolf AI profile). */
+    export interface Wolf extends TamableAnimal {
+        /** The collar color identifier, e.g. minecraft:red. @since 0.2.0 @mc * */
+        readonly collarColor: string;
+    }
+    /** A zombie: drowning conversion state. */
+    export interface Zombie extends Mob {
+        /** Whether the zombie is converting into a drowned underwater. @since 0.2.0 @mc * */
+        readonly underWaterConverting: boolean;
     }
 }
 
@@ -1241,6 +1460,7 @@ declare module '@neomacros/types' {
     }
     /** Raised when the player joins a world. */
     export class WorldJoinEvent extends BaseEvent {
+        address: string;
     }
     /** Raised when the player leaves a world. */
     export class WorldLeaveEvent extends BaseEvent {

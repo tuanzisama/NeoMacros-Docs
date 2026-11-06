@@ -3,7 +3,7 @@ title: "Entity"
 description: "实体句柄：属性实时回读世界状态；实体消失后属性回读为 undefined 而不报错。"
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.Entity` · Extended by: [`ItemEntity`](itementity), [`LivingEntity`](livingentity)
+Handle · Wraps: `net.minecraft.world.entity.Entity` · Extended by: [`ItemEntity`](itementity), [`LivingEntity`](livingentity), [`PrimedTnt`](primedtnt)
 
 ## Properties
 
@@ -76,3 +76,22 @@ Since: 0.1.0 · MC: * · Loader: *
 
 **Returns** `string`
 
+
+## Examples
+
+实体查询返回活句柄：找最近实体、按 UUID 回查、列出所有已加载玩家。
+
+```js
+const { entity } = neo;
+
+// Nearest entity within 16 blocks of a point (undefined when none)
+const mob = entity.nearest(128, 64, -212, 16);
+if (mob) {
+  // Live handle: pos, name and type re-read the world on every access
+  const uuid = mob.uuid; // persist the uuid, find it again later
+  const same = entity.lookup(uuid); // undefined once the entity is gone
+}
+
+// All loaded players, as live handles
+const names = entity.players().map((p) => p.name);
+```

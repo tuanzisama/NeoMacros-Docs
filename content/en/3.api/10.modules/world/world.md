@@ -53,6 +53,20 @@ Returns the block at the coordinates, or null when outside the loaded world.
 
 Since: 0.1.0 · MC: * · Loader: *
 
+### `chunkAt(x: number, y: number, z: number)`
+
+The loaded chunk containing the coordinates as a Chunk handle, or null when unloaded.
+
+**Parameters**
+
+- `x` `number`: 世界坐标 X
+- `y` `number`: 世界坐标 Y（决定所在子区块高度，通常取 64）
+- `z` `number`: 世界坐标 Z
+
+**Returns** [Chunk](../../classes/chunk)
+
+Since: 0.2.0 · MC: * · Loader: *
+
 ### `chunkLoaded(chunk: ChunkPos)`
 
 Whether the chunk is loaded.
@@ -62,6 +76,18 @@ Whether the chunk is loaded.
 - `chunk` [ChunkPos](../../classes/chunkpos): 区块坐标
 
 **Returns** `boolean`
+
+Since: 0.2.0 · MC: * · Loader: *
+
+### `findBlocks(options: Record<string, unknown>)`
+
+Scans the cube around the center for blocks matching one of the given block ids and returns their positions as Block handles. The scan range is capped at 32 blocks and the result at 512 entries to keep the main thread responsive; unknown ids are ignored.
+
+**Parameters**
+
+- `options` `Record<string, unknown>`: 扫描选项：{types: string|string[], center: {x,y,z}, range?: number, limit?: number}
+
+**Returns** `Array<`[Block](../../classes/block)`>`
 
 Since: 0.2.0 · MC: * · Loader: *
 

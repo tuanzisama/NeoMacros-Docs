@@ -26,6 +26,18 @@ Data
 
 Since: 0.2.0 · MC: * · Loader: *
 
+### `compare(other: Pos2D)`
+
+分量字典序比较（先 x 后 y）。
+
+**Parameters**
+
+- `other` [Pos2D](pos2d): 
+
+**Returns** `number`
+
+Since: 0.2.0
+
 ### `construct(args: unknown)`
 
 
