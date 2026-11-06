@@ -111,12 +111,14 @@ strip_html_links() {
 # module order list; upstream adds/removes modules and the sidebar follows.
 
 # URL segment for a module's domain group under Modules/: the upstream
-# Category annotation lowercased. No hardcoded category list — a new
-# upstream category automatically gets its own group (labelled with its
-# raw name until write_navigation's label table learns it).
+# Category annotation lowercased, read from the module header component's
+# category prop (MDDoclet emits `:api-module-header{category="..." ...}`).
+# No hardcoded category list — a new upstream category automatically gets
+# its own group (labelled with its raw name until write_navigation's label
+# table learns it).
 category_dir() {
   local cat
-  cat="$(grep -m1 -o '^Category: [A-Za-z-]*' "$1" | cut -d' ' -f2)"
+  cat="$(grep -m1 -o 'category="[A-Za-z-]*"' "$1" | cut -d'"' -f2)"
   if [[ -n "$cat" ]]; then
     printf '%s' "$cat" | tr '[:upper:]' '[:lower:]'
   else
@@ -183,11 +185,12 @@ frontmatter_title() {
 }
 
 # Discover the upstream Category set from the generated module pages (the
-# zh pages translate category names, so scan the English ones). Drives the
-# Modules/ domain groups and their sidebar labels.
+# zh pages translate category names, so scan the English ones). Reads the
+# module header component's category prop. Drives the Modules/ domain
+# groups and their sidebar labels.
 categories="$(for f in "$gen_md"/api/*.md; do
   case "$f" in *.zh.md) continue ;; esac
-  grep -m1 -o '^Category: [A-Za-z-]*' "$f" | cut -d' ' -f2
+  grep -m1 -o 'category="[A-Za-z-]*"' "$f" | cut -d'"' -f2
 done | sort -u)"
 
 write_navigation en "$categories"
@@ -217,7 +220,7 @@ done < <(find "$gen_md/api" -name '*.md' -type f | sort)
 while IFS= read -r f; do
   rel="${f#"$gen_md"/api/}"
   name="$(basename "$f" .zh.md).md"
-  # Category lines on the zh pages are translated ("Category: 世界"), so
+  # Category props on the zh pages are translated (category="世界"), so
   # read the grouping from the paired English page instead.
   target="$(target_for "$(dirname "$rel")/$name" "${f%.zh.md}.md")"
   dest="$site/content/zh-cn/3.api/$target"

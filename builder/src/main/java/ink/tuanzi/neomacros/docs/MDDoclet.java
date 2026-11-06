@@ -296,22 +296,21 @@ public class MDDoclet implements Doclet {
         StringBuilder sb = new StringBuilder();
         sb.append(frontmatter(module.name(), text(module.doc(), module.zhDoc(), zh)));
 
-        List<String> meta = new java.util.ArrayList<>();
+        // Javadoc-style module header (MDC inline component): pure-data
+        // props only; the Vue component supplies all wording in the
+        // active locale. The category prop doubles as the sync script's
+        // grouping key (it greps category="..." for the Modules/ tree).
+        List<String> props = new java.util.ArrayList<>();
         if (!module.category().isEmpty()) {
-            meta.add("Category: " + categoryLabel(module.category(), zh));
+            props.add(mdcProp("category", categoryLabel(module.category(), zh)));
         }
-        if (module.since() != null) {
-            meta.add("Since: " + module.since());
+        props.add(mdcProp("global", String.valueOf(module.global())));
+        if (module.global()) {
+            props.add(mdcProp("neo-name", "neo." + module.name()));
         }
-        if (module.mc() != null) {
-            meta.add("MC availability: " + module.mc());
-        }
-        if (module.loader() != null) {
-            meta.add("Loader availability: " + module.loader());
-        }
-        meta.add(module.global() ? "Exposed as `neo." + module.name() + "` and `@neomacros/"
-                + module.name() + "`" : "ES module only: `@neomacros/" + module.name() + "`");
-        sb.append(String.join(" · ", meta)).append("\n\n");
+        props.add(mdcProp("esm-name", "@neomacros/" + module.name()));
+        props.addAll(availabilityProps(module.since(), module.mc(), module.loader()));
+        sb.append(":api-module-header{").append(String.join("", props)).append("}\n\n");
 
         // Module classes are documented on their own pages under classes/.
         if (!module.classes().isEmpty()) {
@@ -333,7 +332,29 @@ public class MDDoclet implements Doclet {
             Map<String, List<String>> extendedBy, Map<String, String> linkTargets, boolean zh) {
         StringBuilder sb = new StringBuilder();
         sb.append(frontmatter(clazz.name(), text(clazz.doc(), clazz.zhDoc(), zh)));
-        sb.append(String.join(" · ", classMeta(clazz, extendedBy))).append("\n\n");
+        // Javadoc-style declaration block (MDC): plain data as props,
+        // inheritance links as markdown slots so the sync script's link
+        // rewrites keep applying to them.
+        StringBuilder decl = new StringBuilder("::api-declaration{");
+        decl.append(mdcProp("kind", switch (clazz.kind()) {
+            case HANDLE -> "handle";
+            case DATA -> "data";
+        }));
+        decl.append(mdcProp("name", clazz.name()));
+        if (!clazz.wraps().isEmpty()) {
+            decl.append(mdcProp("wraps", clazz.wraps()));
+        }
+        decl.append("}\n");
+        if (!clazz.extendsName().isEmpty()) {
+            decl.append("#extends\n[`").append(clazz.extendsName()).append("`](")
+                    .append(clazz.extendsName()).append(".html)\n");
+        }
+        List<String> children = extendedBy.getOrDefault(clazz.name(), List.of());
+        if (!children.isEmpty()) {
+            decl.append("#extended-by\n").append(joinLinks(children)).append("\n");
+        }
+        decl.append("::");
+        sb.append(decl).append("\n\n");
         renderProperties(sb, clazz.properties(), zh, linkTargets);
         renderMethods(sb, clazz.methods(), zh, linkTargets);
         return sb.toString();
@@ -345,6 +366,8 @@ public class MDDoclet implements Doclet {
         sb.append(frontmatter(type.name(), zh
                 ? "API 签名中引用的 record 类型。"
                 : "Record type referenced in API signatures."));
+        sb.append("::api-declaration{").append(mdcProp("kind", "record"))
+                .append(mdcProp("name", type.name())).append("}\n::\n\n");
         sb.append("| Field | Type |\n");
         sb.append("| --- | --- |\n");
         for (ApiModel.ParameterModel field : type.fields()) {
@@ -363,21 +386,18 @@ public class MDDoclet implements Doclet {
             Map<String, String> linkTargets) {
         StringBuilder sb = new StringBuilder();
         sb.append(frontmatter(event.name(), text(event.doc(), event.zhDoc(), zh)));
-        List<String> meta = new java.util.ArrayList<>();
-        meta.add("Payload: [`" + event.className() + "`](../types/" + event.className() + ".html)");
+        // Javadoc-style event header: props carry name/availability, the
+        // payload link travels in a markdown slot so the sync script's
+        // link rewrites keep applying.
+        List<String> props = new java.util.ArrayList<>();
+        props.add(mdcProp("event", event.name()));
         if (event.cancellable()) {
-            meta.add("Cancellable");
+            props.add(mdcProp("cancellable", "true"));
         }
-        if (event.since() != null) {
-            meta.add("Since: " + event.since());
-        }
-        if (event.mc() != null) {
-            meta.add("MC: " + event.mc());
-        }
-        if (event.loader() != null) {
-            meta.add("Loader: " + event.loader());
-        }
-        sb.append(String.join(" · ", meta)).append("\n\n");
+        props.addAll(availabilityProps(event.since(), event.mc(), event.loader()));
+        sb.append("::api-event-header{").append(String.join("", props)).append("}\n");
+        sb.append("#payload\n[`").append(event.className()).append("`](../types/")
+                .append(event.className()).append(".html)\n::\n\n");
         if (!event.fields().isEmpty()) {
             sb.append("| Field | Type | Description |\n| --- | --- | --- |\n");
             for (ApiModel.ParameterModel field : event.fields()) {
@@ -398,19 +418,15 @@ public class MDDoclet implements Doclet {
             Map<String, String> linkTargets) {
         StringBuilder sb = new StringBuilder();
         sb.append(frontmatter(event.className(), text(event.doc(), event.zhDoc(), zh)));
-        List<String> meta = new java.util.ArrayList<>();
-        meta.add("Extends: [`BaseEvent`](BaseEvent.html)");
-        meta.add("Raised by: [`" + event.name() + "`](" + eventHref(eventSlug(event.name())) + ")");
-        if (event.since() != null) {
-            meta.add("Since: " + event.since());
-        }
-        if (event.mc() != null) {
-            meta.add("MC: " + event.mc());
-        }
-        if (event.loader() != null) {
-            meta.add("Loader: " + event.loader());
-        }
-        sb.append(String.join(" · ", meta)).append("\n\n");
+        // Javadoc-style event payload header: the BaseEvent and raised-by
+        // links travel in markdown slots; the component renders the
+        // extends keyword and localized "Raised by" label around them.
+        sb.append("::api-type-header{")
+                .append(String.join("", availabilityProps(event.since(), event.mc(), event.loader())))
+                .append("}\n");
+        sb.append("#extends\n[`BaseEvent`](BaseEvent.html)\n");
+        sb.append("#raised-by\n[`").append(event.name()).append("`](")
+                .append(eventHref(eventSlug(event.name()))).append(")\n::\n\n");
         if (!event.fields().isEmpty()) {
             sb.append("| Field | Type | Description |\n| --- | --- | --- |\n");
             for (ApiModel.ParameterModel field : event.fields()) {
@@ -457,25 +473,24 @@ public class MDDoclet implements Doclet {
         return "../events/" + domain + "/" + slug + ".html";
     }
 
-    /** Composes the kind/wraps/inheritance meta line of one class page. */
-    private static List<String> classMeta(ApiModel.ClassModel clazz,
-                                          Map<String, List<String>> extendedBy) {
-        List<String> meta = new java.util.ArrayList<>();
-        meta.add(switch (clazz.kind()) {
-            case HANDLE -> "Handle";
-            case DATA -> "Data";
-        });
-        if (!clazz.wraps().isEmpty()) {
-            meta.add("Wraps: `" + clazz.wraps() + "`");
+    /** One quoted MDC component prop; values are generator-controlled. */
+    private static String mdcProp(String key, String value) {
+        return " " + key + "=\"" + value + "\"";
+    }
+
+    /** since/mc/loader MDC props for one element, skipping absent data. */
+    private static List<String> availabilityProps(String since, String mc, String loader) {
+        List<String> props = new java.util.ArrayList<>();
+        if (since != null) {
+            props.add(mdcProp("since", since));
         }
-        if (!clazz.extendsName().isEmpty()) {
-            meta.add("Extends: [`" + clazz.extendsName() + "`](" + clazz.extendsName() + ".html)");
+        if (mc != null) {
+            props.add(mdcProp("mc", mc));
         }
-        List<String> children = extendedBy.getOrDefault(clazz.name(), List.of());
-        if (!children.isEmpty()) {
-            meta.add("Extended by: " + joinLinks(children));
+        if (loader != null) {
+            props.add(mdcProp("loader", loader));
         }
-        return meta;
+        return props;
     }
 
     /** Link-joins type names pointing at their class pages (same directory). */
@@ -503,10 +518,10 @@ public class MDDoclet implements Doclet {
                     .append(linkType(property.type(), linkTargets)).append(" | ");
             sb.append(text(property.doc(), property.zhDoc(), zh));
             if (property.readOnly()) {
-                sb.append(" (read-only)");
+                sb.append(" :api-badge{kind=\"readonly\"}");
             }
             if (property.experimental()) {
-                sb.append(" (experimental)");
+                sb.append(" :api-badge{kind=\"experimental\"}");
             }
             sb.append(" |\n");
         }
@@ -547,23 +562,15 @@ public class MDDoclet implements Doclet {
                 sb.append("\n\n");
             }
             List<String> badges = new java.util.ArrayList<>();
-            if (method.since() != null) {
-                badges.add("Since: " + method.since());
-            }
-            if (method.mc() != null) {
-                badges.add("MC: " + method.mc());
-            }
-            if (method.loader() != null) {
-                badges.add("Loader: " + method.loader());
-            }
+            badges.addAll(availabilityProps(method.since(), method.mc(), method.loader()));
             if (method.permission() != null) {
-                badges.add("Permission: `" + method.permission() + "`");
+                badges.add(mdcProp("permission", method.permission()));
             }
             if (method.experimental()) {
-                badges.add("Experimental");
+                badges.add(mdcProp("experimental", "true"));
             }
             if (!badges.isEmpty()) {
-                sb.append(String.join(" · ", badges)).append("\n\n");
+                sb.append(":api-badges{").append(String.join("", badges)).append("}\n\n");
             }
             if (zh && !method.zhExample().isEmpty()) {
                 sb.append("**Example**\n\n```js\n").append(method.zhExample()).append("\n```\n\n");
