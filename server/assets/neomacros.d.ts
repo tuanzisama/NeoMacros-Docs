@@ -5,12 +5,20 @@ declare module '@neomacros/chat' {
     export interface ChatApi {
         /** Renders the message on the action bar above the hotbar. @since 0.1.0 @mc * */
         actionbar(message: string): void;
+        /** Renders one styled text on the action bar. @since 0.2.0 @mc * */
+        actionbarText(text: import('@neomacros/types').Text): void;
+        /** The plain concatenation of a styled text value. @since 0.2.0 @mc * */
+        getPlain(text: import('@neomacros/types').Text): string;
         /** The rendered pixel width of the text in the chat font. @since 0.2.0 @mc * */
         getWidth(text: string): number;
         /** Prints the message to the local chat HUD only. @since 0.1.0 @mc * */
         log(message: string): void;
+        /** Logs one styled text locally with full color/decoration/hover/click rendering. @since 0.2.0 @mc * */
+        logText(text: import('@neomacros/types').Text): void;
         /** Sends the message to the connected server as if typed by the player. @since 0.1.0 @mc * */
         say(message: string): void;
+        /** Starts a styled text builder from one literal segment, optionally styled ({color, bold, italic, underlined, strikethrough, obfuscated, hoverText, clickCommand, clickUrl}). @since 0.2.0 @mc * */
+        text(text: string, style: Record<string, unknown>): import('@neomacros/types').TextBuilder;
         /** Shows a title (and optional subtitle) overlay; null lines are skipped and non-null durations override the vanilla fade timings in ticks. @since 0.2.0 @mc * */
         title(title: string, subtitle: string, fadeIn: number, stay: number, fadeOut: number): void;
         /** Shows a system toast notification in the screen corner. @since 0.2.0 @mc * */
@@ -617,6 +625,13 @@ declare module '@neomacros/player' {
         /** The top input stack, or undefined. @since 0.2.0 @mc * */
         readonly topInput: import('@neomacros/types').ItemStack;
     }
+    /** A mount inventory screen: the saddle and body armor slots over the ordinary slot face. */
+    export class HorseInventory extends Inventory {
+        /** The stack in the body armor slot. @since 0.2.0 @mc * */
+        readonly armor: import('@neomacros/types').ItemStack;
+        /** The stack in the saddle slot. @since 0.2.0 @mc * */
+        readonly saddle: import('@neomacros/types').ItemStack;
+    }
     /** Live inventory handle: slot reads re-query the inventory port on every access; actions dispatch on the main thread and resolve once processed. */
     export class Inventory {
         /** All non-empty stacks with their slot indices. @since 0.1.0 @mc * */
@@ -720,6 +735,23 @@ declare module '@neomacros/player' {
         /** The selected recipe index, or undefined without input. @since 0.2.0 @mc * */
         readonly selectedRecipeIndex: number;
     }
+    /** One trade offer: its two costs, the result stack, and the use count. */
+    export class TradeOffer {
+        /** The fixed first cost before price modifiers. @since 0.2.0 @mc * */
+        readonly baseCostA: import('@neomacros/types').ItemStack;
+        /** The live first cost after demand and reputation adjustments. @since 0.2.0 @mc * */
+        readonly costA: import('@neomacros/types').ItemStack;
+        /** The optional second cost; undefined when absent. @since 0.2.0 @mc * */
+        readonly costB: import('@neomacros/types').ItemStack;
+        /** The current demand bonus affecting the price. @since 0.2.0 @mc * */
+        readonly demand: number;
+        /** How many trades this offer allows before locking. @since 0.2.0 @mc * */
+        readonly maxUses: number;
+        /** The stack the trader sells. @since 0.2.0 @mc * */
+        readonly result: import('@neomacros/types').ItemStack;
+        /** How many times this offer has been traded. @since 0.2.0 @mc * */
+        readonly uses: number;
+    }
     /** A villager trade screen: trader level and experience progress. Trade offers ride the trade-offer data batch. */
     export class VillagerInventory extends Inventory {
         /** The experience needed for the next trade level. @since 0.2.0 @mc * */
@@ -728,6 +760,8 @@ declare module '@neomacros/player' {
         readonly traderLevel: number;
         /** The trader's accumulated experience. @since 0.2.0 @mc * */
         readonly traderXp: number;
+        /** The trade offers currently shown. @since 0.2.0 @mc * */
+        readonly trades: Array<TradeOffer>;
     }
     export interface AabbData {
         max: import('@neomacros/entity').Pos3d;
@@ -918,6 +952,11 @@ declare module '@neomacros/types' {
     /** The chested-horse base (donkeys, mules, llamas); the chest state accessor is not public and rides the follow-up batch. */
     export interface AbstractChestedHorse extends AbstractHorse {
     }
+    /** The fish base: bucket-birth state. */
+    export interface AbstractFish extends Animal {
+        /** Whether the fish was released from a water bucket. @since 0.2.0 @mc * */
+        readonly fromBucket: boolean;
+    }
     /** The horse base: taming, eating and breeding states plus the saddle inventory size. */
     export interface AbstractHorse extends Animal {
         /** Whether the horse has bred after taming. @since 0.2.0 @mc * */
@@ -929,13 +968,56 @@ declare module '@neomacros/types' {
         /** Whether the horse is tamed. @since 0.2.0 @mc * */
         readonly tamed: boolean;
     }
+    /** The schooling fish base: school membership. */
+    export interface AbstractSchoolingFish extends AbstractFish {
+        /** Whether this fish follows a school leader. @since 0.2.0 @mc * */
+        readonly follower: boolean;
+        /** Whether other fish may follow this one. @since 0.2.0 @mc * */
+        canBeFollowed(): boolean;
+        /** Whether this fish leads a school with at least one follower. @since 0.2.0 @mc * */
+        hasFollowers(): boolean;
+    }
+    /** An allay: jukebox dance and held-item state. */
+    export interface Allay extends Mob {
+        /** Whether the allay is dancing to a nearby jukebox. @since 0.2.0 @mc * */
+        readonly dancing: boolean;
+        /** Whether the allay is flapping its wings this tick. @since 0.2.0 @mc * */
+        readonly flapping: boolean;
+        /** Whether the dancing allay is doing its spin flourish. @since 0.2.0 @mc * */
+        readonly spinning: boolean;
+        /** Whether the allay is currently holding an item. @since 0.2.0 @mc * */
+        hasItemInHand(): boolean;
+    }
     /** Breedable animal base (cows, sheep, cats, wolves, ...). */
     export interface Animal extends Mob {
+    }
+    /** An armadillo: shell roll state. */
+    export interface Armadillo extends Animal {
+        /** Whether the armadillo is scared into its shell. @since 0.2.0 @mc * */
+        readonly scared: boolean;
+        /** The roll state identifier, one of minecraft:idle, minecraft:rolling, minecraft:scared, or minecraft:unrolling. @since 0.2.0 @mc * */
+        readonly state: string;
+    }
+    /** An axolotl: variant, playing-dead state, and bucket origin. */
+    export interface Axolotl extends Animal {
+        /** Whether the axolotl came from a bucket. @since 0.2.0 @mc * */
+        readonly fromBucket: boolean;
+        /** Whether the axolotl is playing dead. @since 0.2.0 @mc * */
+        readonly playingDead: boolean;
+        /** The variant identifier. @since 0.2.0 @mc * */
+        readonly variant: string;
     }
     /** A bat: roosting state. */
     export interface Bat extends Mob {
         /** Whether the bat is hanging upside down. @since 0.2.0 @mc * */
         readonly resting: boolean;
+    }
+    /** A bee: nectar and sting state. */
+    export interface Bee extends Animal {
+        /** Whether the bee is carrying nectar. @since 0.2.0 @mc * */
+        hasNectar(): boolean;
+        /** Whether the bee has stung a player. @since 0.2.0 @mc * */
+        hasStung(): boolean;
     }
     /** Live block handle: state reads re-query the world on every access; a block outside the loaded world reads back as undefined instead of raising. */
     export class Block {
@@ -1022,6 +1104,22 @@ declare module '@neomacros/types' {
         isProps(props: Record<string, string>): boolean;
         toString(): string;
     }
+    /** A breeze: slide attack state. */
+    export interface Breeze extends Mob {
+        /** Whether the breeze is sliding toward its target. @since 0.2.0 @mc * */
+        readonly sliding: boolean;
+    }
+    /** A camel: dash and sit pose, over the horse inventory base. */
+    export interface Camel extends AbstractHorse {
+        /** Whether the camel is dashing. @since 0.2.0 @mc * */
+        readonly dashing: boolean;
+        /** Whether the camel is transitioning between sit poses. @since 0.2.0 @mc * */
+        readonly inPoseTransition: boolean;
+        /** The tick timestamp of the last pose change. @since 0.2.0 @mc * */
+        readonly poseTime: number;
+        /** Whether the camel is sitting. @since 0.2.0 @mc * */
+        readonly sitting: boolean;
+    }
     /** A cat: collar color and coat variant. */
     export interface Cat extends TamableAnimal {
         /** The collar color identifier, e.g. minecraft:red. @since 0.2.0 @mc * */
@@ -1081,6 +1179,25 @@ declare module '@neomacros/types' {
         toJSON(): Record<string, unknown>;
         toString(): string;
     }
+    /** A cod. */
+    export interface Cod extends AbstractSchoolingFish {
+    }
+    /** A cow: coat variant. */
+    export interface Cow extends Animal {
+        /** The coat variant identifier, e.g. minecraft:temperate. @since 0.2.0 @mc * */
+        readonly variant: string;
+    }
+    /** A creaking: heart binding and mobility state. */
+    export interface Creaking extends Mob {
+        /** Whether the creaking is active and stalking. @since 0.2.0 @mc * */
+        readonly active: boolean;
+        /** Whether the creaking is bound to a creaking heart. @since 0.2.0 @mc * */
+        readonly heartBound: boolean;
+        /** Whether the creaking is tearing down after its heart broke. @since 0.2.0 @mc * */
+        readonly tearingDown: boolean;
+        /** Whether the creaking may move right now. @since 0.2.0 @mc * */
+        canMove(): boolean;
+    }
     /** A creeper: charge and ignition state. The fuse countdown accessor is not exposed by the vanilla client classes; it rides the species gap follow-up. */
     export interface Creeper extends Mob {
         /** Whether the fuse has been lit by a flint and steel. @since 0.2.0 @mc * */
@@ -1088,18 +1205,57 @@ declare module '@neomacros/types' {
         /** Whether the creeper is charged by a lightning strike. @since 0.2.0 @mc * */
         readonly powered: boolean;
     }
+    /** A dolphin: moisture level. */
+    export interface Dolphin extends Mob {
+        /** The moisture level (max 2400; dries out on land). @since 0.2.0 @mc * */
+        readonly moistness: number;
+    }
     /** A donkey. */
     export interface Donkey extends AbstractChestedHorse {
+    }
+    /** A drowned. */
+    export interface Drowned extends Zombie {
+    }
+    /** The ender dragon: fight phase and death countdown. */
+    export interface EnderDragon extends Mob {
+        /** The death animation countdown; above zero only while dying. @since 0.2.0 @mc * */
+        readonly deathTime: number;
+        /** The fight phase index synced from the dragon fight. @since 0.2.0 @mc * */
+        readonly phase: number;
     }
     /** An enderman: the block it currently carries as an id string, or undefined. */
     export interface Enderman extends Mob {
         /** The carried block id, or undefined when carrying nothing. @since 0.2.0 @mc * */
         readonly carriedBlock: string;
     }
+    /** An evoker: spell casting state. */
+    export interface Evoker extends Mob {
+        /** Whether the evoker is casting a spell. @since 0.2.0 @mc * */
+        readonly castingSpell: boolean;
+    }
+    /** A fox: sitting state. */
+    export interface Fox extends Animal {
+        /** Whether the fox is sitting. @since 0.2.0 @mc * */
+        readonly sitting: boolean;
+    }
+    /** A frog: variant. */
+    export interface Frog extends Animal {
+        /** The variant identifier. @since 0.2.0 @mc * */
+        readonly variant: string;
+    }
     /** A ghast: fire charging state. */
     export interface Ghast extends Mob {
         /** Whether the ghast is charging a fireball. @since 0.2.0 @mc * */
         readonly charging: boolean;
+    }
+    /** A goat: horn state and screaming variant. */
+    export interface Goat extends Animal {
+        /** Whether this is a screaming goat. @since 0.2.0 @mc * */
+        readonly screamingGoat: boolean;
+        /** Whether the left horn is present. @since 0.2.0 @mc * */
+        hasLeftHorn(): boolean;
+        /** Whether the right horn is present. @since 0.2.0 @mc * */
+        hasRightHorn(): boolean;
     }
     /** A horse: coat variant. */
     export interface Horse extends AbstractHorse {
@@ -1229,10 +1385,54 @@ declare module '@neomacros/types' {
     /** An ocelot: trusting state. */
     export interface Ocelot extends Animal {
     }
+    /** A panda: gene pair and behavior states. */
+    export interface Panda extends Animal {
+        /** Whether the panda is eating. @since 0.2.0 @mc * */
+        readonly eating: boolean;
+        /** The hidden gene identifier. @since 0.2.0 @mc * */
+        readonly hiddenGene: string;
+        /** Whether the panda is the lazy variant. @since 0.2.0 @mc * */
+        readonly lazy: boolean;
+        /** The main gene identifier. @since 0.2.0 @mc * */
+        readonly mainGene: string;
+        /** Whether the panda is lying on its back. @since 0.2.0 @mc * */
+        readonly onBack: boolean;
+        /** Whether the panda is sneezing. @since 0.2.0 @mc * */
+        readonly sneezing: boolean;
+    }
+    /** A parrot: variant. */
+    export interface Parrot extends Animal {
+        /** The variant identifier. @since 0.2.0 @mc * */
+        readonly variant: string;
+    }
     /** A phantom: its size tier. */
     export interface Phantom extends Mob {
         /** The phantom size tier (0 by default). @since 0.2.0 @mc * */
         readonly size: number;
+    }
+    /** A piglin: barterer growth and zombification state. */
+    export interface Piglin extends Mob {
+        /** Whether the piglin has grown out of its baby stage. @since 0.2.0 @mc * */
+        readonly adult: boolean;
+        /** Whether the piglin is converting into a zombified piglin. @since 0.2.0 @mc * */
+        readonly converting: boolean;
+    }
+    /** A piglin brute: aggressive growth and zombification state. */
+    export interface PiglinBrute extends Mob {
+        /** Whether the brute has grown out of its baby stage. @since 0.2.0 @mc * */
+        readonly adult: boolean;
+        /** Whether the brute is converting into a zombified piglin. @since 0.2.0 @mc * */
+        readonly converting: boolean;
+    }
+    /** A pillager: crossbow charging state. */
+    export interface Pillager extends Mob {
+        /** Whether the pillager is charging its crossbow. @since 0.2.0 @mc * */
+        readonly chargingCrossbow: boolean;
+    }
+    /** A polar bear: standing state. */
+    export interface PolarBear extends Animal {
+        /** Whether the polar bear is standing on its hind legs. @since 0.2.0 @mc * */
+        readonly standing: boolean;
     }
     /** Immutable two-dimensional point: rotations (yaw, pitch) and screen coordinates. Every operation returns a new instance. */
     export class Pos2D {
@@ -1312,6 +1512,11 @@ declare module '@neomacros/types' {
         /** The remaining fuse ticks before the explosion. @since 0.2.0 @mc * */
         readonly fuse: number;
     }
+    /** A pufferfish: puff inflation level (0-2). */
+    export interface Pufferfish extends AbstractFish {
+        /** The puff state, 0 deflated through 2 fully inflated. @since 0.2.0 @mc * */
+        readonly puffState: number;
+    }
     /** A rabbit: its variant id. */
     export interface Rabbit extends Animal {
         /** The variant identifier (e.g. minecraft:brown, minecraft:killer_bunny). @since 0.2.0 @mc * */
@@ -1330,12 +1535,36 @@ declare module '@neomacros/types' {
         /** The exact hit position. @since 0.1.0 @mc * */
         readonly pos: Pos3D;
     }
+    /** A salmon: size variant. */
+    export interface Salmon extends AbstractSchoolingFish {
+        /** The size variant identifier, one of minecraft:small, minecraft:medium, or minecraft:large. @since 0.2.0 @mc * */
+        readonly variant: string;
+    }
     /** A sheep: wool color and sheared state. */
     export interface Sheep extends Animal {
         /** The wool color identifier, e.g. minecraft:white. @since 0.2.0 @mc * */
         readonly color: string;
         /** Whether the wool has been sheared off. @since 0.2.0 @mc * */
         readonly sheared: boolean;
+    }
+    /** A shulker: shell color. */
+    export interface Shulker extends Mob {
+        /** The shell color identifier, or undefined for the default shell. @since 0.2.0 @mc * */
+        readonly color: string;
+    }
+    /** A sniffer: sniffing and digging state. */
+    export interface Sniffer extends Animal {
+        /** Whether the sniffer is searching the ground for seeds. @since 0.2.0 @mc * */
+        readonly searching: boolean;
+        /** Whether the sniffer is tempted by a player-held item. @since 0.2.0 @mc * */
+        readonly tempted: boolean;
+        /** Whether the sniffer can sniff right now. @since 0.2.0 @mc * */
+        canSniff(): boolean;
+    }
+    /** A snow golem: pumpkin hat state. */
+    export interface SnowGolem extends Mob {
+        /** Whether the pumpkin hat is still on. @since 0.2.0 @mc * */
+        hasPumpkin(): boolean;
     }
     /** A spider: wall-climbing state. */
     export interface Spider extends Mob {
@@ -1348,6 +1577,66 @@ declare module '@neomacros/types' {
     /** The tameable base (wolves, cats): ownership and sitting state land here with the tameable gap batch. */
     export interface TamableAnimal extends Animal {
     }
+    /** Immutable styled text: an ordered list of segments, each carrying literal content and optional color, decorations, hover text, and click action. Instances come only from chat.text(...).build(); there is no direct constructor. JSON.stringify renders the segment list. */
+    export class Text {
+        /** The plain concatenated text without styling. @since 0.2.0 @mc * */
+        readonly plain: string;
+        /** The styled segments in order. @since 0.2.0 @mc * */
+        readonly segments: Array<TextSegmentData>;
+        /** Creates an unstyled single-segment text (compat/tests). @since 0.2.0 */
+        of(plain: string): Text;
+        /** Plain-object rendering used by JSON.stringify. @since 0.2.0 */
+        toJSON(): Array<Record<string, unknown>>;
+        toString(): string;
+    }
+    /** Mutable builder producing immutable values. Created by chat.text(str, style?); chain the style members then build(). Styles apply to the most recently appended segment. */
+    export class TextBuilder {
+        /** The segments appended so far (read face for compat). @since 0.2.0 */
+        readonly segments: Array<TextSegmentData>;
+        /** Appends one more segment, optionally styled ({color, bold, ...}). @since 0.2.0 @mc * */
+        append(text: string, style: Record<string, unknown>): TextBuilder;
+        /** Appends one unstyled segment. @since 0.2.0 @mc * */
+        append(text: string): TextBuilder;
+        /** Applies the bold decoration. @since 0.2.0 @mc * */
+        bold(): TextBuilder;
+        /** Produces the immutable styled text. @since 0.2.0 @mc * */
+        build(): Text;
+        /** Sets the run-command click action. @since 0.2.0 @mc * */
+        clickCommand(command: string): TextBuilder;
+        /** Sets the open-url click action. @since 0.2.0 @mc * */
+        clickUrl(url: string): TextBuilder;
+        /** Sets the segment color (named color or #rrggbb). @since 0.2.0 @mc * */
+        color(color: string): TextBuilder;
+        /** Sets the show-text hover content. @since 0.2.0 @mc * */
+        hover(hoverText: string): TextBuilder;
+        /** Applies the italic decoration. @since 0.2.0 @mc * */
+        italic(): TextBuilder;
+        /** Applies the obfuscated decoration. @since 0.2.0 @mc * */
+        obfuscated(): TextBuilder;
+        /** Applies the strikethrough decoration. @since 0.2.0 @mc * */
+        strikethrough(): TextBuilder;
+        /** Applies the underline decoration. @since 0.2.0 @mc * */
+        underlined(): TextBuilder;
+    }
+    /** A tropical fish: shape pattern and colors. */
+    export interface TropicalFish extends AbstractFish {
+        /** The base body color identifier, e.g. minecraft:white. @since 0.2.0 @mc * */
+        readonly baseColor: string;
+        /** The shape pattern identifier, e.g. minecraft:kob. @since 0.2.0 @mc * */
+        readonly pattern: string;
+        /** The pattern highlight color identifier, e.g. minecraft:blue. @since 0.2.0 @mc * */
+        readonly patternColor: string;
+    }
+    /** A turtle: egg-laying state. */
+    export interface Turtle extends Animal {
+        /** Whether the turtle is carrying eggs. @since 0.2.0 @mc * */
+        hasEgg(): boolean;
+    }
+    /** A vex: charging attack state. */
+    export interface Vex extends Mob {
+        /** Whether the vex is charging its attack. @since 0.2.0 @mc * */
+        readonly charging: boolean;
+    }
     /** A villager: profession, trade level, and biome variant. */
     export interface Villager extends Mob {
         /** The trade level (1-5); undefined for nitwits. @since 0.2.0 @mc * */
@@ -1356,6 +1645,21 @@ declare module '@neomacros/types' {
         readonly profession: string;
         /** The biome variant identifier, e.g. minecraft:plains. @since 0.2.0 @mc * */
         readonly variant: string;
+    }
+    /** A wandering trader: despawn countdown. */
+    export interface WanderingTrader extends Mob {
+        /** The delay in ticks before the trader despawns; zero while trading. @since 0.2.0 @mc * */
+        readonly despawnDelay: number;
+    }
+    /** A warden: anger level. */
+    export interface Warden extends Mob {
+        /** The anger level identifier (calmed, agitated, angry or furious). @since 0.2.0 @mc * */
+        readonly angerLevel: string;
+    }
+    /** A witch: potion-drinking state. */
+    export interface Witch extends Mob {
+        /** Whether the witch is drinking a potion. @since 0.2.0 @mc * */
+        readonly drinkingPotion: boolean;
     }
     /** A wither boss: invulnerable armor phase state. */
     export interface WitherBoss extends Mob {
@@ -1371,6 +1675,20 @@ declare module '@neomacros/types' {
     export interface Zombie extends Mob {
         /** Whether the zombie is converting into a drowned underwater. @since 0.2.0 @mc * */
         readonly underWaterConverting: boolean;
+    }
+    /** A zombie villager: trade identity and conversion state. */
+    export interface ZombieVillager extends Zombie {
+        /** Whether the zombie villager is converting back into a villager. @since 0.2.0 @mc * */
+        readonly converting: boolean;
+        /** The trade level (1-5) this villager would regain on curing. @since 0.2.0 @mc * */
+        readonly level: number;
+        /** The profession identifier this villager would regain on curing, e.g. minecraft:farmer. @since 0.2.0 @mc * */
+        readonly profession: string;
+        /** The biome variant identifier this villager would regain on curing, e.g. minecraft:plains. @since 0.2.0 @mc * */
+        readonly variant: string;
+    }
+    /** A zombified piglin. */
+    export interface ZombifiedPiglin extends Zombie {
     }
 }
 
@@ -1609,6 +1927,7 @@ declare module '@neomacros/types' {
     export type Function = object;
     export type Response = object;
     export type Subscription = object;
+    export type TextSegmentData = object;
     export type TimerHandle = object;
     export type Uint8Array = object;
 }

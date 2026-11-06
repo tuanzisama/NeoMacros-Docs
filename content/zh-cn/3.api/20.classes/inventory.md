@@ -3,7 +3,7 @@ title: "Inventory"
 description: "物品栏句柄：槽位读取每次都重新查询物品栏端口；操作在主线程派发，处理完成后落定。"
 ---
 
-Handle · Extended by: [`AnvilInventory`](anvilinventory), [`BeaconInventory`](beaconinventory), [`BrewingStandInventory`](brewingstandinventory), [`CartographyInventory`](cartographyinventory), [`ContainerInventory`](containerinventory), [`CraftingInventory`](craftinginventory), [`EnchantInventory`](enchantinventory), [`FurnaceInventory`](furnaceinventory), [`GrindstoneInventory`](grindstoneinventory), [`PlayerInventory`](playerinventory), [`SmithingInventory`](smithinginventory), [`StonecutterInventory`](stonecutterinventory), [`VillagerInventory`](villagerinventory)
+Handle · Extended by: [`AnvilInventory`](anvilinventory), [`BeaconInventory`](beaconinventory), [`BrewingStandInventory`](brewingstandinventory), [`CartographyInventory`](cartographyinventory), [`ContainerInventory`](containerinventory), [`CraftingInventory`](craftinginventory), [`EnchantInventory`](enchantinventory), [`FurnaceInventory`](furnaceinventory), [`GrindstoneInventory`](grindstoneinventory), [`HorseInventory`](horseinventory), [`PlayerInventory`](playerinventory), [`SmithingInventory`](smithinginventory), [`StonecutterInventory`](stonecutterinventory), [`VillagerInventory`](villagerinventory)
 
 ## Properties
 

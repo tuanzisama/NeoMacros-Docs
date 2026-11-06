@@ -3,7 +3,7 @@ title: "AbstractHorse"
 description: "The horse base: taming, eating and breeding states plus the saddle inventory size."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.animal.equine.AbstractHorse` · Extends: [`Animal`](animal) · Extended by: [`AbstractChestedHorse`](abstractchestedhorse), [`Horse`](horse)
+Handle · Wraps: `net.minecraft.world.entity.animal.equine.AbstractHorse` · Extends: [`Animal`](animal) · Extended by: [`AbstractChestedHorse`](abstractchestedhorse), [`Camel`](camel), [`Horse`](horse)
 
 ## Properties
 

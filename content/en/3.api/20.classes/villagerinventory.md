@@ -12,4 +12,5 @@ Handle · Wraps: `net.minecraft.world.inventory.MerchantMenu` · Extends: [`Inve
 | `futureTraderXp` | `number` | The experience needed for the next trade level. (read-only) |
 | `traderLevel` | `number` | The trader's current trade level (1-5). (read-only) |
 | `traderXp` | `number` | The trader's accumulated experience. (read-only) |
+| `trades` | `Array<`[TradeOffer](tradeoffer)`>` | The trade offers currently shown. (read-only) |
 

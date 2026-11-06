@@ -3,7 +3,7 @@ title: "AbstractHorse"
 description: "马基类：驯服/进食/繁殖状态与鞍上背包容量。"
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.animal.equine.AbstractHorse` · Extends: [`Animal`](animal) · Extended by: [`AbstractChestedHorse`](abstractchestedhorse), [`Horse`](horse)
+Handle · Wraps: `net.minecraft.world.entity.animal.equine.AbstractHorse` · Extends: [`Animal`](animal) · Extended by: [`AbstractChestedHorse`](abstractchestedhorse), [`Camel`](camel), [`Horse`](horse)
 
 ## Properties
 

@@ -12,4 +12,5 @@ Handle · Wraps: `net.minecraft.world.inventory.MerchantMenu` · Extends: [`Inve
 | `futureTraderXp` | `number` | 升到下一交易等级所需经验。 (read-only) |
 | `traderLevel` | `number` | 交易等级（1-5）。 (read-only) |
 | `traderXp` | `number` | 交易者累计经验。 (read-only) |
+| `trades` | `Array<`[TradeOffer](tradeoffer)`>` | 当前显示的交易报价。 (read-only) |
 

@@ -3,7 +3,7 @@ title: "Mob"
 description: "The mob base: artificial-intelligence toggle and current attack target, shared by every hostile and tameable species."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.Mob` · Extends: [`LivingEntity`](livingentity) · Extended by: [`Animal`](animal), [`Bat`](bat), [`Creeper`](creeper), [`Enderman`](enderman), [`Ghast`](ghast), [`Phantom`](phantom), [`Spider`](spider), [`Strider`](strider), [`Villager`](villager), [`WitherBoss`](witherboss), [`Zombie`](zombie)
+Handle · Wraps: `net.minecraft.world.entity.Mob` · Extends: [`LivingEntity`](livingentity) · Extended by: [`Allay`](allay), [`Animal`](animal), [`Bat`](bat), [`Breeze`](breeze), [`Creaking`](creaking), [`Creeper`](creeper), [`Dolphin`](dolphin), [`EnderDragon`](enderdragon), [`Enderman`](enderman), [`Evoker`](evoker), [`Ghast`](ghast), [`Phantom`](phantom), [`Piglin`](piglin), [`PiglinBrute`](piglinbrute), [`Pillager`](pillager), [`Shulker`](shulker), [`SnowGolem`](snowgolem), [`Spider`](spider), [`Strider`](strider), [`Vex`](vex), [`Villager`](villager), [`WanderingTrader`](wanderingtrader), [`Warden`](warden), [`Witch`](witch), [`WitherBoss`](witherboss), [`Zombie`](zombie)
 
 ## Properties
 

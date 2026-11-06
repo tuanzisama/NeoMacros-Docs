@@ -17,6 +17,28 @@ Category: 界面 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 Since: 0.1.0 · MC: * · Loader: *
 
+### `actionbarText(text: Text)`
+
+在动作条上渲染富文本。
+
+**Parameters**
+
+- `text` [Text](../../classes/text): 富文本
+
+Since: 0.2.0 · MC: * · Loader: *
+
+### `getPlain(text: Text)`
+
+富文本的纯文本拼接。
+
+**Parameters**
+
+- `text` [Text](../../classes/text): 富文本
+
+**Returns** `string`
+
+Since: 0.2.0 · MC: * · Loader: *
+
 ### `getWidth(text: string)`
 
 文本在聊天字体下的渲染像素宽度。
@@ -39,6 +61,16 @@ Since: 0.2.0 · MC: * · Loader: *
 
 Since: 0.1.0 · MC: * · Loader: *
 
+### `logText(text: Text)`
+
+以完整颜色/装饰/悬停/点击渲染在本地聊天栏打印富文本。
+
+**Parameters**
+
+- `text` [Text](../../classes/text): 富文本
+
+Since: 0.2.0 · MC: * · Loader: *
+
 ### `say(message: string)`
 
 以玩家身份向服务器发送聊天消息。
@@ -48,6 +80,19 @@ Since: 0.1.0 · MC: * · Loader: *
 - `message` `string`: 
 
 Since: 0.1.0 · MC: * · Loader: *
+
+### `text(text: string, style: Record<string, unknown>)`
+
+从一个字面分段开始富文本构建器；可选样式（{color, bold, italic, underlined, strikethrough, obfuscated, hoverText, clickCommand, clickUrl}）。
+
+**Parameters**
+
+- `text` `string`: 字面内容
+- `style` `Record<string, unknown>`: 初始样式（可省略）
+
+**Returns** [TextBuilder](../../classes/textbuilder)
+
+Since: 0.2.0 · MC: * · Loader: *
 
 ### `title(title: string, subtitle: string, fadeIn: number, stay: number, fadeOut: number)`
 

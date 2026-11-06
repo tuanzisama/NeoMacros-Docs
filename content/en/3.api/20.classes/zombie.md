@@ -3,7 +3,7 @@ title: "Zombie"
 description: "A zombie: drowning conversion state."
 ---
 
-Handle · Wraps: `net.minecraft.world.entity.monster.zombie.Zombie` · Extends: [`Mob`](mob)
+Handle · Wraps: `net.minecraft.world.entity.monster.zombie.Zombie` · Extends: [`Mob`](mob) · Extended by: [`Drowned`](drowned), [`ZombieVillager`](zombievillager), [`ZombifiedPiglin`](zombifiedpiglin)
 
 ## Properties
 
