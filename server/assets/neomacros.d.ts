@@ -192,8 +192,12 @@ declare module '@neomacros/entity' {
     export class LivingEntity extends Entity {
         /** The absorption hearts from golden apples and effects. @since 0.2.0 @mc * */
         readonly absorption: number;
+        /** The remaining air ticks; 300 max in vanilla water. @since 0.2.0 @mc * */
+        readonly air: number;
         /** The armor points from worn gear (0-20 scale). @since 0.2.0 @mc * */
         readonly armorValue: number;
+        /** The active status effects as {id, duration, amplifier, infinite} entries; empty once the entity is gone. @since 0.2.0 @mc * */
+        readonly effects: Array<Record<string, unknown>>;
         /** Whether the entity is currently glowing (outline). @since 0.2.0 @mc * */
         readonly glowing: boolean;
         /** The health value; undefined once the entity is gone. @since 0.1.0 @mc * */
@@ -202,6 +206,8 @@ declare module '@neomacros/entity' {
         readonly heldItem: import('@neomacros/types').ItemStack;
         /** Whether the entity is hostile (implements the Enemy marker). @since 0.2.0 @mc * */
         readonly hostile: boolean;
+        /** The maximum air ticks (300 in vanilla). @since 0.2.0 @mc * */
+        readonly maxAir: number;
         /** The maximum health value; undefined once the entity is gone. @since 0.2.0 @mc * */
         readonly maxHealth: number;
         /** Whether gravity is disabled for the entity. @since 0.2.0 @mc * */
@@ -210,6 +216,12 @@ declare module '@neomacros/entity' {
         readonly offhandItem: import('@neomacros/types').ItemStack;
         /** Whether the entity is sleeping in a bed. @since 0.2.0 @mc * */
         sleeping: boolean;
+        /** The command tags attached to the entity. @since 0.2.0 @mc * */
+        readonly tags: Array<string>;
+        /** The remaining use ticks while eating, drinking, or blocking. @since 0.2.0 @mc * */
+        readonly useItemRemainingTicks: number;
+        /** Whether a status effect with the given id is active. @since 0.2.0 @mc * */
+        hasEffect(id: string): boolean;
         /** Whether either hand holds an item of the given id (namespace optional). @since 0.2.0 @mc * */
         isHolding(itemId: string): boolean;
     }
@@ -530,6 +542,29 @@ declare module '@neomacros/player' {
         readonly self: LocalPlayer;
     }
     export const player: PlayerApi;
+    /** The local player abilities handle: the creative-mode flags and speed multipliers, readable live and writable client-side. Multiplayer servers keep authority over flying, so writes may be corrected. */
+    export class Abilities {
+        /** The fly speed multiplier. @since 0.2.0 @mc * */
+        readonly flySpeed: number;
+        /** Whether the player is currently flying. @since 0.2.0 @mc * */
+        readonly flying: boolean;
+        /** Whether the player has instant block breaking. @since 0.2.0 @mc * */
+        readonly instabuild: boolean;
+        /** Whether the player is immune to damage. @since 0.2.0 @mc * */
+        readonly invulnerable: boolean;
+        /** The walking speed multiplier. @since 0.2.0 @mc * */
+        readonly walkingSpeed: number;
+        /** Whether the player may build and break blocks. @since 0.2.0 @mc * */
+        mayBuild(): boolean;
+        /** Whether the player may toggle flight at all. @since 0.2.0 @mc * */
+        mayFly(): boolean;
+        /** Sets the fly speed multiplier (client-side write). @since 0.2.0 @mc * */
+        setFlySpeed(value: number): Promise<void>;
+        /** Toggles flight (client-side write; servers may revoke it). @since 0.2.0 @mc * */
+        setFlying(value: boolean): Promise<void>;
+        /** Sets the walking speed multiplier (client-side write). @since 0.2.0 @mc * */
+        setWalkingSpeed(value: number): Promise<void>;
+    }
     /** An anvil screen: the two input slots, result, and the repair cost. */
     export class AnvilInventory extends Inventory {
         /** The repair/enchant level cost charged by the open anvil. @since 0.2.0 @mc * */
@@ -663,10 +698,10 @@ declare module '@neomacros/player' {
         /** Swaps a container slot with a hotbar slot (0..8). @since 0.1.0 @mc * */
         swapHotbar(slot: number, hotbarIndex: number): Promise<void>;
     }
-    /** The action surface of the local player: attack, interact, swing, and drop dispatch through the game on the main thread and resolve once processed. */
+    /** Local player action face: attack/interact/swing/drop dispatch through the game on the main thread and resolve once processed. */
     export interface LocalPlayer extends Player {
-        /** The player abilities snapshot: {invulnerable, flying, mayFly, instabuild, mayBuild, flySpeed, walkingSpeed}, or null when unloaded. @since 0.2.0 @mc * */
-        readonly abilities: Record<string, unknown>;
+        /** The live abilities handle: flags and speed multipliers, readable and writable client-side. @since 0.2.0 @mc * */
+        readonly abilities: Abilities;
         /** The block interaction range in blocks. @since 0.2.0 @mc * */
         readonly blockInteractionRange: number;
         /** Whether the local player is currently breaking a block. @since 0.2.0 @mc * */
@@ -683,8 +718,18 @@ declare module '@neomacros/player' {
         interactBlock(pos: import('@neomacros/types').BlockPos): Promise<void>;
         /** Uses (right-clicks) the entity behind the target handle. @since 0.1.0 @mc * */
         interactEntity(target: import('@neomacros/entity').Entity): Promise<void>;
+        /** The item cooldown progress for the item id, 0 when not on cooldown (or the item is unknown). @since 0.2.0 @mc * */
+        itemCooldown(itemId: string): number;
+        /** Turns the camera to the yaw (horizontal) and pitch (vertical) angles in degrees. @since 0.2.0 @mc * */
+        look(yaw: number, pitch: number): Promise<void>;
+        /** Turns the camera to look at the entity behind the target handle. @since 0.2.0 @mc * */
+        lookAt(target: import('@neomacros/entity').Entity): Promise<void>;
+        /** Sets the movement velocity vector (client-side write). @since 0.2.0 @mc * */
+        setVelocity(x: number, y: number, z: number): Promise<void>;
         /** Swings the main hand (offhand = the off hand). @since 0.1.0 @mc * */
         swingHand(offhand: boolean): Promise<void>;
+        /** Moves the local player to the position (client-side write; multiplayer servers correct the position back). @since 0.2.0 @mc * */
+        teleport(x: number, y: number, z: number): Promise<void>;
         /** Human-readable form. */
         toString(): string;
     }
