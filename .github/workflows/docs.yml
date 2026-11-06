@@ -111,8 +111,8 @@ jobs:
         run: |
           mkdir -p .vercel
           cat > .vercel/project.json <<JSON
-          { "orgId": "$VERCEL_ORG_ID", "projectId": "$VERCEL_PROJECT_ID" }
+          { "orgId": "$VERCEL_ORG_ID", "projectId": "$VERCEL_PROJECT_ID", "projectName":"$VERCEL_PROJECT_NAME" }
           JSON
 
       - name: Deploy to Vercel
-        run: npx --yes vercel@latest deploy .output/public --prod --yes --token="$VERCEL_TOKEN"
+        run: npx --yes vercel@latest deploy .output/public --prod --logs --yes --token="$VERCEL_TOKEN"

@@ -57,3 +57,6 @@ server/assets/neomacros.d.ts
 
 # Playwright MCP debug artifacts
 .playwright-mcp
+
+.vercel
+.env*
