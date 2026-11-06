@@ -1,6 +1,6 @@
 ---
 title: "Player"
-description: "玩家句柄：实体读面经实体端口（远端玩家同样可用）；饥饿/氧气/游戏模式/经验等本地字段经玩家端口，远端玩家读为 undefined。"
+description: ""
 ---
 
 Handle · Wraps: `net.minecraft.world.entity.player.Player` · Extends: [`LivingEntity`](livingentity) · Extended by: [`LocalPlayer`](localplayer)

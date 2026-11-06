@@ -7,7 +7,7 @@ Category: 世界 · Since: 0.1.0 · MC availability: * · Loader availability: *
 
 **Classes**
 
-[`FurnaceInventory`](../../classes/furnaceinventory) · [`Inventory`](../../classes/inventory) · [`LocalPlayer`](../../classes/localplayer) · [`Player`](../../classes/player) · [`PlayerInventory`](../../classes/playerinventory)
+[`AnvilInventory`](../../classes/anvilinventory) · [`BeaconInventory`](../../classes/beaconinventory) · [`BrewingStandInventory`](../../classes/brewingstandinventory) · [`CartographyInventory`](../../classes/cartographyinventory) · [`ContainerInventory`](../../classes/containerinventory) · [`CraftingInventory`](../../classes/craftinginventory) · [`EnchantInventory`](../../classes/enchantinventory) · [`FurnaceInventory`](../../classes/furnaceinventory) · [`GrindstoneInventory`](../../classes/grindstoneinventory) · [`Inventory`](../../classes/inventory) · [`LocalPlayer`](../../classes/localplayer) · [`Player`](../../classes/player) · [`PlayerInventory`](../../classes/playerinventory) · [`SmithingInventory`](../../classes/smithinginventory) · [`StonecutterInventory`](../../classes/stonecutterinventory) · [`VillagerInventory`](../../classes/villagerinventory)
 
 ## Properties
 

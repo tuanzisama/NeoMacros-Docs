@@ -1,6 +1,6 @@
 ---
 title: "Player"
-description: "Live player handle: the entity read face comes through the entity port (works for remote players too); the local-only extras (hunger, air, gamemode, xp) read through the player port and are undefined for remote players."
+description: ""
 ---
 
 Handle · Wraps: `net.minecraft.world.entity.player.Player` · Extends: [`LivingEntity`](livingentity) · Extended by: [`LocalPlayer`](localplayer)
