@@ -25,9 +25,9 @@ export interface ApiLabels {
 }
 
 const EN: ApiLabels = {
-  since: 'Since',
-  mc: 'MC',
-  loader: 'Loader',
+  since: 'NeoMacro',
+  mc: 'Minecraft',
+  loader: 'Fabric Loader',
   mcAll: 'All versions',
   loaderAll: 'All loaders',
   permission: 'Permission',
@@ -45,18 +45,18 @@ const EN: ApiLabels = {
 }
 
 const ZH: ApiLabels = {
-  since: '起始版本',
-  mc: 'MC 版本',
-  loader: '加载器',
+  since: 'NeoMacro',
+  mc: 'Minecraft',
+  loader: 'Fabric Loader',
   mcAll: '全版本',
-  loaderAll: '全部加载器',
+  loaderAll: '全部',
   permission: '权限',
   experimental: '实验性',
   cancellable: '可取消',
   readonly: '只读',
   wraps: '包装',
-  extendedBy: '派生类型',
-  payload: '载荷',
+  extendedBy: '派生类型 (Extend)',
+  payload: '载荷 (Paylaod)',
   raisedBy: '触发事件',
   exposedAs: '暴露为',
   esmOnly: '仅 ES 模块',
