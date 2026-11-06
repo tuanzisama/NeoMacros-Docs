@@ -41,6 +41,17 @@ builder/build
 builder/.gradle
 .gradle
 
+# Generated API content. The doclet/sync pipeline produces these on every
+# machine that runs it, and CI builds + deploys the site from its own
+# freshly generated trees, so they never need to be committed. The
+# hand-written section overview pages stay tracked (the parent directory
+# itself is not excluded, so the negation re-includes the file).
+content/en/3.api/**
+!content/en/3.api/00.overview.md
+content/zh-cn/3.api/**
+!content/zh-cn/3.api/00.overview.md
+server/assets/neomacros.d.ts
+
 # Agent scratch files
 .tmp
 

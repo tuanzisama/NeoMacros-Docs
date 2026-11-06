@@ -42,9 +42,10 @@ bash scripts/sync-generated-docs.sh
 # or: npm run api:generate && npm run api:sync
 ```
 
-Generated API pages and the `.d.ts` are committed, so the site can be
-built without a Java toolchain. Never edit generated API pages by hand —
-everything outside `api/index.md` is wiped and re-synced.
+The generated API trees are gitignored — every machine that builds the
+site runs the two commands above first (CI does the same before its
+build). Never edit generated API pages by hand — everything outside the
+hand-written overview pages is wiped and re-synced.
 
 Hand-written per-module snippets (`api-examples/<en,zh>/<module>.md`) are
 appended to the generated module pages under `## Examples` by the sync
@@ -58,30 +59,30 @@ npm run dev        # http://localhost:3300
 npm run generate   # static output in .output/public
 ```
 
-### Keep generated API pages out of your commits
+### Fresh clones
 
-The generated API trees (`3.api/` pages, `server/assets/neomacros.d.ts`)
-stay tracked — CI commits their updates and Vercel builds them — but
-locally you can hide your sync output from git with skip-worktree:
+The generated API content is not in the repository, so a fresh clone has
+an empty API section until you run the generation once:
 
 ```bash
-bash scripts/skip-generated.sh   # re-run after pulling new generated pages
+npm run api:generate && npm run api:sync
 ```
 
-Caveats:
-
-- Pulling overwrites your local regenerated pages with CI's versions —
-  re-run `api:sync` if you were working against local mod changes.
-- To commit an intentional generated change, undo the flag for that file:
-  `git update-index --no-skip-worktree <path>`.
-- Inspect flagged files: `git ls-files -v content | grep '^S '`
+`npm run dev` and `npm run generate` need the synced trees (and
+`server/assets/neomacros.d.ts`) in place. Because the trees are ignored,
+regenerated or re-synced output never shows up in `git status` and plain
+`git pull` always stays clean — no skip-worktree flags involved.
 
 ## CI
 
-`.github/workflows/docs.yml` regenerates the API trees and commits when the
-sources change. Triggers: pushes touching pipeline/site paths, manual
-dispatch, and the `api-docs` repository dispatch sent by the mod
-repository's `docs-dispatch` workflow.
+`.github/workflows/docs.yml` regenerates the API trees, builds the site,
+and deploys the prebuilt static output to Vercel — the generated content
+is not committed anywhere. Requires the repository secrets `VERCEL_TOKEN`,
+`VERCEL_ORG_ID` and `VERCEL_PROJECT_ID`; the Vercel Git integration is
+disconnected, making this workflow the only deploy path. Triggers: pushes
+touching pipeline/site paths, manual dispatch, and the `api-docs`
+repository dispatch sent by the mod repository's `docs-dispatch`
+workflow.
 
 ## License
 

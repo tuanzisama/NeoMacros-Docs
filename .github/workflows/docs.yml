@@ -1,11 +1,13 @@
 name: docs
 
 # Regenerates the API documentation from the NeoMacros mod sources
-# (builder/) and commits it when the output differs from the committed
-# trees. The site build doubles as validation for the synced content.
+# (builder/), builds the static site, and deploys the prebuilt output to
+# Vercel. The generated content trees are never committed: .gitignore
+# excludes them, so local clones stay clean and the Vercel Git
+# integration is disconnected — this workflow is the only deploy path.
 #
-# Triggers: pushes touching the pipeline or site, manual dispatch, and the
-# `api-docs` repository_dispatch event sent by the mod repository's
+# Triggers: pushes touching the pipeline or site, manual dispatch, and
+# the `api-docs` repository_dispatch event sent by the mod repository's
 # docs-dispatch workflow when its API sources change.
 on:
   push:
@@ -16,6 +18,10 @@ on:
       - "content/**"
       - "api-examples/**"
       - "server/**"
+      - "app/**"
+      - "public/**"
+      - "nuxt.config.ts"
+      - "tsconfig.json"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/docs.yml"
@@ -23,8 +29,9 @@ on:
     types: [api-docs]
   workflow_dispatch:
 
+# Deploys, but no longer writes to the repository.
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: docs-regen
@@ -32,8 +39,12 @@ concurrency:
 
 jobs:
   build:
-    name: regenerate docs site
+    name: regenerate, build and deploy site
     runs-on: ubuntu-latest
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - uses: actions/checkout@v5
 
@@ -90,14 +101,18 @@ jobs:
       - name: Build site
         run: npm run generate
 
-      - name: Commit regenerated docs
+      # Associate the deployment with the existing Vercel project via the
+      # ID pair (dashboard: Project Settings → General), then upload the
+      # fully prerendered static output as a production deployment. The
+      # output directory is self-contained: Nitro prerenders the section
+      # redirects as real pages, so serving it statically matches the
+      # previous Git-integration builds.
+      - name: Link Vercel project
         run: |
-          git config user.name "neomacros-docs-bot"
-          git config user.email "docs-bot@users.noreply.github.com"
-          git add content server/assets
-          if git diff --cached --quiet; then
-            echo "No drift; the committed docs already match the sources."
-          else
-            git commit -m "docs(api): regenerate documentation from sources"
-            git push
-          fi
+          mkdir -p .vercel
+          cat > .vercel/project.json <<JSON
+          { "orgId": "$VERCEL_ORG_ID", "projectId": "$VERCEL_PROJECT_ID" }
+          JSON
+
+      - name: Deploy to Vercel
+        run: npx --yes vercel@latest deploy .output/public --prod --yes --token="$VERCEL_TOKEN"
