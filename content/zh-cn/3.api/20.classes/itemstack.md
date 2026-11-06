@@ -11,12 +11,18 @@ Data
 | --- | --- | --- |
 | `count` | `number` | 物品数量。 (read-only) |
 | `damage` | `number` | 当前耐久损伤（无耐久物品为 0）。 (read-only) |
+| `damageable` | `boolean` | 该物品是否会损耗耐久。 (read-only) |
+| `edible` | `boolean` | 该物品是否为食物。 (read-only) |
+| `enchantable` | `boolean` | 该物品是否可被附魔台附魔。 (read-only) |
+| `enchanted` | `boolean` | 该物品当前是否带附魔。 (read-only) |
 | `enchantments` | `Array<Record<string, unknown>>` | 按 {id, level} 形态的附魔列表，按存储顺序。 (read-only) |
 | `id` | `string` | 命名空间物品标识，如 minecraft:diamond_sword。 (read-only) |
 | `isEmpty` | `boolean` | 物品堆是否为空（空气或数量为零）。 |
 | `lore` | `Array<string>` | 按序排列的 Lore 行。 (read-only) |
 | `maxDamage` | `number` | 最大耐久（无耐久物品为 0）。 (read-only) |
+| `maxStackSize` | `number` | 该物品的最大堆叠数。 (read-only) |
 | `name` | `string` | 显示名（样式文本平铺）。 (read-only) |
+| `repairCost` | `number` | 铁砧累积的修复费用（未动过为 0）。 (read-only) |
 
 ## Methods
 

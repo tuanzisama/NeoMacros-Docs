@@ -8,6 +8,7 @@ description: "Record type referenced in API signatures."
 | `count` | `number` |
 | `damage` | `number` |
 | `enchantments` | `Array<EnchantmentData>` |
+| `extras` | `Record<string, unknown>` |
 | `id` | `string` |
 | `lore` | `Array<string>` |
 | `maxDamage` | `number` |

@@ -11,12 +11,18 @@ Data
 | --- | --- | --- |
 | `count` | `number` | The stack size. (read-only) |
 | `damage` | `number` | The current durability damage (0 for undamageable items). (read-only) |
+| `damageable` | `boolean` | Whether the item takes durability damage at all. (read-only) |
+| `edible` | `boolean` | Whether the item is food. (read-only) |
+| `enchantable` | `boolean` | Whether the item can receive enchantments in an enchanting table. (read-only) |
+| `enchanted` | `boolean` | Whether the item currently carries enchantments. (read-only) |
 | `enchantments` | `Array<Record<string, unknown>>` | The enchantments as {id, level} entries, in stored order. (read-only) |
 | `id` | `string` | The namespaced item identifier, e.g. minecraft:diamond_sword. (read-only) |
 | `isEmpty` | `boolean` | Whether the stack represents nothing (air or a zero count). |
 | `lore` | `Array<string>` | The lore lines, in order. (read-only) |
 | `maxDamage` | `number` | The maximum durability (0 for undamageable items). (read-only) |
+| `maxStackSize` | `number` | The maximum stack size for this item. (read-only) |
 | `name` | `string` | The display name (styled text flattened). (read-only) |
+| `repairCost` | `number` | The anvil repair cost added by prior anvil work (0 when untouched). (read-only) |
 
 ## Methods
 

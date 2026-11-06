@@ -262,6 +262,7 @@ declare module '@neomacros/entity' {
         count: number;
         damage: number;
         enchantments: Array<import('@neomacros/types').EnchantmentData>;
+        extras: Record<string, unknown>;
         id: string;
         lore: Array<string>;
         maxDamage: number;
@@ -845,6 +846,7 @@ declare module '@neomacros/player' {
         count: number;
         damage: number;
         enchantments: Array<import('@neomacros/types').EnchantmentData>;
+        extras: Record<string, unknown>;
         id: string;
         lore: Array<string>;
         maxDamage: number;
@@ -1330,6 +1332,14 @@ declare module '@neomacros/types' {
         readonly count: number;
         /** The current durability damage (0 for undamageable items). @since 0.2.0 @mc * */
         readonly damage: number;
+        /** Whether the item takes durability damage at all. @since 0.2.0 @mc * */
+        readonly damageable: boolean;
+        /** Whether the item is food. @since 0.2.0 @mc * */
+        readonly edible: boolean;
+        /** Whether the item can receive enchantments in an enchanting table. @since 0.2.0 @mc * */
+        readonly enchantable: boolean;
+        /** Whether the item currently carries enchantments. @since 0.2.0 @mc * */
+        readonly enchanted: boolean;
         /** The enchantments as {id, level} entries, in stored order. @since 0.2.0 @mc * */
         readonly enchantments: Array<Record<string, unknown>>;
         /** The namespaced item identifier, e.g. minecraft:diamond_sword. @since 0.2.0 @mc * */
@@ -1340,8 +1350,12 @@ declare module '@neomacros/types' {
         readonly lore: Array<string>;
         /** The maximum durability (0 for undamageable items). @since 0.2.0 @mc * */
         readonly maxDamage: number;
+        /** The maximum stack size for this item. @since 0.2.0 @mc * */
+        readonly maxStackSize: number;
         /** The display name (styled text flattened). @since 0.2.0 @mc * */
         readonly name: string;
+        /** The anvil repair cost added by prior anvil work (0 when untouched). @since 0.2.0 @mc * */
+        readonly repairCost: number;
         equals(other: unknown): boolean;
         hashCode(): number;
         /** Whether the stack's item id equals the identifier (namespace optional). @since 0.2.0 @mc * */

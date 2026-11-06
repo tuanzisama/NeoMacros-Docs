@@ -8,6 +8,7 @@ description: "API 签名中引用的 record 类型。"
 | `count` | `number` |
 | `damage` | `number` |
 | `enchantments` | `Array<EnchantmentData>` |
+| `extras` | `Record<string, unknown>` |
 | `id` | `string` |
 | `lore` | `Array<string>` |
 | `maxDamage` | `number` |
