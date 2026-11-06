@@ -5,12 +5,12 @@ export default defineNuxtConfig({
   site: {
     name: 'NeoMacros',
     // Update to the production domain when the site is deployed.
-    url: 'https://neomacros-docs.vercel.app',
+    url: 'https://neomacros.tuanzi.ink',
   },
 
   i18n: {
     defaultLocale: 'en',
-    baseUrl: 'https://neomacros-docs.vercel.app',
+    baseUrl: 'https://neomacros.tuanzi.ink',
     locales: [
       { code: 'en', name: 'English' },
       // Docus matches UI message packs by lowercase {code}.json and only
