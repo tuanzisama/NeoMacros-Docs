@@ -522,6 +522,77 @@ declare module '@neomacros/player' {
         readonly self: LocalPlayer;
     }
     export const player: PlayerApi;
+    /** An anvil screen: the two input slots, result, and the repair cost. */
+    export class AnvilInventory extends Inventory {
+        /** The repair/enchant level cost charged by the open anvil. @since 0.2.0 @mc * */
+        readonly cost: number;
+        /** The left (first) input stack, or undefined. @since 0.2.0 @mc * */
+        readonly firstInput: import('@neomacros/types').ItemStack;
+        /** The combined result stack, or undefined. @since 0.2.0 @mc * */
+        readonly result: import('@neomacros/types').ItemStack;
+        /** The right (second) input stack, or undefined. @since 0.2.0 @mc * */
+        readonly secondInput: import('@neomacros/types').ItemStack;
+    }
+    /** A beacon screen: the payment slot, effect selection, and power level. */
+    export class BeaconInventory extends Inventory {
+        /** The beacon power level (1-4), or undefined. @since 0.2.0 @mc * */
+        readonly levels: number;
+        /** The payment stack, or undefined. @since 0.2.0 @mc * */
+        readonly payment: import('@neomacros/types').ItemStack;
+        /** The primary effect id, or undefined. @since 0.2.0 @mc * */
+        readonly primaryEffect: string;
+        /** The secondary effect id, or undefined. @since 0.2.0 @mc * */
+        readonly secondaryEffect: string;
+    }
+    /** A brewing stand screen: the three bottles, ingredient, fuel, and the live brew progress. */
+    export class BrewingStandInventory extends Inventory {
+        /** The three bottle stacks (slots 0-2). @since 0.2.0 @mc * */
+        bottles: Array<import('@neomacros/types').ItemStack>;
+        /** The remaining brewing ticks. @since 0.2.0 @mc * */
+        readonly brewingTicks: number;
+        /** The blaze fuel stack (slot 4), or undefined. @since 0.2.0 @mc * */
+        readonly fuel: import('@neomacros/types').ItemStack;
+        /** The remaining fuel uses. @since 0.2.0 @mc * */
+        readonly fuelUses: number;
+        /** The ingredient stack (slot 3), or undefined. @since 0.2.0 @mc * */
+        readonly ingredient: import('@neomacros/types').ItemStack;
+        /** The total brewing ticks per batch. @since 0.2.0 @mc * */
+        readonly totalBrewingTicks: number;
+        /** The total fuel uses a full blaze rod charges. @since 0.2.0 @mc * */
+        readonly totalFuelUses: number;
+    }
+    /** A cartography table screen: the map, the material, and the result. */
+    export class CartographyInventory extends Inventory {
+        /** The map stack, or undefined. @since 0.2.0 @mc * */
+        readonly map: import('@neomacros/types').ItemStack;
+        /** The material stack, or undefined. @since 0.2.0 @mc * */
+        readonly material: import('@neomacros/types').ItemStack;
+        /** The cartography result stack, or undefined. @since 0.2.0 @mc * */
+        readonly result: import('@neomacros/types').ItemStack;
+    }
+    /** A chest container screen: the container rows precede the player rows. */
+    export class ContainerInventory extends Inventory {
+        /** The first empty container slot index, or undefined when full. @since 0.2.0 @mc * */
+        firstEmpty(): number;
+    }
+    /** A crafting table screen: the 3x3 grid and the result slot. */
+    export class CraftingInventory extends Inventory {
+        /** The 3x3 crafting grid (menu slots 1-9). @since 0.2.0 @mc * */
+        grid: Array<import('@neomacros/types').ItemStack>;
+        /** The crafting result stack, or undefined. @since 0.2.0 @mc * */
+        readonly result: import('@neomacros/types').ItemStack;
+    }
+    /** An enchanting table screen: the item, lapis, and the three cost rows. */
+    export class EnchantInventory extends Inventory {
+        /** The three enchantment level costs shown on the table. @since 0.2.0 @mc * */
+        readonly costs: unknown;
+        /** The lapis count the table reports. @since 0.2.0 @mc * */
+        readonly goldCount: number;
+        /** The item being enchanted, or undefined. @since 0.2.0 @mc * */
+        readonly item: import('@neomacros/types').ItemStack;
+        /** The lapis stack, or undefined. @since 0.2.0 @mc * */
+        readonly lapis: import('@neomacros/types').ItemStack;
+    }
     /** A furnace-family container screen: input/fuel/output slots plus the live burn state read from the open menu. */
     export class FurnaceInventory extends Inventory {
         /** The fuel burn progress (0-1), or undefined. @since 0.2.0 @mc * */
@@ -536,6 +607,15 @@ declare module '@neomacros/player' {
         readonly litProgress: number;
         /** The smelted output stack, or undefined. @since 0.2.0 @mc * */
         readonly output: import('@neomacros/types').ItemStack;
+    }
+    /** A grindstone screen: the two input slots and the disenchanted result. */
+    export class GrindstoneInventory extends Inventory {
+        /** The bottom input stack, or undefined. @since 0.2.0 @mc * */
+        readonly bottomInput: import('@neomacros/types').ItemStack;
+        /** The disenchanted result stack, or undefined. @since 0.2.0 @mc * */
+        readonly result: import('@neomacros/types').ItemStack;
+        /** The top input stack, or undefined. @since 0.2.0 @mc * */
+        readonly topInput: import('@neomacros/types').ItemStack;
     }
     /** Live inventory handle: slot reads re-query the inventory port on every access; actions dispatch on the main thread and resolve once processed. */
     export class Inventory {
@@ -594,7 +674,7 @@ declare module '@neomacros/player' {
         toString(): string;
     }
     type PlayerBase = import('@neomacros/entity').LivingEntity;
-    /** Live player handle: the entity read face comes through the entity port (works for remote players too); the local-only extras (hunger, air, gamemode, xp) read through the player port and are undefined for remote players. */
+    /**  */
     export interface Player extends PlayerBase {
         /** The air (breath) value; only the local player carries it. @since 0.1.0 @mc * */
         readonly air: number;
@@ -619,6 +699,35 @@ declare module '@neomacros/player' {
     }
     /** The local player's own inventory: the always-available inventory session (the same handle player.opened returns while the inventory screen is open). */
     export class PlayerInventory extends Inventory {
+    }
+    /** A smithing table screen: template, base, addition, and result. */
+    export class SmithingInventory extends Inventory {
+        /** The addition stack, or undefined. @since 0.2.0 @mc * */
+        readonly addition: import('@neomacros/types').ItemStack;
+        /** The base stack, or undefined. @since 0.2.0 @mc * */
+        readonly base: import('@neomacros/types').ItemStack;
+        /** The smithed result stack, or undefined. @since 0.2.0 @mc * */
+        readonly result: import('@neomacros/types').ItemStack;
+        /** The smithing template stack, or undefined. @since 0.2.0 @mc * */
+        readonly template: import('@neomacros/types').ItemStack;
+    }
+    /** A stonecutter screen: the input block and the selected recipe output. */
+    export class StonecutterInventory extends Inventory {
+        /** The input stack, or undefined. @since 0.2.0 @mc * */
+        readonly input: import('@neomacros/types').ItemStack;
+        /** How many recipes the visible set offers. @since 0.2.0 @mc * */
+        readonly recipeCount: number;
+        /** The selected recipe index, or undefined without input. @since 0.2.0 @mc * */
+        readonly selectedRecipeIndex: number;
+    }
+    /** A villager trade screen: trader level and experience progress. Trade offers ride the trade-offer data batch. */
+    export class VillagerInventory extends Inventory {
+        /** The experience needed for the next trade level. @since 0.2.0 @mc * */
+        readonly futureTraderXp: number;
+        /** The trader's current trade level (1-5). @since 0.2.0 @mc * */
+        readonly traderLevel: number;
+        /** The trader's accumulated experience. @since 0.2.0 @mc * */
+        readonly traderXp: number;
     }
     export interface AabbData {
         max: import('@neomacros/entity').Pos3d;
