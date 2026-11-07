@@ -48,10 +48,10 @@ builder/.gradle
 # itself is not excluded, so the negation re-includes the file).
 content/en/3.api/**
 !content/en/3.api/00.overview.md
-!content/en/3.api/40.glossary.md
+!content/en/3.api/01.glossary.md
 content/zh-cn/3.api/**
 !content/zh-cn/3.api/00.overview.md
-!content/zh-cn/3.api/40.glossary.md
+!content/zh-cn/3.api/01.glossary.md
 server/assets/neomacros.d.ts
 
 # Agent scratch files

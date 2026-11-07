@@ -42,12 +42,12 @@ fi
 mkdir -p "$site/content/en/3.api" "$site/content/zh-cn/3.api" "$site/server/assets"
 
 # The API trees are fully generated (the hand-written overview and glossary
-# pages are tracked as 00.overview.md / 40.glossary.md — real ordered pages,
+# pages are tracked as 00.overview.md / 01.glossary.md — real ordered pages,
 # NOT index.md: Nuxt Content v3 turns a section folder's index.md into a
 # non-routable navigation ghost that 404s the header section links), so
 # stale pages from removed generators are wiped first.
-find "$site/content/en/3.api" -mindepth 1 -maxdepth 1 ! -name 'index.md' ! -name '00.overview.md' ! -name '40.glossary.md' -exec rm -rf {} +
-find "$site/content/zh-cn/3.api" -mindepth 1 -maxdepth 1 ! -name 'index.md' ! -name '00.overview.md' ! -name '40.glossary.md' -exec rm -rf {} +
+find "$site/content/en/3.api" -mindepth 1 -maxdepth 1 ! -name 'index.md' ! -name '00.overview.md' ! -name '01.glossary.md' -exec rm -rf {} +
+find "$site/content/zh-cn/3.api" -mindepth 1 -maxdepth 1 ! -name 'index.md' ! -name '00.overview.md' ! -name '01.glossary.md' -exec rm -rf {} +
 
 # Sidebar titles for the API section root and the generated subtrees. The
 # section folders carry no index.md (Nuxt Content v3 turns a folder's
