@@ -16,7 +16,7 @@ export default defineAppConfig({
   // Enables the header GitHub icon plus "Edit this page" links pointing at
   // this repository's content sources.
   github: {
-    url: 'https://github.com/tuanzisama/NeoMacros',
+    url: 'https://github.com/tuanzisama/NeoMacros-Docs',
     branch: 'master',
   },
 })
