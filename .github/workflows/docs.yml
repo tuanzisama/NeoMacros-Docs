@@ -115,4 +115,8 @@ jobs:
           JSON
 
       - name: Deploy to Vercel
-        run: npx --yes vercel@latest deploy .output/public --prod --logs --yes --token="$VERCEL_TOKEN"
+        # --archive=tgz packs the output into a single tarball: a bare
+        # directory upload issues one API call per file and blows past the
+        # Hobby plan's 5000-files-per-24h limit (api-upload-free) — the
+        # prerendered site has ~2000 pages plus all _nuxt assets.
+        run: npx --yes vercel@latest deploy .output/public --prod --logs --yes --token="$VERCEL_TOKEN" --archive=tgz
