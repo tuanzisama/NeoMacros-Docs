@@ -12,7 +12,8 @@ Javadoc（含 `@zh` 双语标签）生成脚本 API 文档：
   可用性表 + 带 `@ApiMC` 版本范围的成员明细；MC 版本列表从模组仓库的
   `versions/*` Stonecutter 节点自动发现（升序）
 - `api/warnings.txt` — 生成告警清单（缺 `@zh`、缺 `@ApiSince`）
-- `types/neomacros.d.ts` — `declare module '@neomacros/*'` 定义与 `neo` 全局对象
+- `types/neomacros.d.ts` — 全局作用域定义（模块门面接口、根级类构造面与
+  `declare const neo` 全局聚合）
 
 Markdown 与 `.d.ts` 消费同一份 `ApiModel`（注解扫描产物）。生成物不可手改；
 `src/test/snapshots/` 下的快照基线仅在人工审查 diff 后更新。

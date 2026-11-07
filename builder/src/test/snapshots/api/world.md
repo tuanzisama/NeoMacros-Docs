@@ -3,7 +3,7 @@ title: "world"
 description: "Fixture module exercising the full annotation set with complete bilingual documentation: class and member annotations, a handle type, a referenced record type, and an overridden parameter type."
 ---
 
-Category: test · Since: 0.1.0 · MC availability: >=1.20.6 · Exposed as `neo.world` and `@neomacros/world`
+:api-module-header{ category="test" neo-name="neo.world" since="0.1.0" mc=">=1.20.6"}
 
 **Classes**
 
@@ -13,7 +13,7 @@ Category: test · Since: 0.1.0 · MC availability: >=1.20.6 · Exposed as `neo.w
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `time` | `number` | Returns the world time of day in ticks. (read-only) |
+| `time` | `number` | Returns the world time of day in ticks. :api-badge{kind="readonly"} |
 
 ## Methods
 
@@ -27,7 +27,7 @@ Marks a block highlight at the given position.
 
 **Returns** `Promise<void>` — a promise completing once the highlight is placed
 
-Since: 0.1.0 · MC: >=1.20.6
+:api-badges{ since="0.1.0" mc=">=1.20.6"}
 
 ### `watch(listener: (message: string) => void)`
 
@@ -37,5 +37,5 @@ Watches chat messages through the given listener.
 
 - `listener` `(message: string) => void`: callback invoked for each message
 
-Since: 0.1.0 · Permission: `command` · Experimental
+:api-badges{ since="0.1.0" permission="command" experimental="true"}
 

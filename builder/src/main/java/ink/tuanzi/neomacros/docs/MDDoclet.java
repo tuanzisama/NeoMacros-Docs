@@ -304,11 +304,7 @@ public class MDDoclet implements Doclet {
         if (!module.category().isEmpty()) {
             props.add(mdcProp("category", categoryLabel(module.category(), zh)));
         }
-        props.add(mdcProp("global", String.valueOf(module.global())));
-        if (module.global()) {
-            props.add(mdcProp("neo-name", "neo." + module.name()));
-        }
-        props.add(mdcProp("esm-name", "@neomacros/" + module.name()));
+        props.add(mdcProp("neo-name", "neo." + module.name()));
         props.addAll(availabilityProps(module.since(), module.mc(), module.loader()));
         sb.append(":api-module-header{").append(String.join("", props)).append("}\n\n");
 
@@ -474,7 +470,7 @@ public class MDDoclet implements Doclet {
     }
 
     /** One quoted MDC component prop; values are generator-controlled. */
-    private static String mdcProp(String key, String value) {
+    static String mdcProp(String key, String value) {
         return " " + key + "=\"" + value + "\"";
     }
 
@@ -640,7 +636,8 @@ public class MDDoclet implements Doclet {
      * category values in {@code @ApiModule} are zh-first, so the English
      * view maps the known set and passes anything else through verbatim.
      */
-    private static String categoryLabel(String category, boolean zhView) {
+    /** English category label; VersionMatrix reuses it for href computation. */
+    static String categoryLabel(String category, boolean zhView) {
         if (zhView) {
             return category;
         }

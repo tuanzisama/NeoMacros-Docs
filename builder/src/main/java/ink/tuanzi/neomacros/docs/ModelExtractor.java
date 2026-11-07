@@ -238,7 +238,7 @@ final class ModelExtractor {
         List<ApiModel.TypeModel> referencedList = new ArrayList<>(referenced.values());
         referencedList.sort(java.util.Comparator.comparing(ApiModel.TypeModel::name));
         return new ApiModel.ModuleModel(
-                module.name(), module.category(), module.global(),
+                module.name(), module.category(),
                 DocletSupport.docBody(comment),
                 zhBody.orElse(""),
                 moduleSince, DocletSupport.mcOf(type),

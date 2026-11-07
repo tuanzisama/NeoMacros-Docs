@@ -1,9 +1,9 @@
 ---
 title: "partial"
-description: "Fixture module exercising the generation warning paths: no @zh module body, no class-level @ApiSince, one fully documented member, and one member with neither a translation nor a version annotation. ES module only (global=false): reachable through the import channel but absent from the neo global aggregate."
+description: "Fixture module exercising the generation warning paths: no @zh module body, no class-level @ApiSince, one fully documented member, and one member with neither a translation nor a version annotation."
 ---
 
-Category: test · ES module only: `@neomacros/partial`
+:api-module-header{ category="test" neo-name="neo.partial"}
 
 ## Methods
 
@@ -13,7 +13,7 @@ Returns a fully documented value.
 
 **Returns** `string` — the tagged value
 
-Since: 0.1.0
+:api-badges{ since="0.1.0"}
 
 ### `untagged(input: string)`
 

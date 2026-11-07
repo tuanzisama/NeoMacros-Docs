@@ -7,11 +7,8 @@ import ink.tuanzi.neomacros.doc.api.ApiSince;
  * Fixture module exercising the generation warning paths: no @zh module body,
  * no class-level @ApiSince, one fully documented member, and one member with
  * neither a translation nor a version annotation.
- *
- * <p>ES module only ({@code global=false}): reachable through the import
- * channel but absent from the neo global aggregate.</p>
  */
-@ApiModule(name = "partial", category = "test", global = false)
+@ApiModule(name = "partial", category = "test")
 public final class FixturePartialApi {
 
     /**

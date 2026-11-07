@@ -21,9 +21,9 @@ public record ApiModel(List<ModuleModel> modules, List<EventModel> events,
         List<ClassModel> standaloneClasses, List<TypeModel> eventReferencedTypes,
         List<String> warnings) {
 
-    /** One script-visible ES module. */
+    /** One script-visible API module. */
     public record ModuleModel(
-            String name, String category, boolean global,
+            String name, String category,
             String doc, String zhDoc, String since, String mc, String loader,
             List<PropertyModel> properties, List<MethodModel> methods,
             List<ClassModel> classes, List<TypeModel> referencedTypes) {

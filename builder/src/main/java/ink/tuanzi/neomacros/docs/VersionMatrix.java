@@ -1,20 +1,33 @@
 package ink.tuanzi.neomacros.docs;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Renders the bilingual version-compatibility pages from the same
- * {@link ApiModel} the other renderers consume: a module-to-build matrix
- * over every supported Minecraft version, plus a detail table for the
- * members that carry a specific {@code @ApiMC} availability range (members
- * without a range are available in every build and listed once as such).
+ * {@link ApiModel} the other renderers consume. Both tables are emitted as
+ * one {@code :api-version-matrix} MDC leaf component per section, fed with
+ * a compact JSON payload ({@code section} + {@code data}); the Vue side
+ * renders the tables (sticky first column, horizontal scroll) and localizes
+ * all wording, so both locale pages share one body. The module grid carries
+ * a per-build availability
+ * cell ("all" or "n/m" members); the constrained-member section lists the
+ * members with a specific {@code @ApiMC} availability range.
  */
 final class VersionMatrix {
+
+    /** Compact, non-HTML-escaping JSON for the single-quoted MDC data prop. */
+    private static final Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
 
     private VersionMatrix() {
     }
@@ -43,7 +56,28 @@ final class VersionMatrix {
                     + "every listed build."));
             sb.append("## Modules\n\n");
         }
-        sb.append(moduleHeader(versions, zh)).append("\n");
+        String data = GSON.toJson(matrixData(model, versions));
+        // MDC attributes live inside braces; the JSON travels in a
+        // single-quoted prop value (its double quotes are safe inside
+        // single quotes, and the payload — identifiers, version numbers —
+        // never contains one). The braces around the value terminate the
+        // attribute list; braces inside the quoted value are plain data.
+        sb.append(":api-version-matrix{").append(MDDoclet.mdcProp("section", "modules"))
+          .append(" data='").append(data).append("'}\n\n");
+        sb.append(zh ? "## 带版本限制的成员\n\n" : "## Version-constrained members\n\n");
+        sb.append(":api-version-matrix{").append(MDDoclet.mdcProp("section", "constrained"))
+          .append(" data='").append(data).append("'}\n\n");
+        return sb.toString();
+    }
+
+    /** One matrix payload shared by both component instances on the page. */
+    private static JsonObject matrixData(ApiModel model, List<String> versions) {
+        JsonObject data = new JsonObject();
+        JsonArray versionArray = new JsonArray();
+        versions.forEach(versionArray::add);
+        data.add("versions", versionArray);
+
+        JsonArray modules = new JsonArray();
         for (ApiModel.ModuleModel module : model.modules()) {
             List<String> memberRanges = new ArrayList<>();
             for (ApiModel.PropertyModel property : module.properties()) {
@@ -60,53 +94,57 @@ final class VersionMatrix {
                     memberRanges.add(range(method.mc()));
                 }
             }
-            sb.append("| [`").append(module.name()).append("`](").append(module.name())
-              .append(".html) | ");
-            for (int i = 0; i < versions.size(); i++) {
-                String version = versions.get(i);
-                if (i > 0) {
-                    sb.append(" | ");
-                }
+            JsonObject row = new JsonObject();
+            row.addProperty("name", module.name());
+            // The sync script moves module pages to Modules/<domain>/<name>,
+            // so emit the post-move relative href directly (domainDir mirrors
+            // the script's category_dir rule, see below).
+            row.addProperty("href", "modules/" + domainDir(module.category()) + "/" + module.name());
+            JsonArray cells = new JsonArray();
+            for (String version : versions) {
                 if (memberRanges.isEmpty()) {
-                    sb.append(ok(zh));
+                    cells.add("all");
                 } else {
                     long available = memberRanges.stream()
                             .filter(r -> evaluatesTo(r, version)).count();
-                    sb.append(available == memberRanges.size()
-                            ? ok(zh)
+                    cells.add(available == memberRanges.size()
+                            ? "all"
                             : available + "/" + memberRanges.size());
                 }
             }
-            sb.append(" |\n");
+            row.add("cells", cells);
+            modules.add(row);
         }
-        sb.append("\n");
+        data.add("modules", modules);
 
-        List<String[]> constrained = constrainedMembers(model);
-        if (zh) {
-            sb.append("## 带版本限制的成员\n\n");
-            sb.append(constrained.isEmpty()
-                    ? "当前没有带具体版本范围的成员——整个 API 在所有受支持的版本上都可用。\n"
-                    : "以下成员带有具体的可用版本范围；其余 API 成员在所有受支持的版本上都可用。\n\n");
-        } else {
-            sb.append("## Version-constrained members\n\n");
-            sb.append(constrained.isEmpty()
-                    ? "No member carries a specific availability range — the whole API is "
-                            + "available on every supported version.\n"
-                    : "These members carry a specific availability range; every other member "
-                            + "of the API is available on all supported versions.\n\n");
-        }
-        if (!constrained.isEmpty()) {
-            sb.append(memberHeader(versions, zh)).append("\n");
-            for (String[] row : constrained) {
-                sb.append("| `").append(row[0]).append("` | `").append(row[1]).append("` | `")
-                  .append(row[2]).append("` | ");
-                for (String version : versions) {
-                    sb.append(evaluatesTo(row[2], version) ? ok(zh) : "\u2014").append(" | ");
-                }
-                sb.append("\n");
+        JsonArray constrained = new JsonArray();
+        for (String[] entry : constrainedMembers(model)) {
+            JsonObject row = new JsonObject();
+            row.addProperty("module", entry[0]);
+            row.addProperty("member", entry[1]);
+            row.addProperty("range", entry[2]);
+            JsonArray cells = new JsonArray();
+            for (String version : versions) {
+                cells.add(evaluatesTo(entry[2], version));
             }
+            row.add("cells", cells);
+            constrained.add(row);
         }
-        return sb.toString();
+        data.add("constrained", constrained);
+        return data;
+    }
+
+    /**
+     * URL segment for a module's domain group. Raw {@code @ApiModule}
+     * categories are zh-first, so map to the English label first (the same
+     * table the module pages display), then mirror the sync script's
+     * category_dir: keep [A-Za-z-], lowercase, unknown falls back to the
+     * shared "uncategorized" segment.
+     */
+    private static String domainDir(String category) {
+        String label = MDDoclet.categoryLabel(category == null ? "" : category, false);
+        String cleaned = label.replaceAll("[^A-Za-z-]", "");
+        return cleaned.isEmpty() ? "uncategorized" : cleaned.toLowerCase(Locale.ROOT);
     }
 
     /**
@@ -154,56 +192,6 @@ final class VersionMatrix {
     /** Normalizes a member's MC annotation value to an expression string. */
     private static String range(String mc) {
         return mc == null || mc.isBlank() ? "*" : mc;
-    }
-
-    private static String ok(boolean zh) {
-        return "\u2713";
-    }
-
-    /** Table header for the module rows: Module + one column per version. */
-    private static String moduleHeader(List<String> versions, boolean zh) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("| ").append(zh ? "模块" : "Module").append(" | ");
-        sb.append(joinVersionColumns(versions));
-        sb.append(" |\n| --- | ");
-        sb.append(joinSeparators(versions));
-        sb.append(" |\n");
-        return sb.toString();
-    }
-
-    /** Table header for the member rows: Module | Member | Range + versions. */
-    private static String memberHeader(List<String> versions, boolean zh) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("| ").append(zh ? "模块" : "Module").append(" | ");
-        sb.append(zh ? "成员" : "Member").append(" | ");
-        sb.append(zh ? "范围" : "Range").append(" | ");
-        sb.append(joinVersionColumns(versions));
-        sb.append(" |\n| --- | --- | --- | ");
-        sb.append(joinSeparators(versions));
-        sb.append(" |\n");
-        return sb.toString();
-    }
-
-    private static String joinVersionColumns(List<String> versions) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < versions.size(); i++) {
-            sb.append(versions.get(i));
-            if (i < versions.size() - 1) {
-                sb.append(" | ");
-            }
-        }
-        return sb.toString();
-    }
-
-    private static String joinSeparators(List<String> versions) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < versions.size(); i++) {
-            sb.append("---");
-            if (i < versions.size() - 1) {
-                sb.append(" | ");
-            }
-        }
-        return sb.toString();
     }
 
     /**

@@ -41,13 +41,13 @@ fi
 
 mkdir -p "$site/content/en/3.api" "$site/content/zh-cn/3.api" "$site/server/assets"
 
-# The API trees are fully generated (the hand-written overview page is
-# tracked as 00.overview.md — a real ordered page, NOT index.md: Nuxt
-# Content v3 turns a section folder's index.md into a non-routable
-# navigation ghost that 404s the header section links), so stale pages
-# from removed generators are wiped first.
-find "$site/content/en/3.api" -mindepth 1 -maxdepth 1 ! -name 'index.md' ! -name '00.overview.md' -exec rm -rf {} +
-find "$site/content/zh-cn/3.api" -mindepth 1 -maxdepth 1 ! -name 'index.md' ! -name '00.overview.md' -exec rm -rf {} +
+# The API trees are fully generated (the hand-written overview and glossary
+# pages are tracked as 00.overview.md / 40.glossary.md — real ordered pages,
+# NOT index.md: Nuxt Content v3 turns a section folder's index.md into a
+# non-routable navigation ghost that 404s the header section links), so
+# stale pages from removed generators are wiped first.
+find "$site/content/en/3.api" -mindepth 1 -maxdepth 1 ! -name 'index.md' ! -name '00.overview.md' ! -name '40.glossary.md' -exec rm -rf {} +
+find "$site/content/zh-cn/3.api" -mindepth 1 -maxdepth 1 ! -name 'index.md' ! -name '00.overview.md' ! -name '40.glossary.md' -exec rm -rf {} +
 
 # Sidebar titles for the API section root and the generated subtrees. The
 # section folders carry no index.md (Nuxt Content v3 turns a folder's
@@ -235,14 +235,9 @@ while IFS= read -r f; do
   append_examples "$dest" "$examples/zh/$name"
 done < <(find "$gen_md/api" -name '*.zh.md' -type f | sort)
 
-# Copy the TypeScript definitions into the site and append the types/java
-# module supplement (non-facade modules that TSDoclet cannot scan: types
-# cells, java module re-exports) to the SITE copy only — appending to the
-# generated tree would accumulate the supplement across repeated syncs.
-supplement="$examples/types-supplement.d.ts"
+# Copy the TypeScript definitions into the site. The generated tree is the
+# single source: every script-facing class (including the registerGuestType
+# cells) hangs on the NeoRoot interface, so no supplement append is needed.
 cp "$gen_ts/types/neomacros.d.ts" "$site/server/assets/neomacros.d.ts"
-if [[ -f "$supplement" ]]; then
-  cat "$supplement" >> "$site/server/assets/neomacros.d.ts"
-fi
 
 echo "synced $(find "$site/content/en/3.api" -name '*.md' ! -name 'index.md' | wc -l) module page(s) into the site"

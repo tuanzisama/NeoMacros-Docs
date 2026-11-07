@@ -45,7 +45,7 @@ bash scripts/sync-generated-docs.sh
 The generated API trees are gitignored — every machine that builds the
 site runs the two commands above first (CI does the same before its
 build). Never edit generated API pages by hand — everything outside the
-hand-written overview pages is wiped and re-synced.
+hand-written overview and glossary pages is wiped and re-synced.
 
 Hand-written per-module snippets (`api-examples/<en,zh>/<module>.md`) are
 appended to the generated module pages under `## Examples` by the sync

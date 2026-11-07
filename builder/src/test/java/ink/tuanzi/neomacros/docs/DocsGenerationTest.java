@@ -81,11 +81,12 @@ class DocsGenerationTest {
     @Test
     void badgesAndBadgesOnlyRenderedWhereAnnotated() throws IOException {
         String world = read(outMd.outDir().resolve("api/world.md"));
-        assertTrue(world.contains("Experimental"), "experimental badge rendered");
-        assertTrue(world.contains("Permission: `command`"), "permission badge rendered");
-        assertTrue(world.contains("MC: >=1.20.6"), "MC range badge rendered");
+        assertTrue(world.contains(":api-badges{ since=\"0.1.0\" permission=\"command\" experimental=\"true\"}"),
+                "experimental badge rendered");
+        assertTrue(world.contains(":api-badges{ since=\"0.1.0\" mc=\">=1.20.6\"}"),
+                "MC range badge rendered");
         assertFalse(world.contains("hiddenInternal"), "internal members stay hidden");
-        assertTrue(world.contains("(read-only)"), "read-only badge rendered");
+        assertTrue(world.contains(":api-badge{kind=\"readonly\"}"), "read-only badge rendered");
     }
 
     @Test
@@ -110,15 +111,15 @@ class DocsGenerationTest {
         String handle = read(outMd.outDir().resolve("api/classes/WorldHandle.md"));
         assertTrue(handle.contains("title: \"WorldHandle\""), "class page frontmatter rendered");
         assertTrue(handle.contains("description: \""), "class page description frontmatter rendered");
-        assertTrue(handle.contains("Handle · Wraps: `net.minecraft.world.fixture.World`"),
+        assertTrue(handle.contains("::api-declaration{ kind=\"handle\" name=\"WorldHandle\" wraps=\"net.minecraft.world.fixture.World\"}"),
                 "kind and wraps meta rendered");
-        assertTrue(handle.contains("Extended by: [`RegionHandle`](RegionHandle.html)"),
+        assertTrue(handle.contains("#extended-by\n[`RegionHandle`](RegionHandle.html)"),
                 "parent lists its subclasses");
         String region = read(outMd.outDir().resolve("api/classes/RegionHandle.md"));
-        assertTrue(region.contains("Extends: [`WorldHandle`](WorldHandle.html)"),
+        assertTrue(region.contains("#extends\n[`WorldHandle`](WorldHandle.html)"),
                 "subclass lists its parent");
         String info = read(outMd.outDir().resolve("api/classes/WorldInfo.md"));
-        assertTrue(info.contains("Data"), "data kind badge rendered");
+        assertTrue(info.contains("kind=\"data\""), "data kind badge rendered");
         String pos = read(outMd.outDir().resolve("api/classes/FixturePos.md"));
         assertTrue(pos.contains("Record type referenced in API signatures."),
                 "referenced record type page rendered");
@@ -127,9 +128,9 @@ class DocsGenerationTest {
     @Test
     void classPagesKeepEnglishTermsOnChinesePages() throws IOException {
         String zh = read(outMd.outDir().resolve("api/classes/WorldHandle.zh.md"));
-        assertTrue(zh.contains("Handle · Wraps: `net.minecraft.world.fixture.World`"),
+        assertTrue(zh.contains("::api-declaration{ kind=\"handle\" name=\"WorldHandle\" wraps=\"net.minecraft.world.fixture.World\"}"),
                 "kind and wraps terms stay English on the Chinese page");
-        assertTrue(zh.contains("Extended by: [`RegionHandle`](RegionHandle.html)"),
+        assertTrue(zh.contains("#extended-by\n[`RegionHandle`](RegionHandle.html)"),
                 "inheritance terms stay English on the Chinese page");
         assertTrue(zh.contains("fixture 世界的活引用句柄"), "translated body kept");
     }
@@ -138,15 +139,15 @@ class DocsGenerationTest {
     void standaloneClassPageRendered() throws IOException {
         String vec = read(outMd.outDir().resolve("api/classes/StandaloneVec.md"));
         assertTrue(vec.contains("title: \"StandaloneVec\""), "standalone class page rendered");
-        assertTrue(vec.contains("Data"), "data kind badge rendered");
+        assertTrue(vec.contains("kind=\"data\""), "data kind badge rendered");
     }
 
     @Test
     void eventPagesRendered() throws IOException {
         String marked = read(outMd.outDir().resolve("api/events/fixture-marked.md"));
         assertTrue(marked.contains("title: \"fixture:marked\""), "event page rendered");
-        assertTrue(marked.contains("Cancellable"), "cancellable badge rendered");
-        assertTrue(marked.contains("Since: 0.1.0"), "since badge rendered");
+        assertTrue(marked.contains("::api-event-header{ event=\"fixture:marked\" cancellable=\"true\" since=\"0.1.0\"}"),
+                "cancellable badge rendered");
         assertTrue(marked.contains("[`FixtureMarkedEvent`](../types/FixtureMarkedEvent.html)"),
                 "payload class link rendered");
         assertTrue(marked.contains("| `message` | `string` | the message carried by the event |"),
@@ -159,7 +160,7 @@ class DocsGenerationTest {
         assertTrue(marked.contains("[FixtureStamp](../classes/FixtureStamp.html)"),
                 "event-only record field links to its new page");
         String zh = read(outMd.outDir().resolve("api/events/fixture-marked.zh.md"));
-        assertTrue(zh.contains("Cancellable"), "cancellable badge stays English on the Chinese page");
+        assertTrue(zh.contains("cancellable=\"true\""), "cancellable badge stays English on the Chinese page");
         assertTrue(zh.contains("练习用的可取消事件描述符"), "translated body kept");
         assertTrue(zh.contains("| `message` | `string` | 事件携带的消息 |"),
                 "field description rendered from @zh-param");
@@ -169,10 +170,8 @@ class DocsGenerationTest {
     void eventTypePagesRendered() throws IOException {
         String cls = read(outMd.outDir().resolve("api/types/FixtureMarkedEvent.md"));
         assertTrue(cls.contains("title: \"FixtureMarkedEvent\""), "payload class page rendered");
-        assertTrue(cls.contains("Extends: [`BaseEvent`](BaseEvent.html)"),
-                "base class link rendered");
-        assertTrue(cls.contains("Raised by: [`fixture:marked`](../events/fixture/fixture-marked.html)"),
-                "raised-by link back to the event page rendered");
+        assertTrue(cls.contains("::api-type-header{ since=\"0.1.0\"}\n#extends\n[`BaseEvent`](BaseEvent.html)\n#raised-by\n[`fixture:marked`](../events/fixture/fixture-marked.html)"),
+                "extends and raised-by links rendered in the type header");
         assertTrue(cls.contains("| `severity` | `number` | the severity level of the event |"),
                 "field table rendered on the payload class page");
         String base = read(outMd.outDir().resolve("api/types/BaseEvent.md"));
@@ -183,13 +182,13 @@ class DocsGenerationTest {
     @Test
     void tsDefinitionsEmitClassDeclarations() throws IOException {
         String ts = read(outTs.outDir().resolve("types/neomacros.d.ts"));
-        assertTrue(ts.contains("export class WorldHandle"), "classes emitted as class declarations");
-        assertFalse(ts.contains("export interface WorldHandle"), "class form replaces interface form");
-        assertTrue(ts.contains("export class RegionHandle extends WorldHandle"),
+        assertTrue(ts.contains("interface WorldHandle"), "classes emitted as instance interfaces");
+        assertFalse(ts.contains("class WorldHandle"), "no global class values (entry is neo.<Name>)");
+        assertTrue(ts.contains("interface RegionHandle extends WorldHandle"),
                 "extends chain rendered");
-        assertTrue(ts.contains("export class WorldInfo"), "data kind is a class too");
-        assertTrue(ts.contains("export interface FixtureStamp"),
-                "records referenced only from events are defined in the types module");
+        assertTrue(ts.contains("interface WorldInfo"), "data kind renders the same way");
+        assertTrue(ts.contains("interface FixtureStamp"),
+                "records referenced only from events are defined in the global scope");
     }
 
     @Test
@@ -200,20 +199,26 @@ class DocsGenerationTest {
     }
 
     @Test
-    void tsDefinitionsOmitGlobalOnlyModule() throws IOException {
+    void tsDefinitionsDeclareGlobalRoot() throws IOException {
         String ts = read(outTs.outDir().resolve("types/neomacros.d.ts"));
-        assertTrue(ts.contains("declare module '@neomacros/partial'"), "global=false still a module");
-        assertFalse(ts.contains("partial: import("), "global=false stays out of neo");
-        assertTrue(ts.contains("declare const neo"), "global aggregate present");
+        assertTrue(ts.contains("interface NeoRoot"), "named root interface present");
+        assertTrue(ts.contains("declare const neo: NeoRoot;"), "global aggregate present");
+        assertTrue(ts.contains("    world: WorldApi;"), "module facade reachable on the root");
+        assertTrue(ts.contains("    partial: PartialApi;"), "every module hangs on the root");
+        assertTrue(ts.contains("    WorldHandle: { new(...args: any[]): WorldHandle; };"),
+                "root class entry carries a constructor face");
+        assertFalse(ts.contains("declare module '@neomacros/"),
+                "no importable module blocks are declared");
+        assertFalse(ts.contains("import("), "single scope needs no import-type qualification");
     }
 
     @Test
     void tsEventsFacadeDeclaresTypedEventMap() throws IOException {
         String ts = read(outTs.outDir().resolve("types/neomacros.d.ts"));
-        assertTrue(ts.contains("export interface EventPayloadMap"), "event name map emitted");
-        assertTrue(ts.contains("'fixture:marked': import('@neomacros/types').FixtureMarkedEvent;"),
+        assertTrue(ts.contains("interface EventPayloadMap"), "event name map emitted");
+        assertTrue(ts.contains("'fixture:marked': FixtureMarkedEvent;"),
                 "every event name declared with its payload class");
-        assertTrue(ts.contains("export type CancellableEvents ="), "cancellable name union emitted");
+        assertTrue(ts.contains("type CancellableEvents ="), "cancellable name union emitted");
         assertTrue(ts.contains("on<E extends keyof EventPayloadMap>(name: E, "
                         + "handler: (event: EventPayloadMap[E]) => unknown): unknown;"),
                 "on resolves payload types per known event name");
@@ -222,9 +227,11 @@ class DocsGenerationTest {
                 "onSync constrained to cancellable event names");
         assertTrue(ts.contains("waitFor<E extends keyof EventPayloadMap>(name: E): Promise<EventPayloadMap[E]>;"),
                 "waitFor resolves payload types per known event name");
-        assertTrue(ts.contains("on(name: string, handler: (event: import('@neomacros/types').BaseEvent) "
+        assertTrue(ts.contains("on(name: string, handler: (event: BaseEvent) "
                         + "=> unknown): unknown;"),
                 "string overload kept for wildcards and custom events");
+        assertTrue(ts.contains("    BaseEvent: { new(...args: any[]): BaseEvent; };"),
+                "event payloads hang on the neo root");
     }
 
     private static String read(Path file) throws IOException {

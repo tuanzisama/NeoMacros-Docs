@@ -19,9 +19,16 @@ export interface ApiLabels {
   payload: string
   raisedBy: string
   exposedAs: string
-  esmOnly: string
-  and: string
   kinds: Record<'handle' | 'data' | 'record' | 'event', string>
+  matrix: {
+    module: string
+    member: string
+    range: string
+    allTitle: string
+    partialTitle: string
+    unavailableTitle: string
+    empty: string
+  }
 }
 
 const EN: ApiLabels = {
@@ -39,9 +46,16 @@ const EN: ApiLabels = {
   payload: 'Payload',
   raisedBy: 'Raised by',
   exposedAs: 'Exposed as',
-  esmOnly: 'ES module only',
-  and: 'and',
   kinds: { handle: 'Handle', data: 'Data', record: 'Record', event: 'Event' },
+  matrix: {
+    module: 'Module',
+    member: 'Member',
+    range: 'Range',
+    allTitle: 'Available in this build',
+    partialTitle: 'Only some members are available in this build',
+    unavailableTitle: 'Not available in this build',
+    empty: 'No member carries a specific availability range — the whole API is available on every supported version.',
+  },
 }
 
 const ZH: ApiLabels = {
@@ -59,9 +73,16 @@ const ZH: ApiLabels = {
   payload: '载荷 (Paylaod)',
   raisedBy: '触发事件',
   exposedAs: '暴露为',
-  esmOnly: '仅 ES 模块',
-  and: '与',
   kinds: { handle: '句柄', data: '数据', record: '记录', event: '事件' },
+  matrix: {
+    module: '模块',
+    member: '成员',
+    range: '范围',
+    allTitle: '此构建上可用',
+    partialTitle: '此构建上仅部分成员可用',
+    unavailableTitle: '此构建上不可用',
+    empty: '当前没有带具体版本范围的成员——整个 API 在所有受支持的版本上都可用。',
+  },
 }
 
 export function useApiLabels() {

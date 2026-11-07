@@ -15,8 +15,8 @@ tags) of the [NeoMacros mod repository](https://github.com/tuanzisama/NeoMacros)
   carrying an `@ApiMC` range; MC versions are discovered from the mod
   repository's `versions/*` Stonecutter nodes (ascending)
 - `api/warnings.txt` — generation warnings (missing `@zh`, missing `@ApiSince`)
-- `types/neomacros.d.ts` — `declare module '@neomacros/*'` definitions and
-  the `neo` global object
+- `types/neomacros.d.ts` — the global-scope definitions (module facades,
+  root-level classes, and the `declare const neo` aggregate)
 
 Markdown and `.d.ts` consume the same `ApiModel` (the annotation-scan
 product). Generated artifacts must not be hand-edited; snapshot baselines

@@ -41,7 +41,7 @@ bash scripts/sync-generated-docs.sh
 
 生成的 API 树已加入 gitignore——任何构建站点的机器都要先执行上面的
 两条命令（CI 在构建前同样如此）。不要手改生成的 API 页——除手写的
-概述页外的一切都会在同步时被清空重建。
+概述页与释义页外的一切都会在同步时被清空重建。
 
 手写的按模块示例片段（`api-examples/<en,zh>/<module>.md`）由同步脚本
 以 `## Examples` 标题追加到生成的模块页尾部。
