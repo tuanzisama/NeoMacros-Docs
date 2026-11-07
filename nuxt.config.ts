@@ -26,8 +26,10 @@ export default defineNuxtConfig({
   routeRules: {
     '/en/api': { redirect: { to: '/en/api/overview' } },
     '/en/examples': { redirect: { to: '/en/examples/overview' } },
+    '/en/migration': { redirect: { to: '/en/migration/overview' } },
     '/zh-cn/api': { redirect: { to: '/zh-cn/api/overview' } },
     '/zh-cn/examples': { redirect: { to: '/zh-cn/examples/overview' } },
+    '/zh-cn/migration': { redirect: { to: '/zh-cn/migration/overview' } },
   },
 
   nitro: {

@@ -6,8 +6,9 @@ The documentation site for
 [NeoMacros](https://github.com/tuanzisama/NeoMacros), a client-side
 ECMAScript scripting mod for Minecraft (Fabric). Built with
 [Docus](https://docus.dev/) (Nuxt 4), bilingual English / 简体中文.
-Sections: guide, examples, and an API reference generated from the mod's
-annotated sources.
+Sections: guide, examples, an API reference generated from the mod's
+annotated sources, and a migration guide (JsMacros compat pack served from
+`public/downloads/jsmacros-compat.zip`).
 
 ## Development
 

@@ -4,8 +4,8 @@
 
 [NeoMacros](https://github.com/tuanzisama/NeoMacros)(面向 Minecraft
 客户端的 ECMAScript 脚本模组,Fabric)的文档站。基于
-[Docus](https://docus.dev/)(Nuxt 4)构建,中英双语。分区:指南、
-示例、以及从模组注解源码生成的 API 参考。
+[Docus](https://docus.dev/)(Nuxt 4)构建,中英双语。分区:指南、示例、从模组注解源码生成的 API 参考、迁移指南(JsMacros
+兼容层压缩包由 `public/downloads/jsmacros-compat.zip` 提供)。
 
 ## 本地开发
 
