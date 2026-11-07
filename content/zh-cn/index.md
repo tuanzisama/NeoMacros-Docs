@@ -104,7 +104,7 @@ HUD 覆盖层、任意自动化——全部沙箱化，由显式的权限模型�
     ::::u-page-card
     ---
     spotlight: true
-    to: /zh-cn/api/overview/version-matrix
+    to: /zh-cn/api/version-matrix
     ---
     #title
     一份代码，全版本支持

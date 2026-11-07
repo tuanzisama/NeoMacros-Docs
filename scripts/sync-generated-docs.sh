@@ -164,10 +164,15 @@ fix_module_links() {
 }
 
 # Event payload links are emitted relative to the old VitePress layout
-# (../types/<name>), which never resolved from the events/<domain>/ depth;
-# point them at the payload pages' home in Classes & types.
+# (../types/<name>) or to the api root (../classes/<name>) — neither ever
+# resolved from the events/<domain>/ depth; point them at the payload
+# pages' home in Classes & types. MDDoclet also emits sibling links
+# (classes/, events/, types/) — event pages sit at the same two-level
+# depth as module pages, so lift them the same way.
 fix_event_links() {
-  sed -E -i 's#]\(\.\./types/#](../../classes/#g' "$1"
+  sed -E -i -e 's#]\(\.\./types/#](../../classes/#g' \
+            -e 's#]\(\.\./classes/#](../../classes/#g' \
+            -e 's#]\((classes|events|types)/#](../../\1/#g' "$1"
 }
 
 # MDDoclet leads every page with an H1, but the Docus docs layout already

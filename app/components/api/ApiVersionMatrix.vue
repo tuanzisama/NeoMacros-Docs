@@ -34,6 +34,14 @@ const props = defineProps<{
 
 const { labels } = useApiLabels()
 
+// Java emits module hrefs relative to the api root ("modules/<domain>/<name>").
+// The anchor bypasses Content's link rewriting, so resolve it against the
+// current locale's api section here — otherwise a browser-relative href
+// breaks on the trailing-slash URL of the version-matrix page.
+const { locale } = useI18n()
+const moduleHref = (href: string) =>
+  href.startsWith('/') ? href : `/${locale.value.toLowerCase()}/api/${href}`
+
 const parsed = computed<MatrixData | null>(() => {
   if (!props.data) {
     return null
@@ -78,7 +86,7 @@ const rows = computed(() => {
       <tbody>
         <tr v-for="row in rows" :key="row.name" class="border-t border-(--ui-border)">
           <td class="sticky left-0 z-10 bg-(--ui-bg) px-3 py-2 whitespace-nowrap">
-            <a :href="row.href" class="font-mono font-medium text-(--ui-primary) hover:underline">{{ row.name }}</a>
+            <a :href="moduleHref(row.href)" class="font-mono font-medium text-(--ui-primary) hover:underline">{{ row.name }}</a>
           </td>
           <td
             v-for="(cell, index) in row.cells"

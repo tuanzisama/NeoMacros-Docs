@@ -109,7 +109,7 @@ sandboxed behind an explicit permission model.
     ::::u-page-card
     ---
     spotlight: true
-  to: /en/api/overview/version-matrix
+  to: /en/api/version-matrix
     ---
     #title
     One codebase, every version
