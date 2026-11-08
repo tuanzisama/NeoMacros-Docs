@@ -7,8 +7,9 @@ name: docs
 # integration is disconnected — this workflow is the only deploy path.
 #
 # Triggers: pushes touching the pipeline or site, manual dispatch, and
-# the `api-docs` repository_dispatch event sent by the mod repository's
-# docs-dispatch workflow when its API sources change.
+# the `api-docs` / `update-manifest` repository_dispatch events sent by
+# the mod repository's workflows (API-source pushes and channel publishes
+# respectively).
 on:
   push:
     branches: [master]
@@ -26,7 +27,7 @@ on:
       - "package-lock.json"
       - ".github/workflows/docs.yml"
   repository_dispatch:
-    types: [api-docs]
+    types: [api-docs, update-manifest]
   workflow_dispatch:
 
 # Deploys, but no longer writes to the repository.
@@ -95,6 +96,14 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      # The update-check manifest (public/update/updates.json) derives from
+      # the mod repo's GitHub releases; every deploy refreshes it so the
+      # dev/canary rolling tags stay current even without a fresh dispatch.
+      - name: Generate the update-check manifest
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/generate-updates.mjs
 
       # The site build doubles as validation: it fails when the synced
       # trees cannot produce a working site.
