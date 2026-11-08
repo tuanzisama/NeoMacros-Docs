@@ -49,6 +49,8 @@ interface WorldApi {
     readonly time: number;
     /** Marks a block highlight at the given position. @since 0.1.0 @mc >=1.20.6 */
     mark(pos: FixturePos): Promise<void>;
+    /** Sets the world time, optionally interpolating over the given ticks. @since 0.1.0 */
+    setTime(ticks: number, interpolation?: number): void;
     /** Watches chat messages through the given listener. @since 0.1.0 @experimental @requires permission 'command' */
     watch(listener: (message: string) => void): void;
 }

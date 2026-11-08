@@ -50,18 +50,24 @@ public record ApiModel(List<ModuleModel> modules, List<EventModel> events,
             String doc, Map<String, String> paramDocs, String returnDoc, String zhDoc,
             Map<String, String> zhParamDocs, String zhReturnDoc, String zhExample,
             String since, String mc, String loader, String permission,
-            boolean experimental) {
+            boolean experimental, Map<String, String> paramDefaults) {
     }
 
-    /** Method parameter; {@code optional} marks parameters a script may omit
-     * and {@code varargs} marks a Java varargs tail parameter. */
-    public record ParameterModel(String name, String type, boolean optional, boolean varargs) {
+    /** Method parameter; {@code optional} marks parameters a script may omit,
+     * {@code varargs} marks a Java varargs tail parameter, and
+     * {@code defaultValue} carries the {@code @default} tag value or null. */
+    public record ParameterModel(String name, String type, boolean optional, boolean varargs,
+            String defaultValue) {
         public ParameterModel(String name, String type) {
-            this(name, type, false, false);
+            this(name, type, false, false, null);
         }
 
         public ParameterModel(String name, String type, boolean optional) {
-            this(name, type, optional, false);
+            this(name, type, optional, false, null);
+        }
+
+        public ParameterModel(String name, String type, boolean optional, boolean varargs) {
+            this(name, type, optional, varargs, null);
         }
     }
 

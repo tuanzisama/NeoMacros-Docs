@@ -451,10 +451,10 @@ public class MDDoclet implements Doclet {
         sb.append("| `type` | `string` | ").append(zh ? "事件名，如 `chat:receive`。" : "Event name, e.g. `chat:receive`.").append(" |\n");
         sb.append("| `timestamp` | `number` | ").append(zh ? "事件分发时的毫秒时间戳。" : "Dispatch time in epoch milliseconds.").append(" |\n");
         sb.append("| `cancellable` | `boolean` | ").append(zh ? "本事件是否可取消。" : "Whether this event is cancellable.").append(" |\n");
-        sb.append("\n## Methods\n\n### `toJSON()`\n\n");
+        sb.append("\n## Methods\n\n::api-method\n\n### `toJSON()`\n\n");
         sb.append(zh ? "返回事件的普通对象形式，可直接 `JSON.stringify`。"
                      : "Plain-object form of the event so `JSON.stringify` renders it directly.");
-        sb.append("\n\n");
+        sb.append("\n\n::\n\n");
         return sb.toString();
     }
 
@@ -537,21 +537,33 @@ public class MDDoclet implements Doclet {
         }
         sb.append("## Methods\n\n");
         for (ApiModel.MethodModel method : methods) {
-            sb.append("### `").append(method.name()).append("(");
-            sb.append(joinParameters(method));
-            sb.append(")`\n\n");
+            // One card per method: the ApiMethod MDC block component draws
+            // the signature strip and footer, and keeps the h3 a real
+            // heading for the TOC and anchor links.
+            sb.append("::api-method\n\n");
+            // The strip carries the bare method name; parameter detail lives
+            // in the table below.
+            sb.append("### `").append(method.name()).append("`\n\n");
             sb.append(text(method.doc(), method.zhDoc(), zh)).append("\n\n");
             if (!method.parameters().isEmpty()) {
-                sb.append("**Parameters**\n\n");
+                sb.append("| ").append(zh ? "参数" : "Parameter")
+                        .append(" | ").append(zh ? "类型" : "Type")
+                        .append(" | ").append(zh ? "说明" : "Description")
+                        .append(" | ").append(zh ? "可选" : "Optional")
+                        .append(" | ").append(zh ? "默认" : "Default")
+                        .append(" |\n");
+                sb.append("| --- | --- | --- | --- | --- |\n");
                 for (ApiModel.ParameterModel parameter : method.parameters()) {
-                    sb.append("- `").append(parameter.name()).append("` ").append(
-                            linkType(parameter.type(), linkTargets)
-                    ).append(": ").append(method.paramDocs().getOrDefault(parameter.name(),
-                            method.zhParamDocs().getOrDefault(parameter.name(), "")));
-                    if (parameter.optional()) {
-                        sb.append(zh ? "（可选，缺省按方法说明取默认值）" : " (optional, defaults per the method description)");
-                    }
-                    sb.append("\n");
+                    String description = method.paramDocs().getOrDefault(parameter.name(),
+                            method.zhParamDocs().getOrDefault(parameter.name(), ""));
+                    String defaultValue = method.paramDefaults().get(parameter.name());
+                    sb.append("| `").append(parameter.varargs() ? "..." : "")
+                            .append(parameter.name()).append("` | ")
+                            .append(linkType(parameter.type(), linkTargets)).append(" | ")
+                            .append(escapeTableCell(description)).append(" | ")
+                            .append(parameter.optional() ? "✓" : "—").append(" | ")
+                            .append(defaultValue == null ? "—" : "`" + escapeTableCell(defaultValue) + "`")
+                            .append(" |\n");
                 }
                 sb.append("\n");
             }
@@ -577,21 +589,14 @@ public class MDDoclet implements Doclet {
             if (zh && !method.zhExample().isEmpty()) {
                 sb.append("**Example**\n\n```js\n").append(method.zhExample()).append("\n```\n\n");
             }
+            sb.append("::\n\n");
         }
     }
 
-    private static String joinParameters(ApiModel.MethodModel method) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < method.parameters().size(); i++) {
-            if (i > 0) {
-                sb.append(", ");
-            }
-            ApiModel.ParameterModel parameter = method.parameters().get(i);
-            sb.append(parameter.varargs() ? "..." : "")
-                    .append(parameter.name()).append(parameter.optional() ? "?" : "")
-                    .append(": ").append(parameter.type());
-        }
-        return sb.toString();
+    /** Escapes pipe characters in table cell content so type unions and
+     * prose cannot break the markdown table row. */
+    private static String escapeTableCell(String value) {
+        return value.replace("|", "\\|");
     }
 
     /**
@@ -601,36 +606,43 @@ public class MDDoclet implements Doclet {
      * generics like {@code Promise<void>} render verbatim; bare code spans
      * are skipped when nothing links.
      */
+    /**
+     * Renders one type expression. Types referencing a documented page come
+     * out as an {@code :api-type} inline component (ApiType.vue draws the
+     * whole expression as a single code capsule with the referenced names
+     * clickable inside); plain expressions stay a code span. The refs paths
+     * are final, api-root-relative and lowercase — every referenced page
+     * (classes and event payloads alike) lives under Classes & types at
+     * classes/<lowercase>, and ApiType.vue prepends locale and /api base, so
+     * the sync script's markdown-link rewrites don't apply here. Pipes are
+     * escaped in the text because the markdown table parser splits cells on
+     * unescaped ones.
+     */
     private static String linkType(String type, Map<String, String> linkTargets) {
         if (type == null || type.isEmpty()) {
             return "`" + type + "`";
         }
         var matcher = java.util.regex.Pattern.compile("[A-Z][A-Za-z0-9]+").matcher(type);
-        var out = new StringBuilder();
-        int last = 0;
-        boolean linked = false;
+        StringBuilder refs = new StringBuilder();
         while (matcher.find()) {
             String word = matcher.group();
-            String prefix = linkTargets.get(word);
-            if (prefix != null) {
-                String before = type.substring(last, matcher.start());
-                if (!before.isEmpty()) {
-                    out.append("`").append(before).append("`");
+            if (linkTargets.containsKey(word)) {
+                if (refs.length() > 0) {
+                    refs.append(',');
                 }
-                out.append("[").append(word).append("](")
-                        .append(prefix).append(word).append(".html)");
-                last = matcher.end();
-                linked = true;
+                refs.append(word).append("=classes/")
+                        .append(word.toLowerCase(java.util.Locale.ROOT));
             }
         }
-        if (!linked) {
+        if (refs.isEmpty()) {
             return "`" + type + "`";
         }
-        String remaining = type.substring(last);
-        if (!remaining.isEmpty()) {
-            out.append("`").append(remaining).append("`");
-        }
-        return out.toString();
+        // Single-quoted attribute values: type expressions routinely carry
+        // double-quoted string literal types (command.arg's Record<"...">),
+        // and the remark-mdc lexer ends a quoted value at the first matching
+        // quote — no backslash escapes outside bind attributes (the same
+        // single-quote trick carries the JSON in :api-version-matrix).
+        return ":api-type{text='" + type.replace("|", "\\|") + "' refs='" + refs + "'}";
     }
 
     /** Picks the translation for the current view, falling back to English. */

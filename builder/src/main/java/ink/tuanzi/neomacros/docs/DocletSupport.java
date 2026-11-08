@@ -165,6 +165,26 @@ final class DocletSupport {
         return out;
     }
 
+    /** Returns @default name-to-value entries; the name is the first
+     * whitespace token and the rest is the parameter's default value. */
+    static Map<String, String> paramDefaults(DocCommentTree tree) {
+        Map<String, String> out = new LinkedHashMap<>();
+        if (tree == null) {
+            return out;
+        }
+        for (DocTree tag : tree.getBlockTags()) {
+            if (tag instanceof UnknownBlockTagTree blockTag
+                    && "default".contentEquals(blockTag.getTagName())) {
+                String text = normalize(flattenNodes(blockTag.getContent()));
+                int split = text.indexOf(' ');
+                if (split > 0) {
+                    out.put(text.substring(0, split), text.substring(split + 1).trim());
+                }
+            }
+        }
+        return out;
+    }
+
     /** Returns the @return description, or empty when absent. */
     static Optional<String> returnDoc(DocCommentTree tree) {
         if (tree == null) {

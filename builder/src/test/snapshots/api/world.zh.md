@@ -17,13 +17,15 @@ description: "练习完整注解集与完整双语文档的 fixture 模块：类
 
 ## Methods
 
-### `mark(pos: FixturePos)`
+::api-method
+
+### `mark`
 
 在指定位置放置方块高亮。
 
-**Parameters**
-
-- `pos` [FixturePos](classes/FixturePos.html): the block position to mark
+| 参数 | 类型 | 说明 | 可选 | 默认 |
+| --- | --- | --- | --- | --- |
+| `pos` | :api-type{text='FixturePos' refs='FixturePos=classes/fixturepos'} | the block position to mark | — | — |
 
 **Returns** `Promise<void>` — 高亮放置完成后兑现的 Promise
 
@@ -35,13 +37,34 @@ description: "练习完整注解集与完整双语文档的 fixture 模块：类
 world.mark(new Pos3d(1, 64, 1));
 ```
 
-### `watch(listener: (message: string) => void)`
+::
+
+::api-method
+
+### `setTime`
+
+设置世界时间，可选地在给定 tick 数内插值过渡。
+
+| 参数 | 类型 | 说明 | 可选 | 默认 |
+| --- | --- | --- | --- | --- |
+| `ticks` | `number` | the target time in ticks | — | — |
+| `interpolation` | `number` | ticks to interpolate over | ✓ | `10` |
+
+:api-badges{ since="0.1.0"}
+
+::
+
+::api-method
+
+### `watch`
 
 通过监听器观察聊天消息。
 
-**Parameters**
-
-- `listener` `(message: string) => void`: callback invoked for each message
+| 参数 | 类型 | 说明 | 可选 | 默认 |
+| --- | --- | --- | --- | --- |
+| `listener` | `(message: string) => void` | callback invoked for each message | — | — |
 
 :api-badges{ since="0.1.0" permission="command" experimental="true"}
+
+::
 

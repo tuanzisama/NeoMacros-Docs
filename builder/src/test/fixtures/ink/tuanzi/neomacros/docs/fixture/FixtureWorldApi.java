@@ -3,6 +3,7 @@ package ink.tuanzi.neomacros.docs.fixture;
 import ink.tuanzi.neomacros.doc.api.ApiClass;
 import ink.tuanzi.neomacros.doc.api.ApiClassKind;
 import ink.tuanzi.neomacros.doc.api.ApiExperimental;
+import ink.tuanzi.neomacros.doc.api.ApiOptional;
 import ink.tuanzi.neomacros.doc.api.ApiInternal;
 import ink.tuanzi.neomacros.doc.api.ApiMC;
 import ink.tuanzi.neomacros.doc.api.ApiModule;
@@ -53,6 +54,20 @@ public final class FixtureWorldApi {
     @ApiMC(">=1.20.6")
     public CompletableFuture<Void> mark(FixturePos pos) {
         return CompletableFuture.completedFuture(null);
+    }
+
+    /**
+     * Sets the world time, optionally interpolating over the given ticks.
+     *
+     * @param ticks the target time in ticks
+     * @param interpolation ticks to interpolate over
+     * @default interpolation 10
+     * @zh 设置世界时间，可选地在给定 tick 数内插值过渡。
+     * @zh-param ticks 目标时间（tick）
+     * @zh-param interpolation 插值过渡的 tick 数
+     */
+    @ApiSince("0.1.0")
+    public void setTime(long ticks, @ApiOptional int interpolation) {
     }
 
     /**

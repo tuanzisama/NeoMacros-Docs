@@ -44,7 +44,8 @@ final class GenerationHarness {
                 "-tag", "zh:a",
                 "-tag", "zh-param:a",
                 "-tag", "zh-return:a",
-                "-tag", "zh-example:a");
+                "-tag", "zh-example:a",
+                "-tag", "default:a");
 
         try (StandardJavaFileManager fm = tool.getStandardFileManager(diagnostics::add,
                 Locale.ROOT, StandardCharsets.UTF_8)) {

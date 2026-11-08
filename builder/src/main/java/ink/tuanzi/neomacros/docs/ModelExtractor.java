@@ -196,7 +196,8 @@ final class ModelExtractor {
                         DocletSupport.mcOf(method),
                         DocletSupport.loaderOf(method),
                         DocletSupport.permissionOf(method),
-                        DocletSupport.experimentalOf(method)));
+                        DocletSupport.experimentalOf(method),
+                        DocletSupport.paramDefaults(memberComment)));
                 collectReferenced(method.getReturnType(), referenced);
                 method.getParameters().forEach(p -> collectReferenced(p.asType(), referenced));
             }
@@ -285,7 +286,8 @@ final class ModelExtractor {
                         DocletSupport.mcOf(method),
                         DocletSupport.loaderOf(method),
                         DocletSupport.permissionOf(method),
-                        DocletSupport.experimentalOf(method)));
+                        DocletSupport.experimentalOf(method),
+                        DocletSupport.paramDefaults(memberComment)));
                 collectReferenced(method.getReturnType(), referenced);
                 method.getParameters().forEach(p -> collectReferenced(p.asType(), referenced));
             }

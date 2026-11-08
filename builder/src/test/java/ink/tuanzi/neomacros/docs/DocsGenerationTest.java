@@ -152,12 +152,12 @@ class DocsGenerationTest {
                 "payload class link rendered");
         assertTrue(marked.contains("| `message` | `string` | the message carried by the event |"),
                 "field description rendered from @param");
-        assertTrue(marked.contains("[FixturePos](../classes/FixturePos.html)"),
+        assertTrue(marked.contains(":api-type{text='FixturePos' refs='FixturePos=classes/fixturepos'}"),
                 "record-typed field links to its class page");
         String stamp = read(outMd.outDir().resolve("api/classes/FixtureStamp.md"));
         assertTrue(stamp.contains("Record type referenced in API signatures."),
                 "record referenced only from an event gets its own page");
-        assertTrue(marked.contains("[FixtureStamp](../classes/FixtureStamp.html)"),
+        assertTrue(marked.contains(":api-type{text='FixtureStamp' refs='FixtureStamp=classes/fixturestamp'}"),
                 "event-only record field links to its new page");
         String zh = read(outMd.outDir().resolve("api/events/fixture-marked.zh.md"));
         assertTrue(zh.contains("cancellable=\"true\""), "cancellable badge stays English on the Chinese page");

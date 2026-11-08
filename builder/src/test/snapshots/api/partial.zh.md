@@ -7,7 +7,9 @@ description: "Fixture module exercising the generation warning paths: no @zh mod
 
 ## Methods
 
-### `tagged()`
+::api-method
+
+### `tagged`
 
 返回完整文档化的值。
 
@@ -15,13 +17,19 @@ description: "Fixture module exercising the generation warning paths: no @zh mod
 
 :api-badges{ since="0.1.0"}
 
-### `untagged(input: string)`
+::
+
+::api-method
+
+### `untagged`
 
 Returns a value whose member lacks translation and version annotation.
 
-**Parameters**
-
-- `input` `string`: the input value
+| 参数 | 类型 | 说明 | 可选 | 默认 |
+| --- | --- | --- | --- | --- |
+| `input` | `string` | the input value | — | — |
 
 **Returns** `string` — the untouched input
+
+::
 

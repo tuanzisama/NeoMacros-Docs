@@ -7,7 +7,9 @@ description: "Fixture module exercising the generation warning paths: no @zh mod
 
 ## Methods
 
-### `tagged()`
+::api-method
+
+### `tagged`
 
 Returns a fully documented value.
 
@@ -15,13 +17,19 @@ Returns a fully documented value.
 
 :api-badges{ since="0.1.0"}
 
-### `untagged(input: string)`
+::
+
+::api-method
+
+### `untagged`
 
 Returns a value whose member lacks translation and version annotation.
 
-**Parameters**
-
-- `input` `string`: the input value
+| Parameter | Type | Description | Optional | Default |
+| --- | --- | --- | --- | --- |
+| `input` | `string` | the input value | — | — |
 
 **Returns** `string` — the untouched input
+
+::
 
