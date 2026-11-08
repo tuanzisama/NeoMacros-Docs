@@ -516,7 +516,7 @@ public class TSDoclet implements Doclet {
             if (entry.getValue() != null) {
                 sb.append(entry.getValue());
             } else {
-                sb.append("{ new(...args: any[]): ").append(entry.getKey()).append("; }");
+                sb.append("{ new(...args: unknown[]): ").append(entry.getKey()).append("; }");
             }
             sb.append(";\n");
         }

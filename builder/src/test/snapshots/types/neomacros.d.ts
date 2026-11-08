@@ -116,12 +116,12 @@ interface NeoRoot {
     events: EventsApi;
     partial: PartialApi;
     world: WorldApi;
-    RegionHandle: { new(...args: any[]): RegionHandle; };
-    WorldHandle: { new(...args: any[]): WorldHandle; };
-    WorldInfo: { new(...args: any[]): WorldInfo; };
-    StandaloneVec: { new(...args: any[]): StandaloneVec; };
-    BaseEvent: { new(...args: any[]): BaseEvent; };
-    FixtureMarkedEvent: { new(...args: any[]): FixtureMarkedEvent; };
+    RegionHandle: { new(...args: unknown[]): RegionHandle; };
+    WorldHandle: { new(...args: unknown[]): WorldHandle; };
+    WorldInfo: { new(...args: unknown[]): WorldInfo; };
+    StandaloneVec: { new(...args: unknown[]): StandaloneVec; };
+    BaseEvent: { new(...args: unknown[]): BaseEvent; };
+    FixtureMarkedEvent: { new(...args: unknown[]): FixtureMarkedEvent; };
 }
 
 declare const neo: NeoRoot;

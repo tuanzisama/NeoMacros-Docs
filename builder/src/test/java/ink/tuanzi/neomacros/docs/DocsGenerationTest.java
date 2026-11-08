@@ -205,7 +205,7 @@ class DocsGenerationTest {
         assertTrue(ts.contains("declare const neo: NeoRoot;"), "global aggregate present");
         assertTrue(ts.contains("    world: WorldApi;"), "module facade reachable on the root");
         assertTrue(ts.contains("    partial: PartialApi;"), "every module hangs on the root");
-        assertTrue(ts.contains("    WorldHandle: { new(...args: any[]): WorldHandle; };"),
+        assertTrue(ts.contains("    WorldHandle: { new(...args: unknown[]): WorldHandle; };"),
                 "root class entry carries a constructor face");
         assertFalse(ts.contains("declare module '@neomacros/"),
                 "no importable module blocks are declared");
@@ -230,7 +230,7 @@ class DocsGenerationTest {
         assertTrue(ts.contains("on(name: string, handler: (event: BaseEvent) "
                         + "=> void): unknown;"),
                 "string overload kept for wildcards and custom events");
-        assertTrue(ts.contains("    BaseEvent: { new(...args: any[]): BaseEvent; };"),
+        assertTrue(ts.contains("    BaseEvent: { new(...args: unknown[]): BaseEvent; };"),
                 "event payloads hang on the neo root");
     }
 
