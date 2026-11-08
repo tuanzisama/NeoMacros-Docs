@@ -57,7 +57,7 @@ Keypress macro:
 config:
   keypress:
     on: keydown              # keydown / keyup / keypress (default)
-    default-key: key.keyboard.j
+    key_code: key.keyboard.j
     modifiers: [ctrl]        # optional: ctrl / shift / alt
 ```
 

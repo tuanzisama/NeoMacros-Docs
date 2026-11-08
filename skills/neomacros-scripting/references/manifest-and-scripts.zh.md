@@ -57,11 +57,11 @@ config:
 config:
   keypress:
     on: keydown              # keydown / keyup / keypress(默认)
-    default-key: key.keyboard.j
+    key_code: key.keyboard.j
     modifiers: [ctrl]        # 可选:ctrl / shift / alt
 ```
 
-`default-key` 只是初始绑定建议,不锁定。
+`key_code` 只是初始绑定建议,不锁定。
 
 ## 入口导出
 
