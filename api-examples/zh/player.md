@@ -9,8 +9,8 @@ if (player.self) {
 }
 
 // The container screen currently open, if any
-if (player.opened) {
-  const pearls = player.opened.countOf('ender_pearl'); // namespace optional
-  if (pearls > 0) player.opened.close(); // close it from the script
+if (player.inventory) {
+  const pearls = player.inventory.countOf('ender_pearl'); // namespace optional
+  if (pearls > 0) player.inventory.close(); // close it from the script
 }
 ```
