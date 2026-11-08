@@ -95,6 +95,8 @@ tasks.register<JavaExec>("generateApiDocs") {
 
     inputs.dir(modRoot.resolve("core/src/main/java/ink/tuanzi/neomacros/core/api"))
     inputs.dir(modRoot.resolve("ports/src/main/java/ink/tuanzi/neomacros/port"))
+    inputs.files(modRoot.resolve("core/src/main/java/ink/tuanzi/neomacros/core/event/Subscription.java"))
+    inputs.files(modRoot.resolve("core/src/main/java/ink/tuanzi/neomacros/core/runtime/TimerHandle.java"))
     outputs.dir(mdOut)
     outputs.dir(tsOut)
 }

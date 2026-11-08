@@ -1,5 +1,6 @@
 package ink.tuanzi.neomacros.docs;
 
+import com.sun.source.doctree.DocCommentTree;
 import com.sun.source.util.DocTrees;
 import ink.tuanzi.neomacros.doc.api.ApiClass;
 import ink.tuanzi.neomacros.doc.api.ApiEvent;
@@ -15,7 +16,6 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.ElementFilter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -41,6 +41,7 @@ final class ModelExtractor {
         List<ApiModel.EventModel> events = new ArrayList<>();
         List<ApiModel.ClassModel> standaloneClasses = new ArrayList<>();
         Map<String, ApiModel.TypeModel> eventReferenced = new TreeMap<>();
+        Map<String, ApiModel.TypeModel> standaloneReferenced = new TreeMap<>();
         List<String> warnings = new ArrayList<>();
 
         Set<TypeElement> types = typesIn(env);
@@ -63,7 +64,9 @@ final class ModelExtractor {
                 boolean nestedInFacade = enclosing != null
                         && enclosing.getAnnotation(ink.tuanzi.neomacros.doc.api.ApiModule.class) != null;
                 if (!nestedInFacade) {
-                    standaloneClasses.add(standaloneClassModel(type, apiClass, trees, warnings));
+                    standaloneClasses.add(standaloneClassModel(type, apiClass, trees,
+                            standaloneReferenced, standaloneClasses, warnings,
+                            DocletSupport.sinceOf(type)));
                 }
             }
         }
@@ -73,80 +76,47 @@ final class ModelExtractor {
         standaloneClasses.sort(java.util.Comparator.comparing(ApiModel.ClassModel::name));
         List<ApiModel.TypeModel> eventReferencedList = new ArrayList<>(eventReferenced.values());
         eventReferencedList.sort(java.util.Comparator.comparing(ApiModel.TypeModel::name));
+        List<ApiModel.TypeModel> standaloneReferencedList = new ArrayList<>(standaloneReferenced.values());
+        standaloneReferencedList.sort(java.util.Comparator.comparing(ApiModel.TypeModel::name));
         warnings.sort(String::compareTo);
         return new ApiModel(List.copyOf(modules), List.copyOf(events),
                 List.copyOf(standaloneClasses), List.copyOf(eventReferencedList),
-                List.copyOf(warnings));
+                List.copyOf(standaloneReferencedList), List.copyOf(warnings));
     }
 
-    /** Extracts a standalone (non-facade-nested) @ApiClass into a full ClassModel. */
+    /** Extracts a standalone (non-facade-nested) @ApiClass into a full
+     * ClassModel; nested @ApiClass members join the standalone class list and
+     * referenced records feed the standalone referenced-type set. */
     private static ApiModel.ClassModel standaloneClassModel(TypeElement type,
-            ApiClass apiClass, DocTrees trees, List<String> warnings) {
+            ApiClass apiClass, DocTrees trees,
+            Map<String, ApiModel.TypeModel> referenced,
+            List<ApiModel.ClassModel> nestedOut, List<String> warnings,
+            String fallbackSince) {
         var comment = trees.getDocCommentTree(type);
         var zhBody = DocletSupport.zhBody(comment);
         if (zhBody.isEmpty()) {
             warnings.add(apiClass.name() + ": standalone class has no @zh docs");
         }
-        List<ApiModel.PropertyModel> properties = new ArrayList<>();
-        List<ApiModel.MethodModel> methods = new ArrayList<>();
         for (var member : type.getEnclosedElements()) {
-            if (member.getKind() != javax.lang.model.element.ElementKind.METHOD
-                    || !member.getModifiers().contains(javax.lang.model.element.Modifier.PUBLIC)
-                    || DocletSupport.internalOf(member)) {
-                continue;
-            }
-            var exec = (javax.lang.model.element.ExecutableElement) member;
-            var mc = trees.getDocCommentTree(exec);
-            String since = DocletSupport.sinceOf(exec);
-            if (DocletSupport.isBeanGetter(exec)) {
-                String prop = DocletSupport.propertyName(exec);
-                properties.add(new ApiModel.PropertyModel(
-                        prop,
-                        DocletSupport.returnTypeOf(exec),
-                        DocletSupport.docBody(mc),
-                        DocletSupport.zhBody(mc).orElse(""),
-                        DocletSupport.readOnlyOf(exec),
-                        since != null ? since : DocletSupport.sinceOf(type),
-                        DocletSupport.mcOf(exec),
-                        DocletSupport.loaderOf(exec),
-                        DocletSupport.permissionOf(exec),
-                        DocletSupport.experimentalOf(exec)));
-            } else {
-                methods.add(new ApiModel.MethodModel(
-                        exec.getSimpleName().toString(),
-                        DocletSupport.parametersOf(exec),
-                        DocletSupport.returnTypeOf(exec),
-                        DocletSupport.docBody(mc),
-                        DocletSupport.paramDocs(mc),
-                        DocletSupport.returnDoc(mc).orElse(""),
-                        DocletSupport.zhBody(mc).orElse(""),
-                        DocletSupport.zhParamDocs(mc),
-                        DocletSupport.zhReturnDoc(mc).orElse(""),
-                        DocletSupport.zhExample(mc).orElse(""),
-                        since != null ? since : DocletSupport.sinceOf(type),
-                        DocletSupport.mcOf(exec),
-                        DocletSupport.loaderOf(exec),
-                        DocletSupport.permissionOf(exec),
-                        DocletSupport.experimentalOf(exec)));
+            if (member instanceof TypeElement nestedType
+                    && DocletSupport.classOf(nestedType) != null) {
+                nestedOut.add(classModel(nestedType, DocletSupport.classOf(nestedType),
+                        trees, referenced, warnings, apiClass.name(), null));
             }
         }
-        properties.sort(java.util.Comparator.comparing(ApiModel.PropertyModel::name));
-        methods.sort(java.util.Comparator.comparing(ApiModel.MethodModel::name));
-        String parent = extendsNameOf(type);
-        return new ApiModel.ClassModel(
-                apiClass.name(), apiClass.kind(), apiClass.wraps(), parent,
-                DocletSupport.docBody(comment), zhBody.orElse(""),
-                List.copyOf(properties), List.copyOf(methods));
+        return classModel(type, apiClass, trees, referenced, warnings, null, fallbackSince);
     }
 
     /** Collects the class and record types included in this documentation run, deduplicated. */
     private static Set<TypeElement> typesIn(DocletEnvironment env) {
         Map<TypeElement, Boolean> seen = new LinkedHashMap<>();
+        // Only explicitly specified types enter the model: expanding package
+        // elements would drag every sibling source into resolution (the
+        // event package alone transitively requires snakeyaml and the whole
+        // module tree), breaking the standalone source list.
         for (Element element : env.getIncludedElements()) {
             switch (element.getKind()) {
                 case CLASS, RECORD, INTERFACE, ENUM -> seen.put((TypeElement) element, true);
-                case PACKAGE -> ElementFilter.typesIn(element.getEnclosedElements())
-                        .forEach(t -> seen.put(t, true));
                 default -> {
                 }
             }
@@ -178,7 +148,7 @@ final class ModelExtractor {
                 var apiClass = DocletSupport.classOf(nested);
                 if (apiClass != null) {
                     classes.add(classModel(nested, apiClass, trees, referenced, warnings,
-                            module.name()));
+                            module.name(), null));
                 }
                 continue;
             }
@@ -251,11 +221,16 @@ final class ModelExtractor {
                                                   ApiClass apiClass,
                                                   DocTrees trees,
                                                   Map<String, ApiModel.TypeModel> referenced,
-                                                  List<String> warnings, String moduleName) {
+                                                  List<String> warnings, String moduleName,
+                                                  String fallbackSince) {
         var comment = trees.getDocCommentTree(type);
         var zhBody = DocletSupport.zhBody(comment);
         if (zhBody.isEmpty()) {
             warnings.add(moduleName + "." + apiClass.name() + ": class has no @zh docs");
+        }
+        if (type.getKind() == ElementKind.RECORD) {
+            return recordClassModel(type, apiClass, trees, comment, zhBody.orElse(""),
+                    referenced, moduleName, fallbackSince);
         }
         List<ApiModel.PropertyModel> properties = new ArrayList<>();
         List<ApiModel.MethodModel> methods = new ArrayList<>();
@@ -266,10 +241,15 @@ final class ModelExtractor {
                 continue;
             }
             ExecutableElement method = (ExecutableElement) member;
+            if (isObjectProtocol(method)) {
+                continue;
+            }
             var memberComment = trees.getDocCommentTree(method);
+            String since = DocletSupport.sinceOf(method) != null
+                    ? DocletSupport.sinceOf(method) : fallbackSince;
             if (DocletSupport.isBeanGetter(method)) {
                 String prop = DocletSupport.propertyName(method);
-                if (DocletSupport.zhBody(memberComment).isEmpty()) {
+                if (moduleName != null && DocletSupport.zhBody(memberComment).isEmpty()) {
                     warnings.add(moduleName + "." + apiClass.name() + "." + prop
                             + ": property has no @zh docs");
                 }
@@ -279,14 +259,14 @@ final class ModelExtractor {
                         DocletSupport.docBody(memberComment),
                         DocletSupport.zhBody(memberComment).orElse(""),
                         DocletSupport.readOnlyOf(method),
-                        DocletSupport.sinceOf(method),
+                        since,
                         DocletSupport.mcOf(method),
                         DocletSupport.loaderOf(method),
                         DocletSupport.permissionOf(method),
                         DocletSupport.experimentalOf(method)));
                 collectReferenced(method.getReturnType(), referenced);
             } else {
-                if (DocletSupport.zhBody(memberComment).isEmpty()) {
+                if (moduleName != null && DocletSupport.zhBody(memberComment).isEmpty()) {
                     warnings.add(moduleName + "." + apiClass.name() + "." + method.getSimpleName()
                             + ": method has no @zh docs");
                 }
@@ -301,7 +281,7 @@ final class ModelExtractor {
                         DocletSupport.zhParamDocs(memberComment),
                         DocletSupport.zhReturnDoc(memberComment).orElse(""),
                         DocletSupport.zhExample(memberComment).orElse(""),
-                        DocletSupport.sinceOf(method),
+                        since,
                         DocletSupport.mcOf(method),
                         DocletSupport.loaderOf(method),
                         DocletSupport.permissionOf(method),
@@ -315,6 +295,64 @@ final class ModelExtractor {
         return new ApiModel.ClassModel(apiClass.name(), apiClass.kind(), apiClass.wraps(),
                 extendsNameOf(type), DocletSupport.docBody(comment),
                 zhBody.orElse(""), List.copyOf(properties), List.copyOf(methods));
+    }
+
+    /** Renders an {@code @ApiClass} record as a field interface: record
+     * components become read-only properties (honoring {@code @ApiType}
+     * overrides and {@code @ApiOptional}), described by the record's
+     * {@code @param}/{@code @zh-param} tags. */
+    private static ApiModel.ClassModel recordClassModel(TypeElement type,
+                                                        ApiClass apiClass,
+                                                        DocTrees trees,
+                                                        DocCommentTree comment,
+                                                        String zhDoc,
+                                                        Map<String, ApiModel.TypeModel> referenced,
+                                                        String moduleName,
+                                                        String fallbackSince) {
+        Map<String, String> paramDocs = DocletSupport.paramDocs(comment);
+        Map<String, String> zhParamDocs = DocletSupport.zhParamDocs(comment);
+        List<ApiModel.PropertyModel> properties = new ArrayList<>();
+        for (Element component : type.getEnclosedElements()) {
+            if (component.getKind() != ElementKind.RECORD_COMPONENT) {
+                continue;
+            }
+            VariableElement variable = (VariableElement) component;
+            String name = variable.getSimpleName().toString();
+            properties.add(new ApiModel.PropertyModel(
+                    name,
+                    DocletSupport.recordComponentType(type, variable),
+                    paramDocs.getOrDefault(name, ""),
+                    zhParamDocs.getOrDefault(name, ""),
+                    true,
+                    DocletSupport.sinceOf(type) != null
+                            ? DocletSupport.sinceOf(type) : fallbackSince,
+                    DocletSupport.mcOf(type),
+                    DocletSupport.loaderOf(type),
+                    null,
+                    false));
+            collectReferenced(variable.asType(), referenced);
+        }
+        properties.sort(java.util.Comparator.comparing(ApiModel.PropertyModel::name));
+        return new ApiModel.ClassModel(apiClass.name(), apiClass.kind(), apiClass.wraps(),
+                "", DocletSupport.docBody(comment), zhDoc,
+                List.copyOf(properties), List.of());
+    }
+
+    /** Whether the method is a {@code java.lang.Object} protocol member
+     * (toString/hashCode/equals) rather than declared API surface. */
+    private static boolean isObjectProtocol(ExecutableElement method) {
+        String name = method.getSimpleName().toString();
+        if (method.getParameters().isEmpty()) {
+            return name.equals("toString") || name.equals("hashCode");
+        }
+        if (name.equals("equals") && method.getParameters().size() == 1
+                && method.getParameters().get(0).asType().getKind()
+                        == javax.lang.model.type.TypeKind.DECLARED) {
+            TypeElement param = (TypeElement) ((javax.lang.model.type.DeclaredType)
+                    method.getParameters().get(0).asType()).asElement();
+            return param.getQualifiedName().contentEquals("java.lang.Object");
+        }
+        return false;
     }
 
     /**
@@ -351,8 +389,9 @@ final class ModelExtractor {
         for (Element component : type.getEnclosedElements()) {
             if (component.getKind() == ElementKind.RECORD_COMPONENT) {
                 VariableElement variable = (VariableElement) component;
-                fields.add(new ApiModel.ParameterModel(variable.getSimpleName().toString(),
-                        DocletSupport.tsType(variable.asType())));
+                fields.add(new ApiModel.ParameterModel(
+                        variable.getSimpleName().toString(),
+                        DocletSupport.recordComponentType(type, variable)));
                 collectReferenced(variable.asType(), eventReferenced);
             }
         }
@@ -379,14 +418,38 @@ final class ModelExtractor {
     }
 
     /** Registers a record type referenced by a signature for interface
-     * emission, recursing into the record's own component types so nested
-     * records (e.g. ItemStackData.enchantments) are declared as well. */
+     * emission, recursing into the record's own component types (unwrapping
+     * collection and wrapper generics first) so nested records (e.g.
+     * ItemStackData.enchantments) are declared as well. */
     private static void collectReferenced(TypeMirror type, Map<String, ApiModel.TypeModel> referenced) {
         if (type.getKind() != javax.lang.model.type.TypeKind.DECLARED) {
             return;
         }
         TypeElement element = (TypeElement) ((DeclaredType) type).asElement();
-        if (element.getKind() != ElementKind.RECORD || DocletSupport.eventOf(element) != null) {
+        String qualified = element.getQualifiedName().toString();
+        // Unwrap common containers so records behind List<...>/Map<...> and
+        // friends still get declared.
+        if (qualified.equals("java.util.List") || qualified.equals("java.util.Collection")
+                || qualified.equals("java.util.Set") || qualified.equals("java.util.Optional")
+                || qualified.equals("java.util.concurrent.CompletableFuture")) {
+            for (TypeMirror arg : ((DeclaredType) type).getTypeArguments()) {
+                collectReferenced(arg, referenced);
+            }
+            return;
+        }
+        if (qualified.equals("java.util.Map")) {
+            List<? extends TypeMirror> args = ((DeclaredType) type).getTypeArguments();
+            if (args.size() >= 2) {
+                collectReferenced(args.get(1), referenced);
+            }
+            return;
+        }
+        if (element.getKind() != ElementKind.RECORD
+                || DocletSupport.eventOf(element) != null
+                // @ApiClass records render once as documented class
+                // interfaces; re-registering them here would emit a second
+                // declaration whose readonly modifiers conflict.
+                || DocletSupport.classOf(element) != null) {
             return;
         }
         String name = element.getSimpleName().toString();
@@ -398,8 +461,10 @@ final class ModelExtractor {
         for (Element component : element.getEnclosedElements()) {
             if (component.getKind() == ElementKind.RECORD_COMPONENT) {
                 VariableElement variable = (VariableElement) component;
-                fields.add(new ApiModel.ParameterModel(variable.getSimpleName().toString(),
-                        DocletSupport.tsType(variable.asType())));
+                String fieldName = variable.getSimpleName().toString();
+                fields.add(new ApiModel.ParameterModel(fieldName,
+                        DocletSupport.recordComponentType(element, variable),
+                        DocletSupport.componentOptional(element, fieldName)));
                 components.add(variable.asType());
             }
         }

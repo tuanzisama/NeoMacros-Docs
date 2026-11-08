@@ -15,10 +15,13 @@ import java.util.Map;
  * @param standaloneClasses @ApiClass classes not nested in any facade, sorted by name
  * @param eventReferencedTypes record types referenced from event fields only,
  *        sorted by name (facade-referenced records hang off their module)
+ * @param standaloneReferencedTypes record types referenced from standalone
+ *        class signatures only, sorted by name
  * @param warnings       generation warnings (missing @zh translations, missing @ApiSince)
  */
 public record ApiModel(List<ModuleModel> modules, List<EventModel> events,
         List<ClassModel> standaloneClasses, List<TypeModel> eventReferencedTypes,
+        List<TypeModel> standaloneReferencedTypes,
         List<String> warnings) {
 
     /** One script-visible API module. */
@@ -50,10 +53,15 @@ public record ApiModel(List<ModuleModel> modules, List<EventModel> events,
             boolean experimental) {
     }
 
-    /** Method parameter; {@code optional} marks parameters a script may omit. */
-    public record ParameterModel(String name, String type, boolean optional) {
+    /** Method parameter; {@code optional} marks parameters a script may omit
+     * and {@code varargs} marks a Java varargs tail parameter. */
+    public record ParameterModel(String name, String type, boolean optional, boolean varargs) {
         public ParameterModel(String name, String type) {
-            this(name, type, false);
+            this(name, type, false, false);
+        }
+
+        public ParameterModel(String name, String type, boolean optional) {
+            this(name, type, optional, false);
         }
     }
 

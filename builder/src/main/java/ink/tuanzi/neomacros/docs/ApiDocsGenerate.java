@@ -122,17 +122,22 @@ public final class ApiDocsGenerate {
         }
     }
 
-    /** All Java sources under the core API package tree, in stable order. */
+    /** All Java sources under the core API package tree plus the
+     * self-contained script-facing handles outside it (event Subscription,
+     * runtime TimerHandle), in stable order. */
     private static List<Path> facadeSources(Path coreRoot) throws IOException {
         Path apiRoot = coreRoot.resolve("ink/tuanzi/neomacros/core/api");
         Path eventRoot = coreRoot.resolve("ink/tuanzi/neomacros/core/event/def");
+        List<Path> handles = List.of(
+                coreRoot.resolve("ink/tuanzi/neomacros/core/runtime/TimerHandle.java"),
+                coreRoot.resolve("ink/tuanzi/neomacros/core/event/Subscription.java"));
         if (!Files.isDirectory(apiRoot)) {
             return List.of();
         }
         try (Stream<Path> files = Files.walk(apiRoot);
              Stream<Path> eventFiles = Files.isDirectory(eventRoot)
                      ? Files.walk(eventRoot) : Stream.<Path>empty()) {
-            return Stream.concat(files, eventFiles)
+            return Stream.concat(Stream.concat(files, eventFiles), handles.stream())
                     .filter(p -> p.toString().endsWith(".java")).sorted().toList();
         }
     }

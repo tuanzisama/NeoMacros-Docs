@@ -150,14 +150,20 @@ public class MDDoclet implements Doclet {
         for (ApiModel.ClassModel clazz : model.standaloneClasses()) {
             classNames.add(clazz.name());
         }
-        // Referenced record types, deduplicated by name across modules; a
-        // name that already has a class page wins.
+        // Referenced record types, deduplicated by name across modules and
+        // standalone classes; a name that already has a class page wins.
         Map<String, ApiModel.TypeModel> referencedTypes = new java.util.TreeMap<>();
         for (ApiModel.ModuleModel module : model.modules()) {
             for (ApiModel.TypeModel type : module.referencedTypes()) {
                 if (!classNames.contains(type.name())) {
                     referencedTypes.putIfAbsent(type.name(), type);
                 }
+            }
+        }
+        for (ApiModel.TypeModel type : model.standaloneReferencedTypes()) {
+            if (!classNames.contains(type.name())) {
+                referencedTypes.putIfAbsent(type.name(), type);
+                classNames.add(type.name());
             }
         }
         classNames.addAll(referencedTypes.keySet());
@@ -581,7 +587,8 @@ public class MDDoclet implements Doclet {
                 sb.append(", ");
             }
             ApiModel.ParameterModel parameter = method.parameters().get(i);
-            sb.append(parameter.name()).append(parameter.optional() ? "?" : "")
+            sb.append(parameter.varargs() ? "..." : "")
+                    .append(parameter.name()).append(parameter.optional() ? "?" : "")
                     .append(": ").append(parameter.type());
         }
         return sb.toString();

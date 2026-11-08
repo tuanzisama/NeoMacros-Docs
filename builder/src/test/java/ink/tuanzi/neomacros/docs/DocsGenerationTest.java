@@ -220,15 +220,15 @@ class DocsGenerationTest {
                 "every event name declared with its payload class");
         assertTrue(ts.contains("type CancellableEvents ="), "cancellable name union emitted");
         assertTrue(ts.contains("on<E extends keyof EventPayloadMap>(name: E, "
-                        + "handler: (event: EventPayloadMap[E]) => unknown): unknown;"),
+                        + "handler: (event: EventPayloadMap[E]) => void): unknown;"),
                 "on resolves payload types per known event name");
         assertTrue(ts.contains("onSync<E extends CancellableEvents>(name: E, "
-                        + "handler: (event: EventPayloadMap[E]) => unknown): void;"),
+                        + "handler: (event: EventPayloadMap[E]) => boolean): void;"),
                 "onSync constrained to cancellable event names");
         assertTrue(ts.contains("waitFor<E extends keyof EventPayloadMap>(name: E): Promise<EventPayloadMap[E]>;"),
                 "waitFor resolves payload types per known event name");
         assertTrue(ts.contains("on(name: string, handler: (event: BaseEvent) "
-                        + "=> unknown): unknown;"),
+                        + "=> void): unknown;"),
                 "string overload kept for wildcards and custom events");
         assertTrue(ts.contains("    BaseEvent: { new(...args: any[]): BaseEvent; };"),
                 "event payloads hang on the neo root");

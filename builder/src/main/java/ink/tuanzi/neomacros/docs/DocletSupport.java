@@ -290,8 +290,20 @@ final class DocletSupport {
             case CHAR -> "string";
             case VOID -> "void";
             case DECLARED -> tsDeclaredType((DeclaredType) type);
+            case ARRAY -> tsArrayType((javax.lang.model.type.ArrayType) type);
             default -> "unknown";
         };
+    }
+
+    /** Maps a Java array to the script-visible type: byte arrays cross as
+     * Uint8Array (the engine's byte-channel rendering), everything else as
+     * a typed script array. */
+    private static String tsArrayType(javax.lang.model.type.ArrayType type) {
+        TypeMirror component = type.getComponentType();
+        if (component.getKind() == TypeKind.BYTE) {
+            return "Uint8Array";
+        }
+        return "Array<" + tsType(component) + ">";
     }
 
     private static String tsDeclaredType(DeclaredType type) {
@@ -335,7 +347,6 @@ final class DocletSupport {
                     "(arg: " + (args.isEmpty() ? "unknown" : tsType(args.get(0))) + ") => boolean";
             case "java.util.function.DoubleConsumer" -> "(arg: number) => void";
             case "java.lang.Runnable" -> "() => void";
-            case "ink.tuanzi.neomacros.core.event.Subscription" -> "unknown";
             default -> element.getSimpleName().toString();
         };
     }
@@ -349,14 +360,74 @@ final class DocletSupport {
                         .equals("ink.tuanzi.neomacros.doc.api.ApiOptional"));
     }
 
+    /**
+     * The effective {@code @ApiType} override of one record component. The
+     * javadoc source model keeps annotations off the RECORD_COMPONENT
+     * element itself, so the override is read off the generated accessor
+     * method ({@code @ApiType} carries the METHOD target and propagates
+     * there).
+     */
+    static Optional<String> componentTypeOverride(TypeElement record, String componentName) {
+        for (Element member : record.getEnclosedElements()) {
+            if (member.getKind() == ElementKind.METHOD
+                    && member.getModifiers().contains(javax.lang.model.element.Modifier.PUBLIC)
+                    && member.getSimpleName().contentEquals(componentName)) {
+                return typeOverrideOf(member);
+            }
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * The script type of one record component: its override (when annotated)
+     * or the inferred mapping, with unbound fact maps
+     * ({@code Map<String, Object>}) reading as JSON values — record
+     * components carry neutral plain data by construction.
+     */
+    static String recordComponentType(TypeElement record, VariableElement component) {
+        String name = component.getSimpleName().toString();
+        String mapped = componentTypeOverride(record, name)
+                .orElseGet(() -> tsType(component.asType()));
+        if (mapped.equals("Record<string, unknown>")) {
+            return "Record<string, JsonValue>";
+        }
+        return mapped;
+    }
+
+    /**
+     * Whether one record component carries {@code @ApiOptional}: the marker
+     * (PARAMETER target) propagates to the canonical constructor parameter,
+     * which the source model does expose.
+     */
+    static boolean componentOptional(TypeElement record, String componentName) {
+        for (Element member : record.getEnclosedElements()) {
+            if (member.getKind() == ElementKind.CONSTRUCTOR) {
+                for (VariableElement parameter
+                        : ((ExecutableElement) member).getParameters()) {
+                    if (parameter.getSimpleName().contentEquals(componentName)
+                            && hasApiOptional(parameter)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     /** Returns the parameters of the method as name/type pairs, honoring
-     * {@code @ApiType} overrides and the {@code @ApiOptional} marker. */
+     * {@code @ApiType} overrides, the {@code @ApiOptional} marker, and the
+     * Java varargs tail. */
     static List<ApiModel.ParameterModel> parametersOf(ExecutableElement method) {
-        return method.getParameters().stream()
-                .map(p -> new ApiModel.ParameterModel(p.getSimpleName().toString(),
-                        typeOverrideOf(p).orElseGet(() -> tsType(p.asType())),
-                        hasApiOptional(p)))
-                .toList();
+        List<? extends VariableElement> parameters = method.getParameters();
+        boolean varargs = method.isVarArgs() && !parameters.isEmpty();
+        List<ApiModel.ParameterModel> out = new java.util.ArrayList<>();
+        for (int i = 0; i < parameters.size(); i++) {
+            VariableElement p = parameters.get(i);
+            out.add(new ApiModel.ParameterModel(p.getSimpleName().toString(),
+                    typeOverrideOf(p).orElseGet(() -> tsType(p.asType())),
+                    hasApiOptional(p), varargs && i == parameters.size() - 1));
+        }
+        return List.copyOf(out);
     }
 
     /** Returns the script-visible return type of the method, honoring an @ApiType override. */
