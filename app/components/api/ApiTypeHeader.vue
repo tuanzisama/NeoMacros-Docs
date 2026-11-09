@@ -11,14 +11,20 @@ defineProps<{
   loader?: string
 }>()
 
-const { labels } = useApiLabels()
+const { labels, glossaryHref } = useApiLabels()
 </script>
 
 <template>
   <div class="not-prose my-4">
     <div class="rounded-lg border border-(--ui-border) bg-(--ui-bg-elevated)/50 px-4 py-3 font-mono text-sm leading-relaxed">
       <div class="flex flex-wrap items-center gap-2 [&>p]:m-0 [&>p]:inline [&_a]:font-medium [&_a]:text-(--ui-primary) [&_a:hover]:underline">
-        <UBadge color="secondary" variant="subtle" size="sm">{{ labels.kinds.event }}</UBadge>
+        <NuxtLink
+          :to="glossaryHref('event')"
+          class="inline-flex rounded-(--ui-radius) transition-opacity hover:opacity-80"
+          :title="labels.kinds.event"
+        >
+          <UBadge color="secondary" variant="subtle" size="sm">{{ labels.kinds.event }}</UBadge>
+        </NuxtLink>
         <span class="text-(--ui-text-dimmed)">extends</span><slot name="extends" />
       </div>
       <div

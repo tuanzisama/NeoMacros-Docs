@@ -98,6 +98,15 @@ class DocsGenerationTest {
     }
 
     @Test
+    void methodParamDescriptionsFollowLocaleConvention() throws IOException {
+        String zh = read(outMd.outDir().resolve("api/world.zh.md"));
+        assertTrue(zh.contains("要标记的方块位置"), "@zh-param wins on the Chinese page");
+        String en = read(outMd.outDir().resolve("api/world.md"));
+        assertTrue(en.contains("the block position to mark"), "@param wins on the English page");
+        assertFalse(en.contains("方块位置"), "English page never leaks Chinese param text");
+    }
+
+    @Test
     void modulePagesLinkToClassPages() throws IOException {
         String world = read(outMd.outDir().resolve("api/world.md"));
         assertTrue(world.contains("**Classes**"), "classes link section rendered");
@@ -140,6 +149,21 @@ class DocsGenerationTest {
         String vec = read(outMd.outDir().resolve("api/classes/StandaloneVec.md"));
         assertTrue(vec.contains("title: \"StandaloneVec\""), "standalone class page rendered");
         assertTrue(vec.contains("kind=\"data\""), "data kind badge rendered");
+    }
+
+    @Test
+    void constructibleClassPageCarriesCtorAndExample() throws IOException {
+        String en = read(outMd.outDir().resolve("api/classes/StandaloneVec.md"));
+        assertTrue(en.contains("ctor=\"new StandaloneVec(x: number, y: number, z: number)\""),
+                "constructible class declares its constructor signature");
+        assertFalse(en.contains("**Example**"), "class example stays out of the English page");
+        String zh = read(outMd.outDir().resolve("api/classes/StandaloneVec.zh.md"));
+        assertTrue(zh.contains("ctor=\"new StandaloneVec(x: number, y: number, z: number)\""),
+                "constructor signature stays on the Chinese page");
+        assertTrue(zh.contains("const v = new StandaloneVec(1, 2, 3);"),
+                "class-level example rendered at the bottom of the Chinese page");
+        String handle = read(outMd.outDir().resolve("api/classes/WorldHandle.md"));
+        assertFalse(handle.contains("ctor="), "engine-handed class is not marked constructible");
     }
 
     @Test
@@ -205,8 +229,12 @@ class DocsGenerationTest {
         assertTrue(ts.contains("declare const neo: NeoRoot;"), "global aggregate present");
         assertTrue(ts.contains("    world: WorldApi;"), "module facade reachable on the root");
         assertTrue(ts.contains("    partial: PartialApi;"), "every module hangs on the root");
-        assertTrue(ts.contains("    WorldHandle: { new(...args: unknown[]): WorldHandle; };"),
-                "root class entry carries a constructor face");
+        assertTrue(ts.contains("    StandaloneVec: { new(x: number, y: number, z: number): StandaloneVec; };"),
+                "self-constructing cell carries a typed constructor face");
+        assertTrue(ts.contains("    WorldHandle: Function & { readonly prototype: WorldHandle; };"),
+                "engine-handed class carries only an instanceof face");
+        assertFalse(ts.contains("new(...args: unknown[])"),
+                "no blanket constructor face leaks onto non-constructible classes");
         assertFalse(ts.contains("declare module '@neomacros/"),
                 "no importable module blocks are declared");
         assertFalse(ts.contains("import("), "single scope needs no import-type qualification");
@@ -230,8 +258,9 @@ class DocsGenerationTest {
         assertTrue(ts.contains("on(name: string, handler: (event: BaseEvent) "
                         + "=> void): unknown;"),
                 "string overload kept for wildcards and custom events");
-        assertTrue(ts.contains("    BaseEvent: { new(...args: unknown[]): BaseEvent; };"),
-                "event payloads hang on the neo root");
+        assertTrue(ts.contains("    BaseEvent: Function & { readonly prototype: BaseEvent; };")
+                && ts.contains("    FixtureMarkedEvent: Function & { readonly prototype: FixtureMarkedEvent; };"),
+                "event payloads hang on the neo root with an instanceof-only face");
     }
 
     private static String read(Path file) throws IOException {

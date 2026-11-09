@@ -14,6 +14,7 @@ export interface ApiLabels {
   experimental: string
   cancellable: string
   readonly: string
+  constructible: string
   wraps: string
   extendedBy: string
   payload: string
@@ -41,6 +42,7 @@ const EN: ApiLabels = {
   experimental: 'Experimental',
   cancellable: 'Cancellable',
   readonly: 'Read-only',
+  constructible: 'Constructible',
   wraps: 'Wraps',
   extendedBy: 'Extended by',
   payload: 'Payload',
@@ -68,12 +70,17 @@ const ZH: ApiLabels = {
   experimental: '实验性',
   cancellable: '可取消',
   readonly: '只读',
+  constructible: '可实例化',
   wraps: '包装',
   extendedBy: '派生类型 (Extend)',
   payload: '载荷 (Paylaod)',
   raisedBy: '触发事件',
   exposedAs: '暴露为',
-  kinds: { handle: '句柄', data: '数据', record: '记录', event: '事件' },
+  // All kind badges keep the English terms on Chinese pages too: they
+  // match the API's own vocabulary (Handle, Data, Record, Event) and the
+  // *Handle class names (FileHandle, TimerHandle…); translated badges
+  // would drift from the type names the scripts actually see.
+  kinds: { handle: 'Handle', data: 'Data', record: 'Record', event: 'Event' },
   matrix: {
     module: '模块',
     member: '成员',
@@ -89,5 +96,13 @@ export function useApiLabels() {
   const { locale } = useI18n()
   const zh = computed(() => locale.value.toLowerCase().startsWith('zh'))
   const labels = computed(() => (zh.value ? ZH : EN))
-  return { labels, zh }
+  /**
+   * Deep link into the glossary entry for a kind chip (`Handle`, `Data`,
+   * `Record`, `Event`). Both locales serve the same page under their URL
+   * prefix (`/en/api/glossary`, `/zh-cn/api/glossary`), matching the
+   * `#kind-<kind>` anchors in the hand-written glossary files.
+   */
+  const glossaryHref = (kind: string) =>
+    `/${locale.value.toLowerCase()}/api/glossary#kind-${kind}`
+  return { labels, zh, glossaryHref }
 }

@@ -126,9 +126,53 @@ final class DocletSupport {
         return customTag(tree, "zh");
     }
 
-    /** Returns the @zh-example code text, or empty when absent. */
+    /**
+     * Returns the @zh-example code text, or empty when absent. Unlike prose
+     * tags the example keeps its line structure (trailing whitespace
+     * stripped, outer blank lines dropped) so multi-statement snippets and
+     * chain indentation survive into the rendered code fence.
+     */
     static Optional<String> zhExample(DocCommentTree tree) {
-        return customTag(tree, "zh-example");
+        if (tree == null) {
+            return Optional.empty();
+        }
+        return tree.getBlockTags().stream()
+                .filter(UnknownBlockTagTree.class::isInstance)
+                .map(t -> (UnknownBlockTagTree) t)
+                .filter(t -> "zh-example".contentEquals(t.getTagName()))
+                .map(t -> exampleText(flattenNodes(t.getContent())))
+                .filter(s -> !s.isEmpty())
+                .findFirst();
+    }
+
+    /** Trims trailing whitespace per line, drops outer blank lines, and
+     * collapses internal blank runs; leading indentation is author code
+     * formatting and stays verbatim. */
+    private static String exampleText(String raw) {
+        String[] lines = raw.replace("\r", "").split("\n", -1);
+        StringBuilder out = new StringBuilder();
+        boolean started = false;
+        int blanks = 0;
+        for (String line : lines) {
+            String trimmed = line.stripTrailing();
+            if (trimmed.isBlank()) {
+                if (started) {
+                    blanks++;
+                }
+                continue;
+            }
+            if (!started) {
+                started = true;
+            } else if (blanks > 0) {
+                out.append('\n');
+                blanks = 0;
+            }
+            out.append(trimmed).append('\n');
+        }
+        if (out.length() > 0) {
+            out.setLength(out.length() - 1);
+        }
+        return out.toString();
     }
 
     /** Returns @param name-to-description entries. */
@@ -247,7 +291,7 @@ final class DocletSupport {
             "Pos3d", "Pos3D",
             "Rot2d", "Pos2D",
             "BoundingBoxData", "BoundingBox",
-            "ChatComponent", "Text");
+            "ChatComponent", "TextComponent");
 
     /** The script-facing alias of a port-model record name, or null. */
     static String portTypeAlias(String name) {

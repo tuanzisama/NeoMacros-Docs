@@ -485,13 +485,18 @@ public class TSDoclet implements Doclet {
 
     /**
      * The neo global aggregate: one {@code NeoRoot} interface listing the
-     * module facades plus every script-facing class as a root constructor
-     * entry ({@code neo.<Name>}), then the const itself. The interface is a
-     * named global so post-processing files can merge additional root
-     * entries into it.
+     * module facades plus every script-facing class as a root entry
+     * ({@code neo.<Name>}), then the const itself. Class entries are typed
+     * by constructibility: a {@code SelfConstructing} cell gets a typed
+     * construct signature ({@code new Pos3D(x, y, z)}), while every other
+     * class and event payload — instances the engine hands out, never
+     * constructs the script can make — carries only a prototype face so
+     * {@code instanceof} still type-checks. The interface is a named global
+     * so post-processing files can merge additional root entries into it.
      */
     private static void renderGlobal(StringBuilder sb, ApiModel model) {
         Map<String, String> rootEntries = new LinkedHashMap<>();
+        Map<String, ApiModel.ClassModel> classIndex = new LinkedHashMap<>();
         for (ApiModel.ModuleModel module : model.modules()) {
             rootEntries.put(module.name(), interfaceName(module));
         }
@@ -502,6 +507,7 @@ public class TSDoclet implements Doclet {
         classes.addAll(model.standaloneClasses());
         for (ApiModel.ClassModel clazz : classes) {
             rootEntries.putIfAbsent(clazz.name(), null);
+            classIndex.putIfAbsent(clazz.name(), clazz);
         }
         if (!model.events().isEmpty()) {
             rootEntries.putIfAbsent("BaseEvent", null);
@@ -516,7 +522,24 @@ public class TSDoclet implements Doclet {
             if (entry.getValue() != null) {
                 sb.append(entry.getValue());
             } else {
-                sb.append("{ new(...args: unknown[]): ").append(entry.getKey()).append("; }");
+                ApiModel.ClassModel clazz = classIndex.get(entry.getKey());
+                if (clazz != null && clazz.constructible()) {
+                    sb.append("{ new(");
+                    for (int i = 0; i < clazz.constructorParams().size(); i++) {
+                        ApiModel.ParameterModel parameter = clazz.constructorParams().get(i);
+                        if (i > 0) {
+                            sb.append(", ");
+                        }
+                        sb.append(parameter.varargs() ? "..." : "")
+                                .append(parameter.name())
+                                .append(parameter.optional() ? "?" : "")
+                                .append(": ").append(parameter.type());
+                    }
+                    sb.append("): ").append(clazz.name()).append("; }");
+                } else {
+                    sb.append("Function & { readonly prototype: ")
+                            .append(entry.getKey()).append("; }");
+                }
             }
             sb.append(";\n");
         }

@@ -71,10 +71,18 @@ public record ApiModel(List<ModuleModel> modules, List<EventModel> events,
         }
     }
 
-    /** Script-facing class declared with {@code @ApiClass} (live handle or immutable data). */
+    /**
+     * Script-facing class declared with {@code @ApiClass} (live handle or
+     * immutable data). {@code constructible} marks a {@code SelfConstructing}
+     * cell the script may build with {@code new Name(...)}; the constructor
+     * face is typed from the guest-facing (public + {@code @ApiSince})
+     * constructor's parameters. {@code zhExample} carries the class-level
+     * {@code @zh-example} code rendered at the bottom of the class page.
+     */
     public record ClassModel(
             String name, ApiClassKind kind, String wraps, String extendsName,
             String doc, String zhDoc,
+            boolean constructible, List<ParameterModel> constructorParams, String zhExample,
             List<PropertyModel> properties, List<MethodModel> methods) {
     }
 

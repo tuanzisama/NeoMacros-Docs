@@ -25,7 +25,7 @@ description: "练习完整注解集与完整双语文档的 fixture 模块：类
 
 | 参数 | 类型 | 说明 | 可选 | 默认 |
 | --- | --- | --- | --- | --- |
-| `pos` | :api-type{text='FixturePos' refs='FixturePos=classes/fixturepos'} | the block position to mark | — | — |
+| `pos` | :api-type{text='FixturePos' refs='FixturePos=classes/fixturepos'} | 要标记的方块位置 | — | — |
 
 **Returns** `Promise<void>` — 高亮放置完成后兑现的 Promise
 
@@ -47,8 +47,8 @@ world.mark(new Pos3d(1, 64, 1));
 
 | 参数 | 类型 | 说明 | 可选 | 默认 |
 | --- | --- | --- | --- | --- |
-| `ticks` | `number` | the target time in ticks | — | — |
-| `interpolation` | `number` | ticks to interpolate over | ✓ | `10` |
+| `ticks` | `number` | 目标时间（tick） | — | — |
+| `interpolation` | `number` | 插值过渡的 tick 数 | ✓ | `10` |
 
 :api-badges{ since="0.1.0"}
 
@@ -62,7 +62,7 @@ world.mark(new Pos3d(1, 64, 1));
 
 | 参数 | 类型 | 说明 | 可选 | 默认 |
 | --- | --- | --- | --- | --- |
-| `listener` | `(message: string) => void` | callback invoked for each message | — | — |
+| `listener` | `(message: string) => void` | 每条消息触发的回调 | — | — |
 
 :api-badges{ since="0.1.0" permission="command" experimental="true"}
 

@@ -233,6 +233,19 @@ final class ModelExtractor {
             return recordClassModel(type, apiClass, trees, comment, zhBody.orElse(""),
                     referenced, moduleName, fallbackSince);
         }
+        boolean constructible = isSelfConstructing(type);
+        List<ApiModel.ParameterModel> constructorParams = List.of();
+        if (constructible) {
+            ExecutableElement ctor = guestConstructorOf(type);
+            if (ctor == null) {
+                warnings.add((moduleName == null ? apiClass.name()
+                        : moduleName + "." + apiClass.name())
+                        + ": SelfConstructing class has no @ApiSince constructor to document");
+            } else {
+                constructorParams = DocletSupport.parametersOf(ctor);
+                ctor.getParameters().forEach(p -> collectReferenced(p.asType(), referenced));
+            }
+        }
         List<ApiModel.PropertyModel> properties = new ArrayList<>();
         List<ApiModel.MethodModel> methods = new ArrayList<>();
         for (Element member : type.getEnclosedElements()) {
@@ -296,7 +309,51 @@ final class ModelExtractor {
         methods.sort(java.util.Comparator.comparing(ApiModel.MethodModel::name));
         return new ApiModel.ClassModel(apiClass.name(), apiClass.kind(), apiClass.wraps(),
                 extendsNameOf(type), DocletSupport.docBody(comment),
-                zhBody.orElse(""), List.copyOf(properties), List.copyOf(methods));
+                zhBody.orElse(""), constructible, constructorParams,
+                DocletSupport.zhExample(comment).orElse(""),
+                List.copyOf(properties), List.copyOf(methods));
+    }
+
+    /**
+     * Whether the class implements the engine's {@code SelfConstructing}
+     * marker anywhere on its superclass chain. Matched by simple name so the
+     * standalone fixture tree (which cannot depend on core-api) can exercise
+     * the same path.
+     */
+    private static boolean isSelfConstructing(TypeElement type) {
+        TypeElement current = type;
+        while (current != null) {
+            for (TypeMirror implemented : current.getInterfaces()) {
+                if (typeName(implemented).equals("SelfConstructing")) {
+                    return true;
+                }
+            }
+            TypeMirror sup = current.getSuperclass();
+            current = sup.getKind() == TypeKind.DECLARED
+                    ? (TypeElement) ((DeclaredType) sup).asElement() : null;
+        }
+        return false;
+    }
+
+    /** The simple name of a declared type, or empty for primitives and arrays. */
+    private static String typeName(TypeMirror type) {
+        return type.getKind() == TypeKind.DECLARED
+                ? ((TypeElement) ((DeclaredType) type).asElement()).getSimpleName().toString() : "";
+    }
+
+    /** The script-facing constructor: public and version-annotated. The
+     * no-arg engine-factory constructor carries no {@code @ApiSince} and is
+     * skipped. */
+    private static ExecutableElement guestConstructorOf(TypeElement type) {
+        for (Element member : type.getEnclosedElements()) {
+            if (member.getKind() != ElementKind.CONSTRUCTOR
+                    || !member.getModifiers().contains(Modifier.PUBLIC)
+                    || DocletSupport.sinceOf(member) == null) {
+                continue;
+            }
+            return (ExecutableElement) member;
+        }
+        return null;
     }
 
     /** Renders an {@code @ApiClass} record as a field interface: record
@@ -337,7 +394,7 @@ final class ModelExtractor {
         properties.sort(java.util.Comparator.comparing(ApiModel.PropertyModel::name));
         return new ApiModel.ClassModel(apiClass.name(), apiClass.kind(), apiClass.wraps(),
                 "", DocletSupport.docBody(comment), zhDoc,
-                List.copyOf(properties), List.of());
+                false, List.of(), "", List.copyOf(properties), List.of());
     }
 
     /** Whether the method is a {@code java.lang.Object} protocol member

@@ -343,6 +343,9 @@ public class MDDoclet implements Doclet {
             case DATA -> "data";
         }));
         decl.append(mdcProp("name", clazz.name()));
+        if (clazz.constructible()) {
+            decl.append(mdcProp("ctor", ctorSignature(clazz)));
+        }
         if (!clazz.wraps().isEmpty()) {
             decl.append(mdcProp("wraps", clazz.wraps()));
         }
@@ -359,7 +362,27 @@ public class MDDoclet implements Doclet {
         sb.append(decl).append("\n\n");
         renderProperties(sb, clazz.properties(), zh, linkTargets);
         renderMethods(sb, clazz.methods(), zh, linkTargets);
+        if (zh && !clazz.zhExample().isEmpty()) {
+            sb.append("**Example**\n\n```js\n").append(clazz.zhExample()).append("\n```\n\n");
+        }
         return sb.toString();
+    }
+
+    /** The script-facing constructor signature shown in the declaration
+     * box, e.g. {@code new Pos3D(x: number, y: number, z: number)}. */
+    private static String ctorSignature(ApiModel.ClassModel clazz) {
+        StringBuilder sb = new StringBuilder("new ").append(clazz.name()).append("(");
+        List<ApiModel.ParameterModel> params = clazz.constructorParams();
+        for (int i = 0; i < params.size(); i++) {
+            ApiModel.ParameterModel parameter = params.get(i);
+            if (i > 0) {
+                sb.append(", ");
+            }
+            sb.append(parameter.varargs() ? "..." : "").append(parameter.name())
+                    .append(parameter.optional() ? "?" : "").append(": ")
+                    .append(parameter.type());
+        }
+        return sb.append(")").toString();
     }
 
     /** Renders one referenced record type as its own page under classes/. */
@@ -554,8 +577,13 @@ public class MDDoclet implements Doclet {
                         .append(" |\n");
                 sb.append("| --- | --- | --- | --- | --- |\n");
                 for (ApiModel.ParameterModel parameter : method.parameters()) {
-                    String description = method.paramDocs().getOrDefault(parameter.name(),
-                            method.zhParamDocs().getOrDefault(parameter.name(), ""));
+                    // Locale convention matches text()/fieldDescription():
+                    // the zh view prefers @zh-param and falls back to @param;
+                    // the English view never leaks Chinese text.
+                    String description = zh
+                            ? method.zhParamDocs().getOrDefault(parameter.name(),
+                                    method.paramDocs().getOrDefault(parameter.name(), ""))
+                            : method.paramDocs().getOrDefault(parameter.name(), "");
                     String defaultValue = method.paramDefaults().get(parameter.name());
                     sb.append("| `").append(parameter.varargs() ? "..." : "")
                             .append(parameter.name()).append("` | ")

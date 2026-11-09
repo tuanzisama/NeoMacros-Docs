@@ -10,11 +10,13 @@
 const props = defineProps<{
   kind?: 'handle' | 'data' | 'record' | 'event'
   name?: string
+  /** Script-facing constructor signature when the class is constructible (`new Name(...)`). */
+  ctor?: string
   /** Fully-qualified Java class this script type wraps (handle kinds). */
   wraps?: string
 }>()
 
-const { labels } = useApiLabels()
+const { labels, glossaryHref } = useApiLabels()
 
 const kindColor = {
   handle: 'primary',
@@ -30,9 +32,18 @@ const linkSlotClass = '[&>p]:m-0 [&>p]:inline [&_a]:font-medium [&_a]:text-(--ui
   <div class="not-prose my-4">
     <div class="overflow-hidden rounded-lg border border-(--ui-border) bg-(--ui-bg-elevated)/50 px-4 py-3 font-mono text-sm leading-relaxed">
       <div class="flex flex-wrap items-center gap-2">
-        <UBadge v-if="kind" :color="kindColor[kind]" variant="subtle" size="sm">{{ labels.kinds[kind] }}</UBadge>
+        <NuxtLink
+          v-if="kind"
+          :to="glossaryHref(kind)"
+          class="inline-flex rounded-(--ui-radius) transition-opacity hover:opacity-80"
+          :title="labels.kinds[kind]"
+        >
+          <UBadge :color="kindColor[kind]" variant="subtle" size="sm">{{ labels.kinds[kind] }}</UBadge>
+        </NuxtLink>
+        <UBadge v-if="ctor" color="warning" variant="subtle" size="sm">{{ labels.constructible }}</UBadge>
         <span v-if="name" class="font-mono text-base font-semibold text-(--ui-text-highlighted)">{{ name }}</span>
       </div>
+      <div v-if="ctor" class="mt-1.5 truncate font-mono text-xs text-(--ui-text-muted)" :title="ctor">{{ ctor }}</div>
       <div v-if="$slots.extends" :class="linkSlotClass" class="mt-1.5">
         <span class="mr-1.5 text-(--ui-text-dimmed)">extends</span><slot name="extends" />
       </div>
