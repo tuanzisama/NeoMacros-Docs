@@ -2,6 +2,23 @@ export default defineNuxtConfig({
   extends: ['docus'],
   modules: ['@nuxtjs/i18n'],
 
+  app: {
+    head: {
+      // VibeCafé 作品数据统计: a single Origin-whitelisted browser
+      // beacon injected once into every page's <head>. The auth key is
+      // browser-facing only — never reuse it for admin APIs or query
+      // parameters.
+      script: [
+        {
+          defer: true,
+          src: 'https://vibecafe.ai/telemetry/v1.js',
+          'data-vc-product-id': 'cmw9e9vy0000008kxmiyy9n7x',
+          'data-vc-auth-key': 'vc_web_1F_wjLxT3yHNWveciQ8meGEi8pwwW0AsVYAuv5vwXPw',
+        },
+      ],
+    },
+  },
+
   site: {
     name: 'NeoMacros',
     // Update to the production domain when the site is deployed.
