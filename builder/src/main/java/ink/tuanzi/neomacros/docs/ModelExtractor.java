@@ -451,7 +451,10 @@ final class ModelExtractor {
                 // @ApiClass records render once as documented class
                 // interfaces; re-registering them here would emit a second
                 // declaration whose readonly modifiers conflict.
-                || DocletSupport.classOf(element) != null) {
+                || DocletSupport.classOf(element) != null
+                // Port records aliased to script types render through the
+                // alias; no standalone record page for them.
+                || DocletSupport.portTypeAlias(element.getSimpleName().toString()) != null) {
             return;
         }
         String name = element.getSimpleName().toString();

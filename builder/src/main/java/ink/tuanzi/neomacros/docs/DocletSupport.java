@@ -236,6 +236,24 @@ final class DocletSupport {
         return permission == null ? null : permission.value();
     }
 
+    /**
+     * Neutral port-model record names that cross the boundary as their
+     * script-facing counterparts ({@code Payloads.snapshot} converts them to
+     * real script handles), so signatures and snapshot fields render the
+     * script truth instead of the internal record names.
+     */
+    private static final java.util.Map<String, String> PORT_TYPE_ALIASES = java.util.Map.of(
+            "ItemStackData", "ItemStack",
+            "Pos3d", "Pos3D",
+            "Rot2d", "Pos2D",
+            "BoundingBoxData", "BoundingBox",
+            "ChatComponent", "Text");
+
+    /** The script-facing alias of a port-model record name, or null. */
+    static String portTypeAlias(String name) {
+        return PORT_TYPE_ALIASES.get(name);
+    }
+
     /** Returns the explicit TypeScript type of the member or parameter, or empty when inferred. */
     static Optional<String> typeOverrideOf(Element element) {
         ApiType override = element.getAnnotation(ApiType.class);
@@ -337,7 +355,8 @@ final class DocletSupport {
             return apiClass.name();
         }
         if (element.getKind() == ElementKind.RECORD) {
-            return element.getSimpleName().toString();
+            String alias = PORT_TYPE_ALIASES.get(element.getSimpleName().toString());
+            return alias != null ? alias : element.getSimpleName().toString();
         }
         List<? extends TypeMirror> args = type.getTypeArguments();
         return switch (element.getQualifiedName().toString()) {
