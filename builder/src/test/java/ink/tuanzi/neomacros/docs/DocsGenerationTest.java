@@ -170,12 +170,16 @@ class DocsGenerationTest {
     void eventPagesRendered() throws IOException {
         String marked = read(outMd.outDir().resolve("api/events/fixture-marked.md"));
         assertTrue(marked.contains("title: \"fixture:marked\""), "event page rendered");
-        assertTrue(marked.contains("::api-event-header{ event=\"fixture:marked\" cancellable=\"true\" since=\"0.1.0\"}"),
-                "cancellable badge rendered");
+        assertTrue(marked.contains("::api-event-header{ event=\"fixture:marked\" direction=\"c2s\" cancellable=\"true\" since=\"0.1.0\"}"),
+                "direction attribute and cancellable badge rendered");
         assertTrue(marked.contains("[`FixtureMarkedEvent`](../types/FixtureMarkedEvent.html)"),
                 "payload class link rendered");
-        assertTrue(marked.contains("| `message` | `string` | the message carried by the event |"),
+        assertTrue(marked.contains("the message carried by the event"),
                 "field description rendered from @param");
+        assertTrue(marked.contains("| `message` | `string` | the message carried by the event :api-badge{kind=\"writable\"} |"),
+                "writable fields carry the writable badge");
+        assertTrue(marked.contains("| `cancelled` | `boolean` |"),
+                "cancelled state documented on cancellable event pages");
         assertTrue(marked.contains(":api-type{text='FixturePos' refs='FixturePos=classes/fixturepos'}"),
                 "record-typed field links to its class page");
         String stamp = read(outMd.outDir().resolve("api/classes/FixtureStamp.md"));
@@ -186,7 +190,7 @@ class DocsGenerationTest {
         String zh = read(outMd.outDir().resolve("api/events/fixture-marked.zh.md"));
         assertTrue(zh.contains("cancellable=\"true\""), "cancellable badge stays English on the Chinese page");
         assertTrue(zh.contains("练习用的可取消事件描述符"), "translated body kept");
-        assertTrue(zh.contains("| `message` | `string` | 事件携带的消息 |"),
+        assertTrue(zh.contains("事件携带的消息"),
                 "field description rendered from @zh-param");
     }
 
@@ -194,10 +198,15 @@ class DocsGenerationTest {
     void eventTypePagesRendered() throws IOException {
         String cls = read(outMd.outDir().resolve("api/types/FixtureMarkedEvent.md"));
         assertTrue(cls.contains("title: \"FixtureMarkedEvent\""), "payload class page rendered");
-        assertTrue(cls.contains("::api-type-header{ since=\"0.1.0\"}\n#extends\n[`BaseEvent`](BaseEvent.html)\n#raised-by\n[`fixture:marked`](../events/fixture/fixture-marked.html)"),
-                "extends and raised-by links rendered in the type header");
+        assertTrue(cls.contains("::api-type-header{ since=\"0.1.0\"}\n#extends\n[`InputEvent`](InputEvent.html)\n#raised-by\n[`fixture:marked`](../events/fixture/fixture-marked.html)"),
+                "direction class extends and raised-by links rendered in the type header");
         assertTrue(cls.contains("| `severity` | `number` | the severity level of the event |"),
                 "field table rendered on the payload class page");
+        assertTrue(cls.contains("| `cancelled` | `boolean` |")
+                        && cls.contains("::api-method")
+                        && cls.contains("### `cancel()`"),
+                "cancellable payload pages document the cancelled state"
+                        + " and the cancel() method");
         String base = read(outMd.outDir().resolve("api/types/BaseEvent.md"));
         assertTrue(base.contains("title: \"BaseEvent\""), "base event page rendered");
         assertTrue(base.contains("| `cancellable` | `boolean` |"), "base fields rendered");
@@ -246,13 +255,15 @@ class DocsGenerationTest {
         assertTrue(ts.contains("interface EventPayloadMap"), "event name map emitted");
         assertTrue(ts.contains("'fixture:marked': FixtureMarkedEvent;"),
                 "every event name declared with its payload class");
-        assertTrue(ts.contains("type CancellableEvents ="), "cancellable name union emitted");
+        assertTrue(ts.contains("interface CancellableEventMap"), "cancellable name map emitted");
+        assertTrue(ts.contains("'fixture:marked': MutableFixtureMarkedEvent;"),
+                "cancellable names resolve to the writable mutable face");
         assertTrue(ts.contains("on<E extends keyof EventPayloadMap>(name: E, "
                         + "handler: (event: EventPayloadMap[E]) => void): unknown;"),
                 "on resolves payload types per known event name");
-        assertTrue(ts.contains("onSync<E extends CancellableEvents>(name: E, "
-                        + "handler: (event: EventPayloadMap[E]) => boolean): void;"),
-                "onSync constrained to cancellable event names");
+        assertTrue(ts.contains("onSync<E extends keyof CancellableEventMap>(name: E, "
+                        + "handler: (event: CancellableEventMap[E]) => void, options?: SyncOptions): void;"),
+                "onSync delivers the mutable face with dispatch options");
         assertTrue(ts.contains("waitFor<E extends keyof EventPayloadMap>(name: E): Promise<EventPayloadMap[E]>;"),
                 "waitFor resolves payload types per known event name");
         assertTrue(ts.contains("on(name: string, handler: (event: BaseEvent) "

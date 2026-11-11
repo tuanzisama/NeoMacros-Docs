@@ -88,16 +88,21 @@ public final class FixtureEventsApi {
 
     /**
      * Subscribes synchronously; only cancellable events accept sync
-     * subscriptions and the callback returns a truthy value to cancel.
+     * subscriptions. The callback receives the mutable event face: rewrite
+     * whitelisted fields directly and cancel with {@code e.cancel()} /
+     * the writable {@code e.cancelled}; return values are ignored.
      *
      * @param name the cancellable event name
-     * @param handler the verdict callback returning truthy to cancel
-     * @zh 同步订阅；仅可取消事件可用，回调返回 truthy 即取消。
+     * @param handler the mutable-face callback
+     * @param options optional {@code { priority, ignoreCancelled }}
+     * @zh 同步订阅；仅可取消事件可用。回调收到可变事件面：直接改写白名单字段、用 e.cancel() 取消，返回值被忽略。
      * @zh-param name 可取消事件名
-     * @zh-param handler 判定回调，返回 truthy 取消
+     * @zh-param handler 可变面回调
+     * @zh-param options 可选优先级选项
      */
     @ApiSince("0.1.0")
-    public void onSync(String name, Predicate<Object> handler) {
+    public void onSync(String name, java.util.function.Function<Object, Object> handler,
+            Object options) {
     }
 
     /**

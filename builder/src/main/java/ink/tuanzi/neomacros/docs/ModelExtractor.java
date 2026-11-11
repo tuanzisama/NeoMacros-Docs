@@ -456,6 +456,8 @@ final class ModelExtractor {
         }
         fields.sort(java.util.Comparator.comparing(ApiModel.ParameterModel::name));
         return new ApiModel.EventModel(event.name(), event.cancellable(),
+                event.direction().name().toLowerCase(java.util.Locale.ROOT),
+                List.of(event.mutable()),
                 DocletSupport.eventClassName(event.name()),
                 List.copyOf(fields),
                 DocletSupport.paramDocs(comment), DocletSupport.zhParamDocs(comment),

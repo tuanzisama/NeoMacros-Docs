@@ -223,6 +223,11 @@ public class MDDoclet implements Doclet {
             }
             write(typesDir.resolve("BaseEvent.md"), renderBaseEventPage(false));
             write(typesDir.resolve("BaseEvent.zh.md"), renderBaseEventPage(true));
+            for (String direction : List.of("c2s", "s2c", "local")) {
+                String face = directionClassName(direction);
+                write(typesDir.resolve(face + ".md"), renderDirectionClassPage(direction, false));
+                write(typesDir.resolve(face + ".zh.md"), renderDirectionClassPage(direction, true));
+            }
             if (!mcVersions.isEmpty()) {
                 VersionMatrix.write(apiDir, model, mcVersions);
             }
@@ -411,11 +416,12 @@ public class MDDoclet implements Doclet {
             Map<String, String> linkTargets) {
         StringBuilder sb = new StringBuilder();
         sb.append(frontmatter(event.name(), text(event.doc(), event.zhDoc(), zh)));
-        // Javadoc-style event header: props carry name/availability, the
-        // payload link travels in a markdown slot so the sync script's
+        // Javadoc-style event header: props carry name/direction/availability,
+        // the payload link travels in a markdown slot so the sync script's
         // link rewrites keep applying.
         List<String> props = new java.util.ArrayList<>();
         props.add(mdcProp("event", event.name()));
+        props.add(mdcProp("direction", event.direction()));
         if (event.cancellable()) {
             props.add(mdcProp("cancellable", "true"));
         }
@@ -423,44 +429,136 @@ public class MDDoclet implements Doclet {
         sb.append("::api-event-header{").append(String.join("", props)).append("}\n");
         sb.append("#payload\n[`").append(event.className()).append("`](../types/")
                 .append(event.className()).append(".html)\n::\n\n");
-        if (!event.fields().isEmpty()) {
+        sb.append(zh
+                ? "**方向**：`" + event.direction() + "` — "
+                : "**Direction**: `" + event.direction() + "` — ");
+        sb.append(switch (event.direction()) {
+            case "c2s" -> (zh ? "客户端上行动作拦截：取消即抑制该动作（按键/聊天/交互）。"
+                              : "client-to-server action interception: cancelling suppresses the action.");
+            case "s2c" -> (zh ? "服务器下行显示拦截：取消即抑制显示，白名单字段可本地改写。"
+                              : "server-to-client display interception: cancelling suppresses the display; whitelisted fields may be rewritten locally.");
+            default -> (zh ? "客户端本地状态派生：仅观测，不可取消。"
+                           : "client-derived local state; observation only, never cancellable.");
+        }).append("\n\n");
+        if (!event.fields().isEmpty() || event.cancellable()) {
             sb.append("| Field | Type | Description |\n| --- | --- | --- |\n");
             for (ApiModel.ParameterModel field : event.fields()) {
+                String mutableMark = event.mutableFields().contains(field.name())
+                        ? " :api-badge{kind=\"writable\"}"
+                        : "";
                 sb.append("| `").append(field.name()).append("` | ")
                         .append(linkType(field.type(), linkTargets)).append(" | ")
-                        .append(fieldDescription(event, field.name(), zh)).append(" |\n");
+                        .append(fieldDescription(event, field.name(), zh)).append(mutableMark).append(" |\n");
+            }
+            if (event.cancellable()) {
+                sb.append("| `cancelled` | `boolean` | ").append(cancelledFieldDescription(zh)).append(" :api-badge{kind=\"writable\"} |\n");
             }
             sb.append("\n");
+        }
+        if (event.cancellable()) {
+            renderCancelMethod(sb, zh);
         }
         return sb.toString();
     }
 
+    /** The field-table description of the cancellation state on cancellable events. */
+    private static String cancelledFieldDescription(boolean zh) {
+        return zh ? "取消状态；遵循最后写入优先。"
+                  : "Cancellation state; last write wins.";
+    }
+
+    /** The method-card description of {@code cancel()} on cancellable events. */
+    private static String cancelMethodDescription(boolean zh) {
+        return zh ? "取消事件。仅同步通道投递时可用；后续优先级处理器可写入 `cancelled` 恢复分发，取消状态遵循最后写入优先。"
+                  : "Cancels the event. Available on synchronous deliveries only; handlers at later"
+                       + " priorities may restore delivery by writing `cancelled` (last write wins).";
+    }
+
+    /** Appends the {@code cancel()} method card in the class-page method format. */
+    private static void renderCancelMethod(StringBuilder sb, boolean zh) {
+        sb.append("## Methods\n\n");
+        sb.append("::api-method\n\n");
+        sb.append("### `cancel()`\n\n");
+        sb.append(cancelMethodDescription(zh)).append("\n\n::\n\n");
+    }
+
     /**
      * Renders one event payload class as its own page under types/, with a
-     * raised-by link back to its event page.
+     * raised-by link back to its event page. The extends slot names the
+     * direction middle class the payload chains through.
      */
     private static String renderEventTypePage(ApiModel.EventModel event, boolean zh,
             Map<String, String> linkTargets) {
         StringBuilder sb = new StringBuilder();
         sb.append(frontmatter(event.className(), text(event.doc(), event.zhDoc(), zh)));
-        // Javadoc-style event payload header: the BaseEvent and raised-by
-        // links travel in markdown slots; the component renders the
-        // extends keyword and localized "Raised by" label around them.
+        // Javadoc-style event payload header: the direction class and
+        // raised-by links travel in markdown slots; the component renders
+        // the extends keyword and localized "Raised by" label around them.
         sb.append("::api-type-header{")
                 .append(String.join("", availabilityProps(event.since(), event.mc(), event.loader())))
                 .append("}\n");
-        sb.append("#extends\n[`BaseEvent`](BaseEvent.html)\n");
+        String directionFace = directionClassName(event.direction());
+        sb.append("#extends\n[`").append(directionFace).append("`](")
+                .append(directionFace).append(".html)\n");
         sb.append("#raised-by\n[`").append(event.name()).append("`](")
                 .append(eventHref(eventSlug(event.name()))).append(")\n::\n\n");
-        if (!event.fields().isEmpty()) {
+        if (!event.fields().isEmpty() || event.cancellable()) {
             sb.append("| Field | Type | Description |\n| --- | --- | --- |\n");
             for (ApiModel.ParameterModel field : event.fields()) {
+                String mutableMark = event.mutableFields().contains(field.name())
+                        ? " :api-badge{kind=\"writable\"}"
+                        : "";
                 sb.append("| `").append(field.name()).append("` | ")
                         .append(linkType(field.type(), linkTargets)).append(" | ")
-                        .append(fieldDescription(event, field.name(), zh)).append(" |\n");
+                        .append(fieldDescription(event, field.name(), zh)).append(mutableMark).append(" |\n");
+            }
+            if (event.cancellable()) {
+                sb.append("| `cancelled` | `boolean` | ").append(cancelledFieldDescription(zh)).append(" :api-badge{kind=\"writable\"} |\n");
             }
             sb.append("\n");
         }
+        if (event.cancellable()) {
+            renderCancelMethod(sb, zh);
+        }
+        return sb.toString();
+    }
+
+    /** The guest middle-class name of one traffic direction. */
+    private static String directionClassName(String direction) {
+        return switch (direction) {
+            case "c2s" -> "InputEvent";
+            case "s2c" -> "DisplayEvent";
+            default -> "StateEvent";
+        };
+    }
+
+    /** The shared description of one direction middle class. */
+    private static String directionClassDoc(String direction, boolean zh) {
+        return switch (direction) {
+            case "c2s" -> (zh
+                    ? "客户端上行事件（c2s）的中间基类：客户端即将做出动作（按键、发送聊天、交互）时触发，可取消。"
+                    : "Middle class of client-to-server events (c2s): raised as the client is about to act (key press, chat send, interaction); cancellable.");
+            case "s2c" -> (zh
+                    ? "服务器下行显示事件（s2c）的中间基类：服务器发来的内容落地前触发，可取消、白名单字段可改写。"
+                    : "Middle class of server-to-client display events (s2c): raised before server-originated content lands; cancellable with rewritable whitelisted fields.");
+            default -> (zh
+                    ? "客户端本地状态事件（local）的中间基类：客户端自行派生或感知的变化，仅观测，永不可取消。"
+                    : "Middle class of client-local state events (local): changes the client derives or observes itself; observation only, never cancellable.");
+        };
+    }
+
+    /** Renders one direction middle class as its own page under types/. */
+    private static String renderDirectionClassPage(String direction, boolean zh) {
+        String name = directionClassName(direction);
+        StringBuilder sb = new StringBuilder();
+        sb.append(frontmatter(name, directionClassDoc(direction, zh)));
+        sb.append("::api-type-header{mc=\"*\" loader=\"*\"}\n");
+        sb.append("#extends\n[`BaseEvent`](BaseEvent.html)\n::\n\n");
+        sb.append("| Property | Type | Description |\n| --- | --- | --- |\n");
+        sb.append("| `direction` | `'").append(direction).append("'` | ")
+                .append(zh ? "本事件的流向字面量。" : "The literal direction of this event family.")
+                .append(" |\n");
+        sb.append("\n");
         return sb.toString();
     }
 
@@ -472,6 +570,7 @@ public class MDDoclet implements Doclet {
                 : "Base class shared by all event payloads; dispatched event instances are frozen subclasses of it."));
         sb.append("| Property | Type | Description |\n| --- | --- | --- |\n");
         sb.append("| `type` | `string` | ").append(zh ? "事件名，如 `chat:receive`。" : "Event name, e.g. `chat:receive`.").append(" |\n");
+        sb.append("| `direction` | `'c2s' | 's2c' | 'local'` | ").append(zh ? "事件流向：上行拦截 / 下行显示 / 本地状态。" : "Traffic direction: upstream interception / incoming display / local state.").append(" |\n");
         sb.append("| `timestamp` | `number` | ").append(zh ? "事件分发时的毫秒时间戳。" : "Dispatch time in epoch milliseconds.").append(" |\n");
         sb.append("| `cancellable` | `boolean` | ").append(zh ? "本事件是否可取消。" : "Whether this event is cancellable.").append(" |\n");
         sb.append("\n## Methods\n\n::api-method\n\n### `toJSON()`\n\n");

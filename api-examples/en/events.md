@@ -14,3 +14,14 @@ await events.waitForUntil('player:health', (e) => e.health > 15, 30_000);
 // No longer needed? Unsubscribe by handle (or by event name)
 events.off(joinHandle);
 ```
+
+Intercept cancellable events with `events.onSync`: the handler receives a
+writable payload — rewrite whitelisted fields, cancel with `e.cancel()`,
+and order the chain with `neo.EventPriority` priorities.
+
+```js
+events.onSync('chat:send', (e) => {
+  if (e.message === 'spam') e.cancel();          // veto the send
+  if (e.message === 'typo') e.message = 'fixed'; // rewrite the outgoing text
+}, { priority: neo.EventPriority.HIGH, ignoreCancelled: true });
+```

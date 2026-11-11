@@ -35,7 +35,7 @@ neo.events.on('chat:receive', (e) => {
 });
 ```
 
-`events.onSync` 同步订阅可取消的显示事件：返回 truthy 取消显示，返回普通对象则修改内容（`{ text }` 替换文本；`{ cancel: true }` 显式取消）。
+`events.onSync` 同步订阅可取消的显示事件，载荷可写：直接改写白名单字段（`e.text = ...`），用 `e.cancel()` 或可写的 `e.cancelled` 取消，并用 `neo.EventPriority` 常量排定链上顺序。
 
 ```js
 const { events } = neo;
@@ -44,25 +44,28 @@ const { events } = neo;
 // 在服务器动作栏包与本地 overlay 提示时触发（ev.source 为 'server' 或 'local'）。
 events.onSync('chat:title', (ev) => {
   if (ev.kind === 'title' && ev.text.plain.includes('广告')) {
-    return true;                    // 抑制整个显示
+    ev.cancel();                    // 抑制整个显示
+    return;
   }
   if (ev.kind === 'subtitle') {
-    return { text: '由 neomacros 保护' };  // 替换副标题文本
+    ev.text = '由 neomacros 保护';  // 替换副标题文本
   }
 });
 
 events.onSync('chat:actionbar', (ev) => {
   if (ev.source === 'local' && ev.text.plain.includes('不能再喝')) {
-    return true;                    // 吞掉本地提示
+    ev.cancel();                    // 吞掉本地提示
+    return;
   }
-  return { text: ev.text.plain.toUpperCase() };
-});
+  ev.text = ev.text.plain.toUpperCase();
+}, { priority: neo.EventPriority.HIGH });
 
-// screen:signEdit 在告示牌编辑界面即将打开时触发。返回 { lines, closeScreen }
-// 替换四行文本并跳过编辑界面——替换后的文本直接提交给服务器（自动签名）。
+// screen:signEdit 在告示牌编辑界面即将打开时触发。改写 ev.lines 替换四行文本，
+// ev.closeScreen 跳过编辑界面——替换后的文本直接提交给服务器（自动签名）。
 events.onSync('screen:signEdit', (ev) => {
   if (ev.front) {
-    return { lines: [ev.x + ', ' + ev.z, '商店', '', ''], closeScreen: true };
+    ev.lines = [ev.x + ', ' + ev.z, '商店', '', ''];
+    ev.closeScreen = true;
   }
 });
 ```

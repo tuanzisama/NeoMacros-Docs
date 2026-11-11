@@ -4,13 +4,36 @@
 type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 
 /** Fixture events facade mirroring the real events module shape: the subscription methods are rendered as event-map-typed overloads in the TypeScript definitions. */
-/** The payload class delivered to handlers of each built-in event name. */
-interface EventPayloadMap {
+/** Client-to-server action interception (input, chat send, interactions): the cancellable upstream events. */
+interface C2SEventMap {
     'fixture:marked': FixtureMarkedEvent;
 }
-/** Event names that accept synchronous, cancelling subscriptions. */
-type CancellableEvents =
-    'fixture:marked';
+/** The payload class delivered to handlers of each built-in event name. */
+interface EventPayloadMap extends C2SEventMap, S2CEventMap, LocalEventMap {
+}
+/** Event names that accept synchronous subscriptions; handlers receive the writable Mutable face and commit through the bus. */
+interface CancellableEventMap {
+    'fixture:marked': MutableFixtureMarkedEvent;
+}
+/** The six synchronous priorities, ordered LOWEST first, MONITOR last (observation-only). Pass these constants, not strings. */
+type EventPriorityName = 'LOWEST' | 'LOW' | 'NORMAL' | 'HIGH' | 'HIGHEST' | 'MONITOR';
+interface EventPriorityConstant {
+    readonly name: EventPriorityName;
+}
+/** Bukkit-style priority constants: {@code neo.EventPriority.HIGH}, ... */
+const EventPriority: {
+    LOWEST: EventPriorityConstant;
+    LOW: EventPriorityConstant;
+    NORMAL: EventPriorityConstant;
+    HIGH: EventPriorityConstant;
+    HIGHEST: EventPriorityConstant;
+    MONITOR: EventPriorityConstant;
+};
+/** Options of {@code events.onSync}: dispatch priority and cancelled-dispatch policy. */
+interface SyncOptions {
+    priority?: EventPriorityConstant;
+    ignoreCancelled?: boolean;
+}
 interface EventsApi {
     /** Emits one custom event with a plain-object payload. @since 0.1.0 */
     emit(name: string, payload: unknown): void;
@@ -19,9 +42,9 @@ interface EventsApi {
     /** Subscribes asynchronously to the named event. @since 0.1.0 */
     on<E extends keyof EventPayloadMap>(name: E, handler: (event: EventPayloadMap[E]) => void): unknown;
     on(name: string, handler: (event: BaseEvent) => void): unknown;
-    /** Subscribes synchronously; only cancellable events accept sync subscriptions and the callback returns a truthy value to cancel. @since 0.1.0 */
-    onSync<E extends CancellableEvents>(name: E, handler: (event: EventPayloadMap[E]) => boolean): void;
-    onSync(name: string, handler: (event: BaseEvent) => boolean): void;
+    /** Subscribes synchronously; only cancellable events accept sync subscriptions. The callback receives the mutable event face: rewrite whitelisted fields directly and cancel with e.cancel() / the writable e.cancelled; return values are ignored. @since 0.1.0 */
+    onSync<E extends keyof CancellableEventMap>(name: E, handler: (event: CancellableEventMap[E]) => void, options?: SyncOptions): void;
+    onSync(name: string, handler: (event: BaseEvent) => void, options?: SyncOptions): void;
     /** Subscribes for exactly one firing of the named event. @since 0.1.0 */
     once<E extends keyof EventPayloadMap>(name: E, handler: (event: EventPayloadMap[E]) => void): unknown;
     once(name: string, handler: (event: BaseEvent) => void): unknown;
@@ -83,17 +106,39 @@ interface FixturePos {
 
 interface BaseEvent {
     readonly type: string;
+    readonly direction: 'c2s' | 's2c' | 'local';
     readonly timestamp: number;
     readonly cancellable: boolean;
     toJSON(): object;
 }
 
+interface InputEvent extends BaseEvent {
+    readonly direction: 'c2s';
+}
+
+interface DisplayEvent extends BaseEvent {
+    readonly direction: 's2c';
+}
+
+interface StateEvent extends BaseEvent {
+    readonly direction: 'local';
+}
+
 /** Fixture event descriptor with complete bilingual documentation: a cancellable event carrying a message and the position it was raised at. */
-interface FixtureMarkedEvent extends BaseEvent {
+interface FixtureMarkedEvent extends InputEvent {
+    readonly message: string;
+    readonly pos: FixturePos;
+    readonly severity: number;
+    readonly stamp: FixtureStamp;
+}
+
+/** Synchronous-channel delivery of the fixture:marked event: whitelisted fields are writable, and cancel()/cancelled drive the cancellation state. */
+interface MutableFixtureMarkedEvent extends FixtureMarkedEvent {
     message: string;
-    pos: FixturePos;
-    severity: number;
-    stamp: FixtureStamp;
+    /** Marks the event canceled (later priorities may undo it). */
+    cancel(): void;
+    /** Current cancellation state; writable — the last write wins. */
+    cancelled: boolean;
 }
 
 interface FixtureStamp {

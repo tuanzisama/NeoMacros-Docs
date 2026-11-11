@@ -14,6 +14,8 @@ export interface ApiLabels {
   experimental: string
   cancellable: string
   readonly: string
+  writable: string
+  writableTooltip: string
   constructible: string
   wraps: string
   extendedBy: string
@@ -42,6 +44,8 @@ const EN: ApiLabels = {
   experimental: 'Experimental',
   cancellable: 'Cancellable',
   readonly: 'Read-only',
+  writable: 'Writable',
+  writableTooltip: 'Writable on synchronous deliveries only; the committed value is returned to the publisher.',
   constructible: 'Constructible',
   wraps: 'Wraps',
   extendedBy: 'Extended by',
@@ -70,6 +74,8 @@ const ZH: ApiLabels = {
   experimental: '实验性',
   cancellable: '可取消',
   readonly: '只读',
+  writable: '可写',
+  writableTooltip: '仅同步通道投递实例可写；提交值回传发布方。',
   constructible: '可实例化',
   wraps: '包装',
   extendedBy: '派生类型 (Extend)',

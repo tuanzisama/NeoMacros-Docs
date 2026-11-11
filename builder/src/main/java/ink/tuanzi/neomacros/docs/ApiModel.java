@@ -88,12 +88,16 @@ public record ApiModel(List<ModuleModel> modules, List<EventModel> events,
 
     /**
      * Event descriptor declared with {@code @ApiEvent}. The payload always
-     * dispatches as a frozen {@code className extends BaseEvent} instance;
-     * field descriptions come from the record's {@code @param} and
-     * {@code @zh-param} tags.
+     * dispatches as a frozen {@code className extends <direction class>
+     * extends BaseEvent} instance; field descriptions come from the record's
+     * {@code @param} and {@code @zh-param} tags. {@code direction} is the
+     * lowercase traffic direction ({@code c2s}/{@code s2c}/{@code local});
+     * {@code mutableFields} lists the payload fields a synchronous subscriber
+     * may rewrite.
      */
     public record EventModel(
-            String name, boolean cancellable, String className,
+            String name, boolean cancellable, String direction, List<String> mutableFields,
+            String className,
             List<ParameterModel> fields,
             Map<String, String> fieldDocs, Map<String, String> zhFieldDocs,
             String since, String mc, String loader,

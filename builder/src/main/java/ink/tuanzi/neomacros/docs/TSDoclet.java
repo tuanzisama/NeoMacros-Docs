@@ -145,6 +145,9 @@ public class TSDoclet implements Doclet {
             out.add(type.name());
         }
         out.add("BaseEvent");
+        out.add("InputEvent");
+        out.add("DisplayEvent");
+        out.add("StateEvent");
         for (ApiModel.EventModel event : model.events()) {
             out.add(DocletSupport.eventClassName(event.name()));
         }
@@ -275,41 +278,86 @@ public class TSDoclet implements Doclet {
     }
 
     /**
-     * Renders the explicit event-name to payload-class map plus the
-     * cancellable-name union: every built-in event name is declared with the
-     * payload type its handlers receive, mirroring the typed-event-table
-     * style of eventemitter3.
+     * Renders the direction-partitioned event-name maps plus the mutable
+     * cancellable map: every built-in event name resolves to its payload
+     * interface through {@code EventPayloadMap}, while {@code
+     * CancellableEventMap} resolves to the writable sync face, mirroring the
+     * typed-event-table style of eventemitter3.
      */
     private static void renderEventPayloadMap(StringBuilder sb, ApiModel model) {
         if (model.events().isEmpty()) {
             return;
         }
+        List<ApiModel.EventModel> c2s = eventsOf(model, "c2s");
+        List<ApiModel.EventModel> s2c = eventsOf(model, "s2c");
+        List<ApiModel.EventModel> local = eventsOf(model, "local");
+        renderEventNameMap(sb, "C2SEventMap",
+                "Client-to-server action interception (input, chat send, interactions):"
+                        + " the cancellable upstream events.", c2s, false);
+        renderEventNameMap(sb, "S2CEventMap",
+                "Server-to-client display interception (chat, titles, sign editor).",
+                s2c, false);
+        renderEventNameMap(sb, "LocalEventMap",
+                "Client-derived local state; observation only, never cancellable.",
+                local, false);
         sb.append("/** The payload class delivered to handlers of each built-in event name. */\n");
-        sb.append("interface EventPayloadMap {\n");
-        for (ApiModel.EventModel event : model.events()) {
-            sb.append("    '").append(event.name()).append("': ")
-                    .append(DocletSupport.eventClassName(event.name())).append(";\n");
+        sb.append("interface EventPayloadMap extends C2SEventMap, S2CEventMap, LocalEventMap {\n");
+        sb.append("}\n");
+        List<ApiModel.EventModel> cancellable = model.events().stream()
+                .filter(ApiModel.EventModel::cancellable)
+                .toList();
+        renderEventNameMap(sb, "CancellableEventMap",
+                "Event names that accept synchronous subscriptions; handlers receive"
+                        + " the writable Mutable face and commit through the bus.", cancellable, true);
+        sb.append("/** The six synchronous priorities, ordered LOWEST first, MONITOR last"
+                + " (observation-only). Pass these constants, not strings. */\n");
+        sb.append("type EventPriorityName = 'LOWEST' | 'LOW' | 'NORMAL' | 'HIGH' | 'HIGHEST' | 'MONITOR';\n");
+        sb.append("interface EventPriorityConstant {\n");
+        sb.append("    readonly name: EventPriorityName;\n");
+        sb.append("}\n");
+        sb.append("/** Bukkit-style priority constants: {@code neo.EventPriority.HIGH}, ... */\n");
+        sb.append("const EventPriority: {\n");
+        for (String constant : List.of("LOWEST", "LOW", "NORMAL", "HIGH", "HIGHEST", "MONITOR")) {
+            sb.append("    ").append(constant).append(": EventPriorityConstant;\n");
+        }
+        sb.append("};\n");
+        sb.append("/** Options of {@code events.onSync}: dispatch priority and cancelled-dispatch policy. */\n");
+        sb.append("interface SyncOptions {\n");
+        sb.append("    priority?: EventPriorityConstant;\n");
+        sb.append("    ignoreCancelled?: boolean;\n");
+        sb.append("}\n");
+    }
+
+    /** The events of one direction, sorted by name. */
+    private static List<ApiModel.EventModel> eventsOf(ApiModel model, String direction) {
+        return model.events().stream()
+                .filter(e -> e.direction().equals(direction))
+                .toList();
+    }
+
+    /** Renders one event-name to payload interface map. */
+    private static void renderEventNameMap(StringBuilder sb, String name, String doc,
+            List<ApiModel.EventModel> events, boolean mutable) {
+        if (events.isEmpty()) {
+            return;
+        }
+        sb.append("/** ").append(doc).append(" */\n");
+        sb.append("interface ").append(name).append(" {\n");
+        for (ApiModel.EventModel event : events) {
+            String payload = DocletSupport.eventClassName(event.name());
+            sb.append("    '").append(event.name()).append("': ");
+            sb.append(mutable ? "Mutable" + payload : payload);
+            sb.append(";\n");
         }
         sb.append("}\n");
-        List<String> cancellable = model.events().stream()
-                .filter(ApiModel.EventModel::cancellable)
-                .map(ApiModel.EventModel::name)
-                .toList();
-        if (!cancellable.isEmpty()) {
-            sb.append("/** Event names that accept synchronous, cancelling subscriptions. */\n");
-            sb.append("type CancellableEvents =\n");
-            for (int i = 0; i < cancellable.size(); i++) {
-                sb.append("    '").append(cancellable.get(i)).append("'")
-                        .append(i < cancellable.size() - 1 ? " |\n" : ";\n");
-            }
-        }
     }
 
     /**
      * Renders one events-facade subscription method as event-typed overloads:
      * the generic overload resolves the payload type for known event names,
      * the string overload keeps wildcard patterns ({@code domain:*},
-     * {@code *}) and script-registered custom events accepted.
+     * {@code *}) and script-registered custom events accepted. Extend the
+     * maps with declaration merging to type custom events.
      */
     private static void renderEventSubscriptionMethod(StringBuilder sb,
             ApiModel.MethodModel method, ApiModel model) {
@@ -330,10 +378,12 @@ public class TSDoclet implements Doclet {
             }
             case "onSync" -> {
                 if (model.events().stream().anyMatch(ApiModel.EventModel::cancellable)) {
-                    sb.append("    onSync<E extends CancellableEvents>(name: E, ")
-                            .append("handler: (event: EventPayloadMap[E]) => boolean): void;\n");
+                    sb.append("    onSync<E extends keyof CancellableEventMap>(name: E, ")
+                            .append("handler: (event: CancellableEventMap[E]) => void, ")
+                            .append("options?: SyncOptions): void;\n");
                 }
-                sb.append("    onSync(name: string, handler: (event: BaseEvent) => boolean): void;\n");
+                sb.append("    onSync(name: string, handler: (event: BaseEvent) => void, ")
+                        .append("options?: SyncOptions): void;\n");
             }
             case "waitFor" -> {
                 if (hasEvents) {
@@ -425,22 +475,66 @@ public class TSDoclet implements Doclet {
         for (ApiModel.TypeModel type : model.standaloneReferencedTypes()) {
             moduleReferenced.add(type.name());
         }
+        // Class hierarchy: the shared base, the direction middle classes
+        // (InputEvent = c2s interception, DisplayEvent = s2c interception,
+        // StateEvent = local observation), then one readonly payload
+        // interface per event chained through its direction class.
         sb.append("interface BaseEvent {\n");
         sb.append("    readonly type: string;\n");
+        sb.append("    readonly direction: 'c2s' | 's2c' | 'local';\n");
         sb.append("    readonly timestamp: number;\n");
         sb.append("    readonly cancellable: boolean;\n");
         sb.append("    toJSON(): object;\n");
         sb.append("}\n\n");
+        sb.append("interface InputEvent extends BaseEvent {\n");
+        sb.append("    readonly direction: 'c2s';\n");
+        sb.append("}\n\n");
+        sb.append("interface DisplayEvent extends BaseEvent {\n");
+        sb.append("    readonly direction: 's2c';\n");
+        sb.append("}\n\n");
+        sb.append("interface StateEvent extends BaseEvent {\n");
+        sb.append("    readonly direction: 'local';\n");
+        sb.append("}\n\n");
         for (ApiModel.EventModel event : model.events()) {
             String name = DocletSupport.eventClassName(event.name());
+            String directionFace = switch (event.direction()) {
+                case "c2s" -> "InputEvent";
+                case "s2c" -> "DisplayEvent";
+                default -> "StateEvent";
+            };
             if (!event.doc().isEmpty()) {
                 sb.append(jsdoc(event.doc(), null, null)).append("\n");
             }
-            sb.append("interface ").append(name).append(" extends BaseEvent {\n");
+            // All payload fields readonly: the async channel delivers a
+            // frozen snapshot, and honesty beats convenience in the types.
+            sb.append("interface ").append(name).append(" extends ").append(directionFace).append(" {\n");
             for (ApiModel.ParameterModel field : event.fields()) {
-                sb.append("    ").append(field.name()).append(": ").append(field.type()).append(";\n");
+                sb.append("    readonly ").append(field.name()).append(": ")
+                        .append(field.type()).append(";\n");
             }
             sb.append("}\n\n");
+            // The mutable sync face: only for cancellable events, exposing
+            // the whitelisted fields as writable plus the cancel surface.
+            if (event.cancellable()) {
+                if (!event.doc().isEmpty()) {
+                    sb.append(jsdoc("Synchronous-channel delivery of the " + event.name()
+                            + " event: whitelisted fields are writable, and"
+                            + " cancel()/cancelled drive the cancellation state.",
+                            null, null)).append("\n");
+                }
+                sb.append("interface Mutable").append(name).append(" extends ").append(name).append(" {\n");
+                for (ApiModel.ParameterModel field : event.fields()) {
+                    if (event.mutableFields().contains(field.name())) {
+                        sb.append("    ").append(field.name()).append(": ")
+                                .append(field.type()).append(";\n");
+                    }
+                }
+                sb.append("    /** Marks the event canceled (later priorities may undo it). */\n");
+                sb.append("    cancel(): void;\n");
+                sb.append("    /** Current cancellation state; writable — the last write wins. */\n");
+                sb.append("    cancelled: boolean;\n");
+                sb.append("}\n\n");
+            }
         }
         for (ApiModel.TypeModel type : model.eventReferencedTypes()) {
             if (moduleReferenced.contains(type.name())) {

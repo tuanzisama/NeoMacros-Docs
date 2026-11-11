@@ -18,6 +18,6 @@ import ink.tuanzi.neomacros.doc.api.ApiSince;
  * @zh-param stamp 事件的时间戳信息
  */
 @ApiSince("0.1.0")
-@ApiEvent(name = "fixture:marked", cancellable = true)
+@ApiEvent(name = "fixture:marked", direction = ApiEvent.Direction.C2S, cancellable = true, mutable = { "message" })
 public record FixtureMarked(String message, int severity, FixturePos pos, FixtureStamp stamp) {
 }

@@ -36,9 +36,10 @@ neo.events.on('chat:receive', (e) => {
 });
 ```
 
-`events.onSync` subscribes to the cancellable display events synchronously:
-return a truthy value to cancel the display, or a plain object to modify it
-(`{ text }` replaces the text; `{ cancel: true }` cancels explicitly).
+`events.onSync` subscribes to the cancellable display events synchronously
+and delivers the payload in writable form: rewrite whitelisted fields directly
+(`e.text = ...`), cancel with `e.cancel()` or the writable `e.cancelled`,
+and order the chain with `neo.EventPriority` priorities.
 
 ```js
 const { events } = neo;
@@ -48,26 +49,29 @@ const { events } = neo;
 // produced overlay hints (ev.source is 'server' or 'local').
 events.onSync('chat:title', (ev) => {
   if (ev.kind === 'title' && ev.text.plain.includes('AD')) {
-    return true;                    // suppress the whole display
+    ev.cancel();                    // suppress the whole display
+    return;
   }
   if (ev.kind === 'subtitle') {
-    return { text: 'protected by neomacros' };  // replace the subtitle text
+    ev.text = 'protected by neomacros';   // replace the subtitle text
   }
 });
 
 events.onSync('chat:actionbar', (ev) => {
   if (ev.source === 'local' && ev.text.plain.includes('cannot drink')) {
-    return true;                    // swallow the local hint
+    ev.cancel();                    // swallow the local hint
+    return;
   }
-  return { text: ev.text.plain.toUpperCase() };
-});
+  ev.text = ev.text.plain.toUpperCase();
+}, { priority: neo.EventPriority.HIGH });
 
-// screen:signEdit fires when a sign editor is about to open. Returning
-// { lines, closeScreen } replaces the four lines and skips the editor —
+// screen:signEdit fires when a sign editor is about to open. Rewriting
+// ev.lines replaces the four lines, and ev.closeScreen skips the editor —
 // the replaced text is submitted directly (auto-sign).
 events.onSync('screen:signEdit', (ev) => {
   if (ev.front) {
-    return { lines: [ev.x + ', ' + ev.z, 'shop', '', ''], closeScreen: true };
+    ev.lines = [ev.x + ', ' + ev.z, 'shop', '', ''];
+    ev.closeScreen = true;
   }
 });
 ```
