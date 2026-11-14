@@ -23,8 +23,9 @@ npm run api:generate && npm run api:sync
 
 ## Agent Skills
 
-站点在 `/.well-known/skills/` 发布两个 AI 技能(`neomacros-scripting`、
-`neomacros-api`),一条命令装入任意 AI 工具:
+站点在 `/.well-known/skills/` 发布三个 AI 技能(`neomacros-scripting`、
+`neomacros-api`、`neomacros-jsmacros-migration`),一条命令装入任意 AI
+工具:
 
 ```bash
 npx skills add https://neomacros.tuanzi.ink

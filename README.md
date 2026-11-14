@@ -27,8 +27,9 @@ npm run api:generate && npm run api:sync
 
 ## Agent Skills
 
-The site publishes two AI skills (`neomacros-scripting`, `neomacros-api`)
-at `/.well-known/skills/`. Install into any AI tool with:
+The site publishes three AI skills (`neomacros-scripting`,
+`neomacros-api`, `neomacros-jsmacros-migration`) at
+`/.well-known/skills/`. Install into any AI tool with:
 
 ```bash
 npx skills add https://neomacros.tuanzi.ink
