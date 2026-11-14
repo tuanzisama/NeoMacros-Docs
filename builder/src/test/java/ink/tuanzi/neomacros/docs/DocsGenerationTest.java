@@ -14,11 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Snapshot regression over the fixture API, in the spirit of the JsMacros
- * testTsRenderer setup: generated artifacts are compared byte-for-byte
- * against committed baselines, and warning/fallback behavior is asserted
- * explicitly. Update the baselines deliberately (inspect the diff first!)
- * when the renderers change.
+ * Snapshot regression over the fixture API: generated artifacts are
+ * compared byte-for-byte against committed baselines, and
+ * warning/fallback behavior is asserted explicitly. Update the baselines
+ * deliberately (inspect the diff first!) when the renderers change.
  */
 class DocsGenerationTest {
 
