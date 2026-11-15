@@ -21,6 +21,7 @@ on:
       - "server/**"
       - "app/**"
       - "public/**"
+      - "skills/**"
       - "nuxt.config.ts"
       - "tsconfig.json"
       - "package.json"
