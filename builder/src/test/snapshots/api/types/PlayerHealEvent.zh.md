@@ -1,0 +1,17 @@
+---
+title: "PlayerHealEvent"
+description: "本地玩家治疗事件载荷；携带恢复量与治疗后的生命值。"
+---
+
+::api-type-header{ since="0.1.0" mc="*" loader="*"}
+#extends
+[`StateEvent`](StateEvent.html)
+#raised-by
+[`player:heal`](../events/player/player-heal.html)
+::
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `amount` | `number` | 恢复的生命值 |
+| `health` | `number` | 治疗后的生命值 |
+
