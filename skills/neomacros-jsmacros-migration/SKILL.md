@@ -3,7 +3,7 @@ name: neomacros-jsmacros-migration
 description: Migrate JsMacros scripts to native NeoMacros without the compat
   layer. Use when rewriting or porting JsMacros .js scripts — JsMacros.on
   events, Player/World/Chat/Client/FS/GlobalVars globals — into NeoMacros
-  folder scripts: neomacro.yml manifests, startup exports, neo.* facades,
+  folder scripts (neomacro.yml manifests, startup exports, neo.* facades),
   camelCase domain:name events, async I/O, and permission declarations.
 ---
 
